@@ -13,28 +13,29 @@
 </head>
 <body>
 	<strong>ner.ed | simple editor for named entity recognition TSV</strong><br><br>
+	<div id="table"></div>
 	<script>
 	  var data;
 	 
 	  function handleFileSelect(evt) {
-	    var file = evt.target.files[0];
-	 
-	    Papa.parse(file, {
-	      header: true,
-	      delimiter: '\t',
-	      comments: "#",
-	      skipEmptyLines: true,
-	      dynamicTyping: true,
-	      complete: function(results) {
-	      	console.log(results);
-	        data = results;
-	      }
-	    });
+		var file = evt.target.files[0];
+	
+		Papa.parse(file, {
+		  header: true,
+		  delimiter: '\t',
+		  comments: "#",
+		  skipEmptyLines: true,
+		  dynamicTyping: true,
+		  complete: function(results) {
+			console.log(results);
+			data = results;
+		  }
+		});
 	  }
 	 
 	  $(document).ready(function(){
-	    $("#tsv-file").change(handleFileSelect);
-	  });
+		$("#tsv-file").change(handleFileSelect);
+	  });	  
 	</script>
 	<input type="file" id="tsv-file" name="files"/>
 </body>
