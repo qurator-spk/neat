@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>ner.ed</title>
+	<script type="text/javascript" src="https://unpkg.com/papaparse@latest/papaparse.min.js"></script>
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+	<style>
+		body{font-family:Courier;font-size:24px}
+		th{}
+		tr{}
+	</style>
+</head>
+<body>
+	<strong>ner.ed | simple editor for named entity recognition TSV</strong><br><br>
+	<script>
+	  var data;
+	 
+	  function handleFileSelect(evt) {
+	    var file = evt.target.files[0];
+	 
+	    Papa.parse(file, {
+	      header: true,
+	      delimiter: '\t',
+	      comments: "#",
+	      skipEmptyLines: true,
+	      dynamicTyping: true,
+	      complete: function(results) {
+	      	console.log(results);
+	        data = results;
+	      }
+	    });
+	  }
+	 
+	  $(document).ready(function(){
+	    $("#tsv-file").change(handleFileSelect);
+	  });
+	</script>
+	<input type="file" id="tsv-file" name="files"/>
+</body>
+</html>
