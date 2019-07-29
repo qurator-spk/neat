@@ -34,6 +34,7 @@
         function handleFileSelect(evt) {
             var file = evt.target.files[0];
 
+            // TODO: adapt to streaming with 'chunk' callback for large file support, see https://www.papaparse.com/docs
             Papa.parse(file, {
                 header: true,
                 delimiter: '\t',
