@@ -3,39 +3,48 @@
 <head>
 	<meta charset="UTF-8">
 	<title>ner.ed</title>
-	<script type="text/javascript" src="https://unpkg.com/papaparse@latest/papaparse.min.js"></script>
-	<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.0.1/papaparse.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<style>
 		body{font-family:Courier;font-size:24px}
-		th{}
-		tr{}
 	</style>
 </head>
 <body>
-	<strong>ner.ed | simple editor for named entity recognition TSV</strong><br><br>
-	<div id="table"></div>
+	<strong>ner.ed</strong><br><br>
+	<table id="results">
+		<tbody></tbody>
+	</table>
+
 	<script>
-	  var data;
-	 
-	  function handleFileSelect(evt) {
-		var file = evt.target.files[0];
-	
-		Papa.parse(file, {
-		  header: true,
-		  delimiter: '\t',
-		  comments: "#",
-		  skipEmptyLines: true,
-		  dynamicTyping: true,
-		  complete: function(results) {
-			console.log(results);
-			data = results;
-		  }
+		var data;
+
+		function handleFileSelect(evt) {
+		    var file = evt.target.files[0];
+
+		    Papa.parse(file, {
+		        header: true,
+		        delimiter: '\t',
+		        comments: "#",
+		        skipEmptyLines: true,
+		        dynamicTyping: true,
+		        complete: function(results) {
+		            console.log(results);
+		            data = results;
+		            $.each(results.data, function(i, el) {
+		            	var row = $("<tr/>");
+		            	row.append($("<td/>").text(i));
+		            	$.each(el, function(i, cell) {
+		            		row.append($("<td/>").text(cell));
+		            	});
+		            	$("#table tbody").append(row);
+		            });
+		        }
+		    });
+		}
+
+		$(document).ready(function() {
+		    $("#tsv-file").change(handleFileSelect);
 		});
-	  }
-	 
-	  $(document).ready(function(){
-		$("#tsv-file").change(handleFileSelect);
-	  });	  
 	</script>
 	<input type="file" id="tsv-file" name="files"/>
 </body>
