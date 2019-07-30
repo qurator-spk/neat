@@ -14,6 +14,7 @@
         .ner_per{background-color:skyblue}
         .ner_loc{background-color:goldenrod}
         .ner_org{background-color:plum}
+        .ner_oth{background-color:lightgreen}
     </style>
 </head>
 <body>
@@ -60,6 +61,8 @@
                         $("#table tr:contains('I-LOC')").addClass('ner_loc');
                         $("#table tr:contains('B-ORG')").addClass('ner_org');
                         $("#table tr:contains('I-ORG')").addClass('ner_org');
+                        $("#table tr:contains('B-OTH')").addClass('ner_oth');
+                        $("#table tr:contains('I-OTH')").addClass('ner_oth');
                     });
                 }
             });

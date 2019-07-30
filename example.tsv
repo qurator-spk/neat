@@ -10,12 +10,14 @@ No.	TOKEN 	NE-TAG	NE-EMB
 5	Januar	O	O
 6	.	O	O
 
-1	Berliner	B-ORG	O
-2	Tageblatt	I-ORG	O
-3	.	O	O
-4	Nr	O	O
+1	Berlin	B-LOC	O
+2	,	O	O
+3	Berliner	B-ORG	O
+4	Tageblatt	I-ORG	O
 5	.	O	O
-6	1	O	O
+6	Nr	O	O
+7	.	O	O
+8	1	O	O
 
 1	Seite	O	O
 2	3	O	O
@@ -61,7 +63,7 @@ No.	TOKEN 	NE-TAG	NE-EMB
 1	Es	O	O
 2	scheint	O	O
 3	dem	O	O
-4	Kammerpräsidenten	O	O
+4	Kammerpräsidenten	B-OTH	O
 5	plötzlich	O	O
 6	ein	O	O
 7	Argwohn	O	O
