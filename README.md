@@ -1,2 +1,2 @@
 # ner.edith
-named entity recognition editor in html
+![Screenshot](https://github.com/cneud/ner.edith/blob/master/screenshot.png)
