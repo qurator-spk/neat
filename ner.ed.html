@@ -11,9 +11,9 @@
         th{background-color:lightgray}
         td:hover{background-color:yellow}
         tr:hover{background-color:whitesmoke}
-        .ner_per{background-color:pink}
-        .ner_loc{background-color:orange}
-        .ner_org{background-color:red}
+        .ner_per{background-color:skyblue}
+        .ner_loc{background-color:goldenrod}
+        .ner_org{background-color:plum}
     </style>
 </head>
 <body>
@@ -54,6 +54,12 @@
                             row.append($("<td/>").text(cell));
                         });
                         $("#table tbody").append(row);
+                        $("#table tr:contains('B-PER')").addClass('ner_per');
+                        $("#table tr:contains('I-PER')").addClass('ner_per');
+                        $("#table tr:contains('B-LOC')").addClass('ner_loc');
+                        $("#table tr:contains('I-LOC')").addClass('ner_loc');
+                        $("#table tr:contains('B-ORG')").addClass('ner_org');
+                        $("#table tr:contains('I-ORG')").addClass('ner_org');
                     });
                 }
             });
@@ -117,12 +123,6 @@
 
         $(document).ready(function() {
             $('#tsv-file').change(handleFileSelect);
-            $("#table tr:contains('B-PER')").addClass('ner_per');
-            $("#table tr:contains('I-PER')").addClass('ner_per');
-            $("#table tr:contains('B-LOC')").addClass('ner_loc');
-            $("#table tr:contains('I-LOC')").addClass('ner_loc');
-            $("#table tr:contains('B-ORG')").addClass('ner_org');
-            $("#table tr:contains('B-ORG')").addClass('ner_org');
         });
     </script>
 </body>
