@@ -12,7 +12,7 @@ No.	TOKEN 	NE-TAG	NE-EMB
 
 1	Berlin	B-LOC	O
 2	,	O	O
-3	Berliner	B-ORG	O
+3	Berliner	B-ORG	B-LOC
 4	Tageblatt	I-ORG	O
 5	.	O	O
 6	Nr	O	O

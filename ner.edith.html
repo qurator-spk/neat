@@ -55,14 +55,14 @@
                             row.append($("<td/>").text(cell));
                         });
                         $("#table tbody").append(row);
-                        $("#table tr:contains('B-PER')").addClass('ner_per');
-                        $("#table tr:contains('I-PER')").addClass('ner_per');
-                        $("#table tr:contains('B-LOC')").addClass('ner_loc');
-                        $("#table tr:contains('I-LOC')").addClass('ner_loc');
-                        $("#table tr:contains('B-ORG')").addClass('ner_org');
-                        $("#table tr:contains('I-ORG')").addClass('ner_org');
-                        $("#table tr:contains('B-OTH')").addClass('ner_oth');
-                        $("#table tr:contains('I-OTH')").addClass('ner_oth');
+                        $("#table td:contains('B-PER')").addClass('ner_per');
+                        $("#table td:contains('I-PER')").addClass('ner_per');
+                        $("#table td:contains('B-LOC')").addClass('ner_loc');
+                        $("#table td:contains('I-LOC')").addClass('ner_loc');
+                        $("#table td:contains('B-ORG')").addClass('ner_org');
+                        $("#table td:contains('I-ORG')").addClass('ner_org');
+                        $("#table td:contains('B-OTH')").addClass('ner_oth');
+                        $("#table td:contains('I-OTH')").addClass('ner_oth');
                     });
                 }
             });
