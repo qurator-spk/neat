@@ -7,7 +7,7 @@ No.	TOKEN 	NE-TAG	NE-EMB
 2	,	O	O
 3	1	O	O
 4	.	O	O
-5	Januar	O	O
+5	Januar	B-TODO	O
 6	.	O	O
 
 1	Berlin	B-LOC	O
