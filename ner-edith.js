@@ -219,6 +219,8 @@ function updateTable() {
     $("#table td:contains('I-ORG')").addClass('ner_org');
     $("#table td:contains('B-OTH')").addClass('ner_oth');
     $("#table td:contains('I-OTH')").addClass('ner_oth');
+    $("#table td:contains('B-TODO')").addClass('ner_todo');
+    $("#table td:contains('I-TODO')").addClass('ner_todo');
 }
 
 function saveFile(evt) {
