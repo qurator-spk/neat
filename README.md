@@ -1,5 +1,5 @@
 # ner.edith
-![Screenshot](https://github.com/cneud/ner.edith/blob/master/screenshot.png)
+![Screenshot](.screenshots/screenshot.png)
 
 - use mouse wheel to scroll up and down
 - use navigation << and >> to move faster
@@ -14,8 +14,8 @@ If your browser automatically saves all downloads to your "Downloads" folder, yo
 
 Configuration option in Firefox:
 
-![Screenshot](https://github.com/cneud/ner.edith/blob/master/firefox.png)
+![Screenshot](.screenshots/firefox.png)
 
 Configuration option in Chrome:
 
-![Screenshot](https://github.com/cneud/ner.edith/blob/master/chrome.png)
+![Screenshot](.screenshots/chrome.png)
