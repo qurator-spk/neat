@@ -1,19 +1,120 @@
-var data;
 
-var file = null;
+function loadFile(evt, onComplete) {
+
+    var file = evt.target.files[0];
+
+    Papa.parse(file, {
+        header: true,
+        delimiter: '\t',
+        quoteChar: String.fromCharCode(0),
+	    escapeChar: String.fromCharCode(0),
+        comments: "#",
+        skipEmptyLines: true,
+        dynamicTyping: true,
+        complete: function(results) { onComplete(results, file) }
+    });
+}
+
 
 var displayRows=30
 var startIndex=0;
 var endIndex=displayRows;
+var urls = null;
 
-function loadFile(evt) {
+function setupInterface(data, file) {
 
-    let table_html =
+    function updateTable() {
+
+        let editable_html =
+            `
+                <td class="editable">
+            `;
+
+        $('#table-body').empty();
+
+        $.each(data.data,
+                    function(nRow, el) {
+
+                        if (nRow < startIndex) return;
+                        if (nRow >= endIndex) return;
+
+                        var row = $("<tr/>");
+                        row.append($('<td> <button class="btn btn-link btn-xs py-0 offset">' +
+                                            nRow + '</button>  </td>'));
+
+                        $.each(el,
+                            function(column, content) {
+
+                                if (column == 'url_id') return
+
+                                row.append(
+                                    $(editable_html).
+                                        text(content).
+                                        data('tableInfo', { 'nRow': nRow, 'column': column })
+                                );
+                            });
+
+                        $("#table tbody").append(row);
+                    });
+
+        $("#table td:contains('B-PER')").addClass('ner_per');
+        $("#table td:contains('I-PER')").addClass('ner_per');
+        $("#table td:contains('B-LOC')").addClass('ner_loc');
+        $("#table td:contains('I-LOC')").addClass('ner_loc');
+        $("#table td:contains('B-ORG')").addClass('ner_org');
+        $("#table td:contains('I-ORG')").addClass('ner_org');
+        $("#table td:contains('B-OTH')").addClass('ner_oth');
+        $("#table td:contains('I-OTH')").addClass('ner_oth');
+        $("#table td:contains('B-TODO')").addClass('ner_todo');
+        $("#table td:contains('I-TODO')").addClass('ner_todo');
+
+        $(".offset").on('click',
+            function(evt) {
+
+                if (urls != null) {
+                    return;
+                }
+
+                let url_mapping_html =
+                    `
+                    <br/>
+                    <br/>
+                    <br/>
+                    <input type="file" id="url-mapping-tsv-file" style="visibility: hidden; width: 1px; height: 1px"/>
+                    Please
+                    <a href="" onclick="$('#url-mapping-tsv-file').click(); return false">upload a url mapping file</a>
+                     or<button class="btn btn-link" id="goback">go back to edit mode.</button>
+                    `;
+
+                $("#tableregion").html(url_mapping_html);
+                $("#btn-region").empty();
+
+                $('#goback').on('click',
+                    function(evt) {
+                        setupInterface(data, file);
+                     }
+                );
+
+                $('#url-mapping-tsv-file').change(
+                    function(evt) {
+                        loadFile(evt,
+                            function(results, url_mapping_file) {
+                                urls = results;
+
+                                setupInterface(data, file);
+                            });
+                    }
+                );
+            }
+        );
+    }
+
+     let table_html =
         `
         <table id="table">
             <thead>
             <tr>
-                <th><button class="btn btn-link" id="back"><<</button>OFFSET</th>
+                <th><button class="btn btn-link" id="back"><<</button>LOCATION</th>
                 <th>POSITION</th>
                 <th>TOKEN</th>
                 <th>NE-TAG</th>
@@ -32,6 +133,53 @@ function loadFile(evt) {
     $("#tableregion").html(table_html)
 
     $("#btn-region").html(save_html)
+
+    $("#file-region").html('<h3>' + file.name + '</h3>');
+
+    function saveFile(evt) {
+
+        let csv =
+            Papa.unparse(data,
+                {
+                    header: true,
+                    delimiter: '\t',
+                    comments: "#",
+                    quoteChar: String.fromCharCode(0),
+                    escapeChar: String.fromCharCode(0),
+                    skipEmptyLines: true,
+                    dynamicTyping: true
+                });
+
+        openSaveFileDialog (csv, file.name, null)
+    }
+
+    function openSaveFileDialog (data, filename, mimetype) {
+
+        if (!data) return;
+
+        var blob = data.constructor !== Blob
+          ? new Blob([data], {type: mimetype || 'application/octet-stream'})
+          : data ;
+
+        if (navigator.msSaveBlob) {
+          navigator.msSaveBlob(blob, filename);
+          return;
+        }
+
+        var lnk = document.createElement('a'),
+            url = window.URL,
+            objectURL;
+
+        if (mimetype) {
+          lnk.type = mimetype;
+        }
+
+        lnk.download = filename || 'untitled';
+        lnk.href = objectURL = url.createObjectURL(blob);
+        lnk.dispatchEvent(new MouseEvent('click'));
+        setTimeout(url.revokeObjectURL.bind(url, objectURL));
+
+    }
 
     $('.saveButton').on('click', saveFile)
 
@@ -108,167 +256,74 @@ function loadFile(evt) {
             makeTdEditable(target);
         });
 
-    file = evt.target.files[0];
+    updateTable();
 
-    // TODO: adapt to streaming with 'chunk' callback for large file support, see https://www.papaparse.com/docs
-    Papa.parse(file, {
-        header: true,
-        delimiter: '\t',
-        comments: "#",
-        skipEmptyLines: true,
-        dynamicTyping: true,
-        complete: function(results) {
-            //console.log(results);
-            data = results;
+    $('#tableregion')[0].addEventListener("wheel",
+        function(event) {
+
+            if (event.deltaY < 0) {
+
+                if (startIndex <= 0) return;
+
+                startIndex -= 1;
+                endIndex -= 1;
+            }
+            else {
+
+                if (endIndex >= data.data.length) return;
+
+                startIndex += 1;
+                endIndex += 1;
+            }
 
             updateTable();
+        });
 
-            $("#file-region").html('<h3>' + file.name + '</h3>');
+    $('#back').on('click',
+        function(evt) {
 
-            $('#tableregion')[0].addEventListener("wheel",
-                function(event) {
+            if (startIndex >= displayRows) {
+                startIndex -= displayRows;
+                endIndex -= displayRows;
+            }
+            else {
+                startIndex = 0;
+                endIndex = displayRows;
+            }
 
-                    if (event.deltaY < 0) {
-
-                        if (startIndex <= 0) return;
-
-                        startIndex -= 1;
-                        endIndex -= 1;
-                    }
-                    else {
-
-                        if (endIndex >= data.data.length) return;
-
-                        startIndex += 1;
-                        endIndex += 1;
-                    }
-
-                    updateTable();
-                });
-
-            $('#back').on('click',
-                function(evt) {
-
-                    if (startIndex >= displayRows) {
-                        startIndex -= displayRows;
-                        endIndex -= displayRows;
-                    }
-                    else {
-                        startIndex = 0;
-                        endIndex = displayRows;
-                    }
-
-                    updateTable();
-                }
-            );
-
-            $('#next').on('click',
-                function(evt) {
-
-                    if (endIndex + displayRows < data.data.length) {
-                        endIndex += displayRows;
-                        startIndex = endIndex - displayRows;
-                    }
-                    else {
-                        endIndex = data.data.length;
-                        startIndex = endIndex - displayRows;
-                    }
-
-                    updateTable();
-                }
-            );
+            updateTable();
         }
-    });
+    );
+
+    $('#next').on('click',
+        function(evt) {
+
+            if (endIndex + displayRows < data.data.length) {
+                endIndex += displayRows;
+                startIndex = endIndex - displayRows;
+            }
+            else {
+                endIndex = data.data.length;
+                startIndex = endIndex - displayRows;
+            }
+
+            updateTable();
+        }
+    );
 }
 
-function updateTable() {
-
-    let editable_html =
-        `
-            <td class="editable">
-        `;
-
-    $('#table-body').empty();
-
-    $.each(data.data,
-                function(nRow, el) {
-
-                    if (nRow < startIndex) return;
-                    if (nRow >= endIndex) return;
-
-                    var row = $("<tr/>");
-                    row.append($("<td/>").text(nRow));
-
-                    $.each(el,
-                        function(column, content) {
-                            row.append(
-                                $(editable_html).
-                                    text(content).
-                                    data('tableInfo', { 'nRow': nRow, 'column': column })
-                            );
-                        });
-
-                    $("#table tbody").append(row);
-                });
-
-    $("#table td:contains('B-PER')").addClass('ner_per');
-    $("#table td:contains('I-PER')").addClass('ner_per');
-    $("#table td:contains('B-LOC')").addClass('ner_loc');
-    $("#table td:contains('I-LOC')").addClass('ner_loc');
-    $("#table td:contains('B-ORG')").addClass('ner_org');
-    $("#table td:contains('I-ORG')").addClass('ner_org');
-    $("#table td:contains('B-OTH')").addClass('ner_oth');
-    $("#table td:contains('I-OTH')").addClass('ner_oth');
-    $("#table td:contains('B-TODO')").addClass('ner_todo');
-    $("#table td:contains('I-TODO')").addClass('ner_todo');
-}
-
-function saveFile(evt) {
-
-    let csv =
-        Papa.unparse(data,
-            {
-                header: true,
-                delimiter: '\t',
-                comments: "#",
-                skipEmptyLines: true,
-                dynamicTyping: true
-            });
-
-    openSaveFileDialog (csv, file.name, null)
-}
-
-
-function openSaveFileDialog (data, filename, mimetype) {
-
-    if (!data) return;
-
-    var blob = data.constructor !== Blob
-      ? new Blob([data], {type: mimetype || 'application/octet-stream'})
-      : data ;
-
-    if (navigator.msSaveBlob) {
-      navigator.msSaveBlob(blob, filename);
-      return;
-    }
-
-    var lnk = document.createElement('a'),
-        url = window.URL,
-        objectURL;
-
-    if (mimetype) {
-      lnk.type = mimetype;
-    }
-
-    lnk.download = filename || 'untitled';
-    lnk.href = objectURL = url.createObjectURL(blob);
-    lnk.dispatchEvent(new MouseEvent('click'));
-    setTimeout(url.revokeObjectURL.bind(url, objectURL));
-
-}
 
 $(document).ready(
     function() {
-        $('#tsv-file').change(loadFile);
+        $('#tsv-file').change(
+            function(evt) {
+
+                loadFile ( evt,
+                    function(results, file) {
+
+                        setupInterface(results, file);
+                    })
+            }
+        );
     }
 );
