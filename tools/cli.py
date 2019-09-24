@@ -6,13 +6,16 @@ from io import StringIO
 
 @click.command()
 @click.argument('tsv-file', type=click.Path(exists=True), required=True, nargs=1)
-def extract_document_links(tsv_file):
+@click.argument('url-file', type=click.Path(exists=False), required=True, nargs=1)
+def extract_document_links(tsv_file, url_file):
 
     parts = extract_doc_links(tsv_file)
 
-    for part in parts:
+    urls = [part['url'] for part in parts]
 
-        print(part['url'])
+    urls = pd.DataFrame(urls, columns=['url'])
+
+    urls.to_csv(url_file, sep="\t", quoting=3, index=False)
 
 
 @click.command()
@@ -24,12 +27,9 @@ def annotate_tsv(tsv_file, annotated_tsv_file):
 
     annotated_parts = []
 
-    urls = []
-
     for part in parts:
 
         part_data = StringIO(part['header'] + part['text'])
-        urls.append(part['url'])
 
         df = pd.read_csv(part_data, sep="\t", comment='#', quoting=3)
 

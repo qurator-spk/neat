@@ -18,6 +18,11 @@
         .ner_org{background-color:plum}
         .ner_oth{background-color:lightgreen}
         .ner_todo{background-color:turquoise}
+
+        .fit-image{
+            width: 100%;
+            object-fit: cover;
+        }
     </style>
 </head>
 <body>
@@ -41,6 +46,9 @@
     </div>
     <div class="row mt-3">
         <div class="col-2" id="region-left">
+            <a href="" id="preview-link">
+                <img id="preview" class="img-responsive fit-image"/>
+            </a>
         </div>
         <div class="col-8 text-center" id="tableregion">
             Please upload a TSV (tab-separated-values) file in the GermEval2014 data format

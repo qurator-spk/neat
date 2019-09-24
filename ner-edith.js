@@ -32,30 +32,77 @@ function setupInterface(data, file) {
 
         $('#table-body').empty();
 
+        function gotoLocation(evt) {
+            if (urls != null) {
+
+                let nRow = parseInt($(evt.target).text());
+
+                let img_url = urls.data[data.data[nRow]['url_id']]['url']
+
+                console.log(img_url);
+
+                $("#preview").attr("src", img_url);
+                $("#preview-link").attr("href", img_url);
+
+                return;
+            }
+
+            let url_mapping_html =
+                `
+                <br/>
+                <br/>
+                <br/>
+                <input type="file" id="url-mapping-tsv-file" style="visibility: hidden; width: 1px; height: 1px"/>
+                Please
+                <a href="" onclick="$('#url-mapping-tsv-file').click(); return false">upload a url mapping file</a>
+                 or<button class="btn btn-link" id="goback">go back to edit mode.</button>
+                `;
+
+            $("#tableregion").html(url_mapping_html);
+            $("#btn-region").empty();
+
+            $('#goback').on('click',
+                function(evt) {
+                    setupInterface(data, file);
+                 }
+            );
+
+            $('#url-mapping-tsv-file').change(
+                function(evt) {
+                    loadFile(evt,
+                        function(results, url_mapping_file) {
+                            urls = results;
+
+                            setupInterface(data, file);
+                        });
+                }
+            );
+        }
+
         $.each(data.data,
-                    function(nRow, el) {
+              function(nRow, el) {
 
-                        if (nRow < startIndex) return;
-                        if (nRow >= endIndex) return;
+                  if (nRow < startIndex) return;
+                  if (nRow >= endIndex) return;
 
-                        var row = $("<tr/>");
-                        row.append($('<td> <button class="btn btn-link btn-xs py-0 offset">' +
-                                            nRow + '</button>  </td>'));
+                  var row = $("<tr/>");
+                  row.append($('<td> <button class="btn btn-link btn-xs py-0 offset">' +
+                                      nRow + '</button>  </td>'));
 
-                        $.each(el,
-                            function(column, content) {
+                  $.each(el,
+                      function(column, content) {
 
-                                if (column == 'url_id') return
+                          if (column == 'url_id') return
 
-                                row.append(
-                                    $(editable_html).
-                                        text(content).
-                                        data('tableInfo', { 'nRow': nRow, 'column': column })
-                                );
-                            });
+                          row.append(
+                              $(editable_html).
+                                  text(content).
+                                  data('tableInfo', { 'nRow': nRow, 'column': column })
+                          );
+                      });
 
-                        $("#table tbody").append(row);
-                    });
+                  $("#table tbody").append(row);
+              });
 
         $("#table td:contains('B-PER')").addClass('ner_per');
         $("#table td:contains('I-PER')").addClass('ner_per');
@@ -68,45 +115,7 @@ function setupInterface(data, file) {
         $("#table td:contains('B-TODO')").addClass('ner_todo');
         $("#table td:contains('I-TODO')").addClass('ner_todo');
 
-        $(".offset").on('click',
-            function(evt) {
-
-                if (urls != null) {
-                    return;
-                }
-
-                let url_mapping_html =
-                    `
-                    <br/>
-                    <br/>
-                    <br/>
-                    <input type="file" id="url-mapping-tsv-file" style="visibility: hidden; width: 1px; height: 1px"/>
-                    Please
-                    <a href="" onclick="$('#url-mapping-tsv-file').click(); return false">upload a url mapping file</a>
-                     or<button class="btn btn-link" id="goback">go back to edit mode.</button>
-                    `;
-
-                $("#tableregion").html(url_mapping_html);
-                $("#btn-region").empty();
-
-                $('#goback').on('click',
-                    function(evt) {
-                        setupInterface(data, file);
-                     }
-                );
-
-                $('#url-mapping-tsv-file').change(
-                    function(evt) {
-                        loadFile(evt,
-                            function(results, url_mapping_file) {
-                                urls = results;
-
-                                setupInterface(data, file);
-                            });
-                    }
-                );
-            }
-        );
+        $(".offset").on('click', gotoLocation);
     }
 
      let table_html =
