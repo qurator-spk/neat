@@ -23,30 +23,27 @@ var urls = null;
 
 function setupInterface(data, file) {
 
-    function updateTable() {
+    function updatePreview(nRow) {
 
-        let editable_html =
-            `
-                <td class="editable">
-            `;
+        if (urls == null) return;
 
-        $('#table-body').empty();
+        let img_url = urls.data[data.data[nRow]['url_id']]['url']
 
-        function gotoLocation(evt) {
-            if (urls != null) {
+        console.log(img_url);
 
-                let nRow = parseInt($(evt.target).text());
+        $("#preview").attr("src", img_url);
+        $("#preview-link").attr("href", img_url);
+    }
 
-                let img_url = urls.data[data.data[nRow]['url_id']]['url']
+    function gotoLocation(evt) {
 
-                console.log(img_url);
+        if (urls != null) {
 
-                $("#preview").attr("src", img_url);
-                $("#preview-link").attr("href", img_url);
+            let nRow = parseInt($(evt.target).text());
 
-                return;
-            }
-
+            updatePreview(nRow)
+        }
+        else {
             let url_mapping_html =
                 `
                 <br/>
@@ -60,6 +57,7 @@ function setupInterface(data, file) {
 
             $("#tableregion").html(url_mapping_html);
             $("#btn-region").empty();
+            $("#region-right").empty();
 
             $('#goback').on('click',
                 function(evt) {
@@ -78,6 +76,16 @@ function setupInterface(data, file) {
                 }
             );
         }
+    }
+
+    function updateTable() {
+
+        let editable_html =
+            `
+                <td class="editable">
+            `;
+
+        $('#table-body').empty();
 
         $.each(data.data,
               function(nRow, el) {
@@ -116,7 +124,42 @@ function setupInterface(data, file) {
         $("#table td:contains('I-TODO')").addClass('ner_todo');
 
         $(".offset").on('click', gotoLocation);
+
+        updatePreview(startIndex)
+
+        if ($("#docpos").val() != startIndex) {
+
+            $("#docpos").val(data.data.length - startIndex);
+        }
     }
+
+    let slider_pos = data.data.length - startIndex;
+    let slider_min = displayRows;
+    let slider_max = data.data.length;
+
+    let range_html =
+            `
+            <input type="range" orient="vertical" class="form-control-range"
+                style="-webkit-appearance: slider-vertical;height:100%;outline: 0 none !important;"
+                min="${slider_min}" max="${slider_max}" value="${slider_pos}" id="docpos" />
+            `;
+
+    $("#region-right").html(range_html)
+
+    $("#docpos").change(
+        function(evt) {
+
+            if (startIndex == data.data.length - this.value) return;
+
+            startIndex = data.data.length - this.value;
+            endIndex = startIndex + displayRows;
+
+            console.log(startIndex);
+
+            updateTable();
+        });
+
+    $('#docpos').slider();
 
      let table_html =
         `
