@@ -78,7 +78,11 @@ function setupInterface(data, file) {
         }
     }
 
+    let editingTd;
+
     function updateTable() {
+
+        editingTd = null;
 
         let editable_html =
             `
@@ -234,8 +238,6 @@ function setupInterface(data, file) {
     }
 
     $('.saveButton').on('click', saveFile)
-
-    let editingTd;
 
     function finishTdEdit(td, isOk) {
 
