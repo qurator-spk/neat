@@ -26,9 +26,9 @@
     * merging two tokens
     * splitting a token
 #### Data export/Saving progress
-The editor runs fully locally in the browser. Therefore it can not automatically save any changes you made to disk. You have to use the "Save changes" button in order to do that manually from time to time.
+The editor runs fully locally in the browser. Therefore it can not automatically save any changes you made to disk. You have to use the `Save changes` button in order to so manually from time to time.
 
-If your browser automatically saves all downloads to your "Downloads" folder, you might want to configure it such that it asks you where to save it.
+If your browser automatically saves all downloads to your `Downloads` folder, you might want to configure it so that it instead prompts you where to save.
 
 Configuration option in Firefox:
 
@@ -43,3 +43,5 @@ Configuration option in Chrome:
 ### 3. Annotation Guidelines
 * https://www.aclweb.org/anthology/W09-3025/
 * https://www.aclweb.org/anthology/L14-1251/
+* https://www.linguistik.hu-berlin.de/de/institut/professuren/korpuslinguistik/forschung/nosta-d/nosta-d-ner-1.5
+* http://www.sfs.uni-tuebingen.de/resources/tuebadz-stylebook-1201.pdf
