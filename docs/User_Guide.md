@@ -11,20 +11,19 @@
 Input data is required to follow the format used in the [GermEval2014 Named Entity Recognition Shared Task ](https://sites.google.com/site/germeval2014ner/data). Here, text is encoded as one token per line, with information provided in tab-separated columns. The first column contains either a #, which signals the source the sentence is cited from and the date it was retrieved, or the token number within the sentence. The second column contains the token. Name spans are encoded in the BIO-scheme. Outer spans are encoded in the third column, embedded spans in the fourth column.
 #### Data preparation  
 We also provide some [Python tools](https://github.com/cneud/ner.edith/tree/master/tools) that help with data wrangling.
-#### Overview of Editor Features
-  * Navigation
-    * use mouse wheel to scroll up and down
-    * use navigation `<<` and `>>` to move faster
-    * show image snippet
-  * Tagging
-    * adding a tag
-    * removing a tag
-    * changing a tag
-  * OCR correction
-    * editing the token text
-  * Segmentation correction
-    * merging two tokens
-    * splitting a token
+#### Navigation
+* use mouse wheel to scroll up and down
+* use navigation `<<` and `>>` to move faster
+* show image snippet
+#### Tagging
+* adding a tag
+* removing a tag
+* changing a tag
+#### OCR correction
+* editing the token text
+#### Segmentation correction
+* merging two tokens
+* splitting a token
 #### Data export/Saving progress
 [ner.edith](https://github.com/cneud/ner.edith) runs fully locally in the browser. Therefore it can not automatically save any changes you made to disk. You have to use the `Save Changes` button in order to so manually from time to time.
 
