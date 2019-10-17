@@ -2,9 +2,7 @@
 #### version 0.1
 
 ### 1. Introduction
-* Basic outline - what is this and what can I use it for
-* SoNAR-IDH project (https://sonar.fh-potsdam.de/)
-* QURATOR project (https://qurator.ai/)
+[ner.edith](https://github.com/cneud/ner.edith) is a simple, browser-based tool for editing and annotating text with named entities to produce a corpus for training/testing/evaluation. It can be used to either add or correct named entity BIO-tags in a TSV file and to correct the token text and or segmentation (e.g. due to OCR errors). [ner.edith](https://github.com/cneud/ner.edith) is developed at the Berlin State Library for data annotation in the context of the [SoNAR-IDH](https://sonar.fh-potsdam.de/) project and the [QURATOR](https://qurator.ai/) project.
 
 ### 2. User Guide
 #### Technical Requirements 
@@ -28,7 +26,7 @@ We also provide some [Python tools](https://github.com/cneud/ner.edith/tree/mast
     * merging two tokens
     * splitting a token
 #### Data export/Saving progress
-The editor runs fully locally in the browser. Therefore it can not automatically save any changes you made to disk. You have to use the `Save Changes` button in order to so manually from time to time.
+[ner.edith](https://github.com/cneud/ner.edith) runs fully locally in the browser. Therefore it can not automatically save any changes you made to disk. You have to use the `Save Changes` button in order to so manually from time to time.
 
 If your browser automatically saves all downloads to your `Downloads` folder, you might want to configure it so that it instead prompts you where to save.
 
