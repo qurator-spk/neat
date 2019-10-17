@@ -1,4 +1,4 @@
 # ner.edith
-![Screenshot](.screenshots/screenshot.png)
+[User Guide](docs/User_Guide.md) | [Anntotation Guidelines](docs/Annotation_Guidelines.md)
 
-[User Guide](docs/guide.md)
+![Screenshot](.screenshots/screenshot.png)
