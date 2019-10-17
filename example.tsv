@@ -10,7 +10,7 @@ No.	TOKEN 	NE-TAG	NE-EMB
 4	.	O	O
 5	Januar	B-TODO	O
 6	.	O	O
-
+			
 # 	http://content.staatsbibliothek-berlin.de/zefys/SNP27646518-18800101-0-3-0-0/781,328,580,100/full/0/default.jpg		
 1	Berliner	B-ORG	B-LOC
 2	Tageblatt	I-ORG	O
@@ -18,12 +18,12 @@ No.	TOKEN 	NE-TAG	NE-EMB
 4	Nr	O	O
 5	.	O	O
 6	1	O	O
-
+			
 # 	http://content.staatsbibliothek-berlin.de/zefys/SNP27646518-18800101-0-3-0-0/1812,328,200,100/full/0/default.jpg		
 1	Seite	O	O
 2	3	O	O
 3	.	O	O
-
+			
 # 	http://content.staatsbibliothek-berlin.de/zefys/SNP27646518-18800101-0-3-0-0/130,389,650,100/full/0/default.jpg		
 1	Kampf	O	O
 2	,	O	O
@@ -61,7 +61,7 @@ No.	TOKEN 	NE-TAG	NE-EMB
 34	herbeigeführt	O	O
 35	hätte	O	O
 36	.	O	O
-
+			
 # 	http://content.staatsbibliothek-berlin.de/zefys/SNP27646518-18800101-0-3-0-0/130,443,650,100/full/0/default.jpg		
 1	Es	O	O
 2	scheint	O	O
