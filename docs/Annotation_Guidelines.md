@@ -5,7 +5,7 @@
 * Executive summary
 
 ### 2. Guidelines
-#### Hot to annotate 
+#### How to annotate 
 
 ### 3. References
 * https://www.aclweb.org/anthology/W09-3025/
