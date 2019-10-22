@@ -80,6 +80,59 @@ function setupInterface(data, file) {
 
     let editingTd;
 
+    function makeTdEditable(td) {
+
+        editingTd = {
+            elem: td,
+            data: td.innerHTML
+        };
+
+        let textArea = document.createElement('textarea');
+        textArea.style.width = td.clientWidth + 'px';
+        textArea.style.height = td.clientHeight + 'px';
+        textArea.id = 'edit-area';
+
+        $(textArea).val($(td).html());
+        $(td).html('');
+        $(td).append(textArea);
+        textArea.focus();
+
+        let edit_html =
+            `<div class="edit-controls">
+                <button class="btn btn-secondary btn-sm" id="edit-ok">OK</button>
+                <button class="btn btn-secondary btn-sm" id="edit-cancel">CANCEL</button>
+             </div>`
+
+        td.insertAdjacentHTML("beforeEnd", edit_html);
+
+        $('#edit-ok').on('click',
+            function(evt) {
+                finishTdEdit(editingTd.elem, true);
+            });
+
+        $('#edit-cancel').on('click',
+            function(evt) {
+                finishTdEdit(editingTd.elem, false);
+            });
+    }
+
+    function makeLineSplitMerge(td) {
+
+        editingTd = {
+            elem: td,
+            data: td.innerHTML
+        };
+
+    }
+
+    function makeTagEdit(td) {
+
+        editingTd = {
+            elem: td,
+            data: td.innerHTML
+        };
+    }
+
     function updateTable() {
 
         editingTd = null;
@@ -106,10 +159,21 @@ function setupInterface(data, file) {
 
                           if (column == 'url_id') return
 
+                          var clickAction = function() { console.log('Do something different');}
+
+                          if (column == 'No.')
+                            clickAction = makeLineSplitMerge
+
+                          if (column == 'TOKEN')
+                            clickAction = makeTdEditable
+
+                          if ((column == 'NE-TAG') || (column == 'NE-EMB'))
+                            clickAction = makeTagEdit
+
                           row.append(
                               $(editable_html).
                                   text(content).
-                                  data('tableInfo', { 'nRow': nRow, 'column': column })
+                                  data('tableInfo', { 'nRow': nRow, 'column': column , 'clickAction': clickAction })
                           );
                       });
 
@@ -255,41 +319,7 @@ function setupInterface(data, file) {
         editingTd = null;
     }
 
-    function makeTdEditable(td) {
 
-        editingTd = {
-            elem: td,
-            data: td.innerHTML
-        };
-
-        let textArea = document.createElement('textarea');
-        textArea.style.width = td.clientWidth + 'px';
-        textArea.style.height = td.clientHeight + 'px';
-        textArea.id = 'edit-area';
-
-        $(textArea).val($(td).html());
-        $(td).html('');
-        $(td).append(textArea);
-        textArea.focus();
-
-        let edit_html =
-            `<div class="edit-controls">
-                <button class="btn btn-secondary btn-sm" id="edit-ok">OK</button>
-                <button class="btn btn-secondary btn-sm" id="edit-cancel">CANCEL</button>
-             </div>`
-
-        td.insertAdjacentHTML("beforeEnd", edit_html);
-
-        $('#edit-ok').on('click',
-            function(evt) {
-                finishTdEdit(editingTd.elem, true);
-            });
-
-        $('#edit-cancel').on('click',
-            function(evt) {
-                finishTdEdit(editingTd.elem, false);
-            });
-    }
 
     $('#table').on('click',
         function(event) {
@@ -304,6 +334,8 @@ function setupInterface(data, file) {
             }
 
             if (!$.contains($('#table')[0], target)) return
+
+            //$(target).data('tableInfo').clickAction(target);
 
             makeTdEditable(target);
         });
