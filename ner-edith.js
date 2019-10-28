@@ -78,13 +78,44 @@ function setupInterface(data, file) {
         }
     }
 
+    function colorCode() {
+        $("#table td:contains('B-PER')").addClass('ner_per');
+        $("#table td:contains('I-PER')").addClass('ner_per');
+        $("#table td:contains('B-LOC')").addClass('ner_loc');
+        $("#table td:contains('I-LOC')").addClass('ner_loc');
+        $("#table td:contains('B-ORG')").addClass('ner_org');
+        $("#table td:contains('I-ORG')").addClass('ner_org');
+        $("#table td:contains('B-TODO')").addClass('ner_todo');
+        $("#table td:contains('I-TODO')").addClass('ner_todo');
+    }
+
     let editingTd;
 
     function makeTdEditable(td) {
 
         editingTd = {
             elem: td,
-            data: td.innerHTML
+            data: td.innerHTML,
+            finish:
+                function (td, isOk) {
+
+                    if (isOk) {
+
+                        console.log('hello world');
+                        let newValue = $('#edit-area').val();
+
+                        $(td).html(newValue);
+
+                        let tableInfo = $(td).data('tableInfo');
+
+                        data.data[tableInfo.nRow][tableInfo.column] = newValue;
+                    }
+                    else {
+                        $(td).html(editingTd.data);
+                    }
+
+                    editingTd = null;
+                }
         };
 
         let textArea = document.createElement('textarea');
@@ -107,12 +138,12 @@ function setupInterface(data, file) {
 
         $('#edit-ok').on('click',
             function(evt) {
-                finishTdEdit(editingTd.elem, true);
+                editingTd.finish(editingTd.elem, true);
             });
 
         $('#edit-cancel').on('click',
             function(evt) {
-                finishTdEdit(editingTd.elem, false);
+                editingTd.finish(editingTd.elem, false);
             });
     }
 
@@ -120,7 +151,8 @@ function setupInterface(data, file) {
 
         editingTd = {
             elem: td,
-            data: td.innerHTML
+            data: td.innerHTML,
+            finish: function(td, isOk) {}
         };
 
     }
@@ -129,8 +161,56 @@ function setupInterface(data, file) {
 
         editingTd = {
             elem: td,
-            data: td.innerHTML
+            data: td.innerHTML,
+            finish: function(td, isOk) {
+
+                let tableInfo = $(td).data('tableInfo');
+
+                data.data[tableInfo.nRow][tableInfo.column] = editingTd.data;
+
+                $(td).html(editingTd.data);
+                $(td).addClass('editable');
+
+                editingTd = null;
+
+                colorCode();
+            }
         };
+
+        let edit_html = `
+            <div class="accordion" id="tagger" style="display:block;">
+                <section class="accordion-item type_select">O
+                </section>
+                <section class="accordion-item">B
+                    <div class="accordion-item-content">
+                        <div class="ner_per type_select">B-PER</div>
+                        <div class="ner_loc type_select">B-LOC</div>
+                        <div class="ner_org type_select">B-ORG</div>
+                        <div class="ner_todo type_select">B-TODO</div>
+                    </div>
+                </section>
+                <section class="accordion-item">I
+                    <div class="accordion-item-content">
+                        <div class="ner_per type_select">I-PER</div>
+                        <div class="ner_loc type_select">I-LOC</div>
+                        <div class="ner_org type_select">I-ORG</div>
+                        <div class="ner_todo type_select">I-TODO</div>
+                    </div>
+                </section>
+            </div>
+        `;
+
+        $(td).removeClass();
+        $(td).html(edit_html);
+        $('#tagger').mouseleave(
+            function(event) {
+                editingTd.finish(editingTd.elem, false);
+            });
+
+        $('.type_select').click(
+            function(event) {
+                editingTd.data = $(event.target).text();
+            });
     }
 
     function updateTable() {
@@ -180,14 +260,7 @@ function setupInterface(data, file) {
                   $("#table tbody").append(row);
               });
 
-        $("#table td:contains('B-PER')").addClass('ner_per');
-        $("#table td:contains('I-PER')").addClass('ner_per');
-        $("#table td:contains('B-LOC')").addClass('ner_loc');
-        $("#table td:contains('I-LOC')").addClass('ner_loc');
-        $("#table td:contains('B-ORG')").addClass('ner_org');
-        $("#table td:contains('I-ORG')").addClass('ner_org');
-        $("#table td:contains('B-TODO')").addClass('ner_todo');
-        $("#table td:contains('I-TODO')").addClass('ner_todo');
+        colorCode();
 
         $(".offset").on('click', gotoLocation);
 
@@ -301,26 +374,6 @@ function setupInterface(data, file) {
 
     $('.saveButton').on('click', saveFile)
 
-    function finishTdEdit(td, isOk) {
-
-        if (isOk) {
-            let newValue = $('#edit-area').val();
-
-            $(td).html(newValue);
-
-            let tableInfo = $(td).data('tableInfo');
-
-            data.data[tableInfo.nRow][tableInfo.column] = newValue;
-        }
-        else {
-            $(td).html(editingTd.data);
-        }
-
-        editingTd = null;
-    }
-
-
-
     $('#table').on('click',
         function(event) {
 
@@ -330,14 +383,14 @@ function setupInterface(data, file) {
 
                 if (target == editingTd.elem) return;
 
-                finishTdEdit(editingTd.elem, true);
+                editingTd.finish(editingTd.elem, true);
             }
 
             if (!$.contains($('#table')[0], target)) return
 
-            //$(target).data('tableInfo').clickAction(target);
+            $(target).data('tableInfo').clickAction(target);
 
-            makeTdEditable(target);
+            //makeTdEditable(target);
         });
 
     updateTable();
