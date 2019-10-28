@@ -101,7 +101,6 @@ function setupInterface(data, file) {
 
                     if (isOk) {
 
-                        console.log('hello world');
                         let newValue = $('#edit-area').val();
 
                         $(td).html(newValue);
@@ -172,9 +171,11 @@ function setupInterface(data, file) {
                     }
 
                     let pos = tableInfo.nRow + 1;
+                    word_pos = data.data[tableInfo.nRow - 1]['No.'] + 1
                     while((pos < data.data.length) && (data.data[pos]['No.'] > 1)) {
-                        data.data[pos]['No.']--;
+                        data.data[pos]['No.'] = word_pos;
                         pos++;
+                        word_pos++;
                     }
 
                     data.data[tableInfo.nRow - 1]['TOKEN'] += data.data[tableInfo.nRow]['TOKEN'];
@@ -192,6 +193,15 @@ function setupInterface(data, file) {
                         pos++;
                     }
                 }
+                else if (editingTd.tokenizer_action.includes('start-sentence')) {
+                    let pos = tableInfo.nRow;
+                    let word_pos = 1;
+                    while ((pos < data.data.length) && (data.data[pos]['No.'] != 1)) {
+                        data.data[pos]['No.'] = word_pos;
+                        pos++;
+                        word_pos++;
+                    }
+                }
 
                 editingTd = null;
 
@@ -203,6 +213,7 @@ function setupInterface(data, file) {
             <div class="accordion" id="tokenizer" style="display:block;">
                 <section class="accordion-item tokenizer-action">&#8597;&nbsp;&nbsp;split</section>
                 <section class="accordion-item tokenizer-action">&#10227;&nbsp;merge-above</section>
+                <section class="accordion-item tokenizer-action">start-sentence</section>
             </div>
         `;
 
@@ -354,8 +365,6 @@ function setupInterface(data, file) {
 
             startIndex = data.data.length - this.value;
             endIndex = startIndex + displayRows;
-
-            console.log(startIndex);
 
             updateTable();
         });
