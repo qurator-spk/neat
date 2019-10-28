@@ -152,9 +152,71 @@ function setupInterface(data, file) {
         editingTd = {
             elem: td,
             data: td.innerHTML,
-            finish: function(td, isOk) {}
+            tokenizer_action: null,
+            finish: function(td, isOk) {
+                $(td).html(editingTd.data);
+                $(td).addClass('editable');
+
+                if (editingTd.tokenizer_action == null) {
+                    editingTd = null;
+                    return;
+                }
+
+                let tableInfo = $(td).data('tableInfo');
+
+                if (editingTd.tokenizer_action.includes('merge')) {
+
+                    if (tableInfo.nRow < 1) {
+                        editingTd = null;
+                        return;
+                    }
+
+                    let pos = tableInfo.nRow + 1;
+                    while((pos < data.data.length) && (data.data[pos]['No.'] > 1)) {
+                        data.data[pos]['No.']--;
+                        pos++;
+                    }
+
+                    data.data[tableInfo.nRow - 1]['TOKEN'] += data.data[tableInfo.nRow]['TOKEN'];
+
+                    data.data.splice(tableInfo.nRow, 1);
+                }
+                else if (editingTd.tokenizer_action.includes('split')) {
+
+                    data.data.splice(tableInfo.nRow, 0, JSON.parse(JSON.stringify(data.data[tableInfo.nRow])));
+                     data.data[tableInfo.nRow + 1]['No.'] += 1
+
+                    let pos = tableInfo.nRow + 2;
+                    while ((pos < data.data.length) && (data.data[pos]['No.'] > 1)) {
+                        data.data[pos]['No.']++;
+                        pos++;
+                    }
+                }
+
+                editingTd = null;
+
+                updateTable();
+            }
         };
 
+        let edit_html = `
+            <div class="accordion" id="tokenizer" style="display:block;">
+                <section class="accordion-item tokenizer-action">&#8597;&nbsp;&nbsp;split</section>
+                <section class="accordion-item tokenizer-action">&#10227;&nbsp;merge-above</section>
+            </div>
+        `;
+
+        $(td).removeClass();
+        $(td).html(edit_html);
+        $('#tokenizer').mouseleave(
+            function(event) {
+                editingTd.finish(editingTd.elem, false);
+            });
+
+        $('.tokenizer-action').click(
+            function(event) {
+                editingTd.tokenizer_action = $(event.target).text();
+            });
     }
 
     function makeTagEdit(td) {
