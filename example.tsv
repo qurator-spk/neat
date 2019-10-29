@@ -1,105 +1,105 @@
-No.	TOKEN 	NE-TAG	NE-EMB
+No.	TOKEN 	NE-TAG	NE-EMB	GND
 
-#	001	https://zdb-katalog.de/title.xhtml?idn=1049496809	http://content.staatsbibliothek-berlin.de/zefys/SNP27646518-18800101-0-3-0-0/full/full/0/default.jpg
-#	1880-01-01	Berliner Tageblatt	27646518
+#	001	https://zdb-katalog.de/title.xhtml?idn=1049496809	http://content.staatsbibliothek-berlin.de/zefys/SNP27646518-18800101-0-3-0-0/full/full/0/default.jpg	
+#	1880-01-01	Berliner Tageblatt	27646518	
 
-# 	http://content.staatsbibliothek-berlin.de/zefys/SNP27646518-18800101-0-3-0-0/149,325,400,100/full/0/default.jpg		
-1	Donnerstag	O	O
-2	,	O	O
-3	1	O	O
-4	.	O	O
-5	Januar	B-TODO	O
-6	.	O	O
-			
-# 	http://content.staatsbibliothek-berlin.de/zefys/SNP27646518-18800101-0-3-0-0/781,328,580,100/full/0/default.jpg		
-1	Berliner	B-ORG	B-LOC
-2	Tageblatt	I-ORG	O
-3	.	O	O
-4	Nr	O	O
-5	.	O	O
-6	1	O	O
-			
-# 	http://content.staatsbibliothek-berlin.de/zefys/SNP27646518-18800101-0-3-0-0/1812,328,200,100/full/0/default.jpg		
-1	Seite	O	O
-2	3	O	O
-3	.	O	O
-			
-# 	http://content.staatsbibliothek-berlin.de/zefys/SNP27646518-18800101-0-3-0-0/130,389,650,100/full/0/default.jpg		
-1	Kampf	O	O
-2	,	O	O
-3	dessen	O	O
-4	Ende	O	O
-5	vielleicht	O	O
-6	noch	O	O
-7	heute	O	O
-8	nicht	O	O
-9	abzusehen	O	O
-10	wäre	O	O
-11	,	O	O
-12	wenn	O	O
-13	nicht	O	O
-14	Herr	O	O
-15	Gambetta	B-PER	O
-16	als	O	O
-17	deus	O	O
-18	ex	O	O
-19	machina	O	O
-20	erschienen	O	O
-21	wäre	O	O
-22	,	O	O
-23	resp	O	O
-24	.	O	O
-25	durch	O	O
-26	persönliche	O	O
-27	Intervention	O	O
-28	bei	O	O
-29	dem	O	O
-30	Präsidenten	O	O
-31	Grévy	B-PER	O
-32	einen	O	O
-33	Ausgleich	O	O
-34	herbeigeführt	O	O
-35	hätte	O	O
-36	.	O	O
-			
-# 	http://content.staatsbibliothek-berlin.de/zefys/SNP27646518-18800101-0-3-0-0/130,443,650,100/full/0/default.jpg		
-1	Es	O	O
-2	scheint	O	O
-3	dem	O	O
-4	Kammerpräsidenten	B-OTH	O
-5	plötzlich	O	O
-6	ein	O	O
-7	Argwohn	O	O
-8	oder	O	O
-9	eine	O	O
-10	Befürchtung	O	O
-11	gekommen	O	O
-12	zu	O	O
-13	sein	O	O
-14	,	O	O
-15	als	O	O
-16	ob	O	O
-17	hinter	O	O
-18	dem	O	O
-19	Bemühen	O	O
-20	,	O	O
-21	Waddington	B-PER	O
-22	und	O	O
-23	Léon	B-PER	O
-24	Say	I-PER	O
-25	zu	O	O
-26	halten	O	O
-27	,	O	O
-28	dagegen	O	O
-29	Lepère	B-PER	O
-30	zu	O	O
-31	entfernen	O	O
-32	,	O	O
-33	die	O	O
-34	Absicht	O	O
-35	stecke	O	O
-36	,	O	O
-37	das	O	O
-38	neue	O	O
-39	Ministerium	O	O
-40	von	O	O
+#	http://content.staatsbibliothek-berlin.de/zefys/SNP27646518-18800101-0-3-0-0/149,325,400,100/full/0/default.jpg			
+1	Donnerstag	O	O	
+2	,	O	O	
+3	1	O	O	
+4	.	O	O	
+5	Januar	B-TODO	O	
+6	.	O	O	
+				
+#	http://content.staatsbibliothek-berlin.de/zefys/SNP27646518-18800101-0-3-0-0/781,328,580,100/full/0/default.jpg			
+1	Berliner	B-ORG	B-LOC	40057288
+2	Tageblatt	I-ORG	O	
+3	.	O	O	
+4	Nr	O	O	
+5	.	O	O	
+6	1	O	O	
+				
+#	http://content.staatsbibliothek-berlin.de/zefys/SNP27646518-18800101-0-3-0-0/1812,328,200,100/full/0/default.jpg			
+1	Seite	O	O	
+2	3	O	O	
+3	.	O	O	
+				
+#	http://content.staatsbibliothek-berlin.de/zefys/SNP27646518-18800101-0-3-0-0/130,389,650,100/full/0/default.jpg			
+1	Kampf	O	O	
+2	,	O	O	
+3	dessen	O	O	
+4	Ende	O	O	
+5	vielleicht	O	O	
+6	noch	O	O	
+7	heute	O	O	
+8	nicht	O	O	
+9	abzusehen	O	O	
+10	wäre	O	O	
+11	,	O	O	
+12	wenn	O	O	
+13	nicht	O	O	
+14	Herr	O	O	
+15	Gambetta	B-PER	O	118716263
+16	als	O	O	
+17	deus	O	O	
+18	ex	O	O	
+19	machina	O	O	
+20	erschienen	O	O	
+21	wäre	O	O	
+22	,	O	O	
+23	resp	O	O	
+24	.	O	O	
+25	durch	O	O	
+26	persönliche	O	O	
+27	Intervention	O	O	
+28	bei	O	O	
+29	dem	O	O	
+30	Präsidenten	O	O	
+31	Grévy	B-PER	O	119064693
+32	einen	O	O	
+33	Ausgleich	O	O	
+34	herbeigeführt	O	O	
+35	hätte	O	O	
+36	.	O	O	
+				
+#	http://content.staatsbibliothek-berlin.de/zefys/SNP27646518-18800101-0-3-0-0/130,443,650,100/full/0/default.jpg			
+1	Es	O	O	
+2	scheint	O	O	
+3	dem	O	O	
+4	Kammerpräsidenten	B-OTH	O	
+5	plötzlich	O	O	
+6	ein	O	O	
+7	Argwohn	O	O	
+8	oder	O	O	
+9	eine	O	O	
+10	Befürchtung	O	O	
+11	gekommen	O	O	
+12	zu	O	O	
+13	sein	O	O	
+14	,	O	O	
+15	als	O	O	
+16	ob	O	O	
+17	hinter	O	O	
+18	dem	O	O	
+19	Bemühen	O	O	
+20	,	O	O	
+21	Waddington	B-PER	O	117086630
+22	und	O	O	
+23	Léon	B-PER	O	117619744
+24	Say	I-PER	O	117619744
+25	zu	O	O	
+26	halten	O	O	
+27	,	O	O	
+28	dagegen	O	O	
+29	Lepère	B-PER	O	1012607569
+30	zu	O	O	
+31	entfernen	O	O	
+32	,	O	O	
+33	die	O	O	
+34	Absicht	O	O	
+35	stecke	O	O	
+36	,	O	O	
+37	das	O	O	
+38	neue	O	O	
+39	Ministerium	O	O	
+40	von	O	O	

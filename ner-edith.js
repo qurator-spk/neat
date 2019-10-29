@@ -388,7 +388,8 @@ function setupInterface(data, file) {
                 <th>POSITION</th>
                 <th>TOKEN</th>
                 <th>NE-TAG</th>
-                <th>NE-EMB<button class="btn btn-link" id="next">>></button></th>
+                <th>NE-EMB</th>
+                <th>GND-ID<button class="btn btn-link" id="next">>></button></th>
             </tr>
             </thead>
             <tbody id="table-body"></tbody>
