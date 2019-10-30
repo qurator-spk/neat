@@ -38,3 +38,13 @@ extract-doc-links enp_DE.tsv  enp_DE-urls.tsv
 By loading the annotated TSV as well as the url mapping file into 
 ner.edith, you will be able to jump directly to the original image
 where the full text has been extracted from.
+
+# PAGE-XML to TSV Transformation
+
+## Usage:
+
+Create a TSV file from OCR in PAGE-XML format (with word segmentation):
+
+```
+python page2tsv.py PAGE.xml > PAGE.tsv
+```
