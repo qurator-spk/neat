@@ -12,3 +12,4 @@
 * https://www.aclweb.org/anthology/L14-1251/
 * https://www.linguistik.hu-berlin.de/de/institut/professuren/korpuslinguistik/forschung/nosta-d/nosta-d-ner-1.5
 * http://www.sfs.uni-tuebingen.de/resources/tuebadz-stylebook-1201.pdf
+* http://www.quaero.org/media/files/bibliographie/quaero-guide-annotation-2011.pdf
