@@ -327,7 +327,7 @@ function setupInterface(data, file) {
                           if (column == 'No.')
                             clickAction = makeLineSplitMerge
 
-                          if (column == 'TOKEN')
+                          if ((column == 'TOKEN') || (column == 'GND-ID'))
                             clickAction = makeTdEditable
 
                           if ((column == 'NE-TAG') || (column == 'NE-EMB'))
