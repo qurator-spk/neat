@@ -21,7 +21,8 @@ setup(
     entry_points={
       'console_scripts': [
         "extract-doc-links=cli:extract_document_links",
-        "annotate-tsv=cli:annotate_tsv"
+        "annotate-tsv=cli:annotate_tsv",
+        "page2tsv=cli:page2tsv"
       ]
     },
     python_requires='>=3.6.0',

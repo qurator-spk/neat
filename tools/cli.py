@@ -2,6 +2,8 @@ import re
 import click
 import pandas as pd
 from io import StringIO
+import os
+import xml.etree.ElementTree as ET
 
 
 @click.command()
@@ -78,7 +80,7 @@ def extract_doc_links(tsv_file):
 
                     line = "\t" + line
 
-                if line.count('\t') == 3:
+                if line.count('\t') >= 3:
 
                     text.append(line + '\n')
 
@@ -92,6 +94,50 @@ def extract_doc_links(tsv_file):
 
                 print('Line error: |', line, '|Number of Tabs: ', line.count('\t'))
 
-        parts.append({"url": url, 'header': header, 'text': "".join(text)})
+        if url is not None:
+            parts.append({"url": url, 'header': header, 'text': "".join(text)})
 
     return parts
+
+
+@click.command()
+@click.argument('page-xml-file', type=click.Path(exists=True), required=True, nargs=1)
+@click.argument('tsv-out-file', type=click.Path(), required=True, nargs=1)
+@click.option('--image-url', type=str, default='')
+def page2tsv(page_xml_file, tsv_out_file, image_url):
+
+    tree = ET.parse(page_xml_file)
+    xmlns = tree.getroot().tag.split('}')[0].strip('{')
+
+    urls = []
+    if os.path.exists(tsv_out_file):
+        parts = extract_doc_links(tsv_out_file)
+
+        urls = [part['url'] for part in parts]
+    else:
+        pd.DataFrame([], columns=['No.', 'TOKEN', 'NE-TAG', 'NE-EMB', 'GND-ID', 'url_id', 'left', 'right', 'top',
+                                  'bottom']). to_csv(tsv_out_file, sep="\t", quoting=3, index=False)
+
+    tsv = []
+    for words in tree.findall('.//{%s}Word' % xmlns):
+        for word in words.findall('.//{%s}Unicode' % xmlns):
+            text = word.text
+            for coords in words.findall('.//{%s}Coords' % xmlns):
+
+                points = [int(pos) for p in coords.attrib['points'].split(' ') for pos in p.split(',')]
+
+                left = points[0]
+                right = points[2]
+                top = points[1]
+                bottom = points[5]
+
+                tsv.append((0, text, 'O', 'O', '-', len(urls), left, right, top, bottom))
+
+    with open(tsv_out_file, 'a') as f:
+
+        f.write('# ' + image_url + '\n')
+
+    tsv = pd.DataFrame(tsv, columns=['No.', 'TOKEN', 'NE-TAG', 'NE-EMB', 'GND-ID',
+                                     'url_id', 'left', 'right', 'top', 'bottom'])
+
+    tsv.to_csv(tsv_out_file, sep="\t", quoting=3, index=False, mode='a', header=False)

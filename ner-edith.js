@@ -296,6 +296,8 @@ function setupInterface(data, file) {
 
     function updateTable() {
 
+        let do_not_display = new Set(['url_id', 'left', 'right', 'top', 'bottom']);
+
         editingTd = null;
 
         let editable_html =
@@ -318,7 +320,7 @@ function setupInterface(data, file) {
                   $.each(el,
                       function(column, content) {
 
-                          if (column == 'url_id') return
+                          if (do_not_display.has(column)) return
 
                           var clickAction = function() { console.log('Do something different');}
 
