@@ -31,6 +31,9 @@ function setupInterface(data, file) {
 
         console.log(img_url);
 
+        if (img_url == "http://empty")
+            return
+
         $("#preview").attr("src", img_url);
         $("#preview-link").attr("href", img_url);
     }
