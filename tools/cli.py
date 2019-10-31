@@ -126,10 +126,13 @@ def page2tsv(page_xml_file, tsv_out_file, image_url):
 
                 points = [int(pos) for p in coords.attrib['points'].split(' ') for pos in p.split(',')]
 
-                left = points[0]
-                right = points[2]
-                top = points[1]
-                bottom = points[5]
+                x_points = [points[i] for i in range(0, len(points), 2)]
+                y_points = [points[i] for i in range(1, len(points), 2)]
+
+                left = min(x_points)
+                right = max(x_points)
+                top = min(y_points)
+                bottom = max(y_points)
 
                 tsv.append((0, text, 'O', 'O', '-', len(urls), left, right, top, bottom))
 
