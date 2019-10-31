@@ -103,7 +103,7 @@ def extract_doc_links(tsv_file):
 @click.command()
 @click.argument('page-xml-file', type=click.Path(exists=True), required=True, nargs=1)
 @click.argument('tsv-out-file', type=click.Path(), required=True, nargs=1)
-@click.option('--image-url', type=str, default='')
+@click.option('--image-url', type=str, default='http://empty')
 def page2tsv(page_xml_file, tsv_out_file, image_url):
 
     tree = ET.parse(page_xml_file)
