@@ -2,29 +2,25 @@ No.	TOKEN	NE-TAG	NE-EMB	GND
 
 #	001	https://zdb-katalog.de/title.xhtml?idn=1049496809	http://content.staatsbibliothek-berlin.de/zefys/SNP27646518-18800101-0-3-0-0/full/full/0/default.jpg	
 #	1880-01-01	Berliner Tageblatt	27646518	
-
-#	http://content.staatsbibliothek-berlin.de/zefys/SNP27646518-18800101-0-3-0-0/149,325,400,100/full/0/default.jpg			
+			
 1	Donnerstag	O	O	
 2	,	O	O	
 3	1	O	O	
 4	.	O	O	
 5	Januar	B-TODO	O	
 6	.	O	O	
-				
-#	http://content.staatsbibliothek-berlin.de/zefys/SNP27646518-18800101-0-3-0-0/781,328,580,100/full/0/default.jpg			
+							
 1	Berliner	B-ORG	B-LOC	40057288
 2	Tageblatt	I-ORG	O	
 3	.	O	O	
 4	Nr	O	O	
 5	.	O	O	
 6	1	O	O	
-				
-#	http://content.staatsbibliothek-berlin.de/zefys/SNP27646518-18800101-0-3-0-0/1812,328,200,100/full/0/default.jpg			
+							
 1	Seite	O	O	
 2	3	O	O	
 3	.	O	O	
-				
-#	http://content.staatsbibliothek-berlin.de/zefys/SNP27646518-18800101-0-3-0-0/130,389,650,100/full/0/default.jpg			
+							
 1	Kampf	O	O	
 2	,	O	O	
 3	dessen	O	O	
@@ -61,8 +57,7 @@ No.	TOKEN	NE-TAG	NE-EMB	GND
 34	herbeigeführt	O	O	
 35	hätte	O	O	
 36	.	O	O	
-				
-#	http://content.staatsbibliothek-berlin.de/zefys/SNP27646518-18800101-0-3-0-0/130,443,650,100/full/0/default.jpg			
+							
 1	Es	O	O	
 2	scheint	O	O	
 3	dem	O	O	
