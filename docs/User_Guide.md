@@ -31,9 +31,9 @@ If your browser automatically saves all downloads to your `Downloads` folder, yo
 
 Configuration option in Firefox:
 
-![Screenshot](./../.screenshots/firefox.png)
+![Screenshot](./../assets/firefox.png)
 
 Configuration option in Chrome:
 
-![Screenshot](./../.screenshots/chrome.png)
+![Screenshot](./../assets/chrome.png)
 ### 3. FAQ
