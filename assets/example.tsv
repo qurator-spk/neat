@@ -6,7 +6,7 @@ No.	TOKEN	NE-TAG	NE-EMB	GND-ID	url_id	left	right	top	bottom
 5	.	O	O	-	0				
 			O	-	0	406	518	358	386
 1	Berliner	B-ORG	B-LOC	40057288	0	816	984	358	388
-2	Tageblatt	I-ORG	O	-	0	1005	1208	360	387
+2	Tageblatt	I-ORG	O	-	1005	1208	360	387
 3	.	O
 		O	-	0	1005	1208	360	387
 4	Nr	O	O	-	0	1237	1288	360	382
