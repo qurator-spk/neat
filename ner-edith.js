@@ -116,6 +116,9 @@ function setupInterface(data, file, urls) {
 
         let img_url = urls[data.data[nRow]['url_id']];
 
+        if (img_url == "http://empty")
+            return
+
         let left = data.data[nRow]['left'];
         let right = data.data[nRow]['right'];
         let top = data.data[nRow]['top'];
@@ -136,12 +139,28 @@ function setupInterface(data, file, urls) {
         img_url = img_url.replace('width', width.toString());
         img_url = img_url.replace('height', height.toString());
 
-        //console.log(img_url);
-
-        if (img_url == "http://empty")
-            return
+        //console.log(img_url)
 
         $("#preview").attr("src", img_url);
+
+        img_url = urls[data.data[nRow]['url_id']];
+
+        top = Math.max(0, top - 200);
+        bottom = bottom + 200;
+
+        left = Math.max(0, left - 400);
+        right = right + 400;
+
+        width = right - left;
+        height = bottom - top;
+
+        img_url = img_url.replace('left',  left.toString());
+        img_url = img_url.replace('right', right.toString());
+        img_url = img_url.replace('top',   top.toString());
+        img_url = img_url.replace('bottom',bottom.toString());
+        img_url = img_url.replace('width', width.toString());
+        img_url = img_url.replace('height', height.toString());
+
         $("#preview-link").attr("href", img_url);
     }
 
