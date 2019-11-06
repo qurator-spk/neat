@@ -48,23 +48,63 @@ function loadFile(evt, onComplete) {
 
 function setupInterface(data, file, urls) {
 
-    var displayRows=30
-    var startIndex=0;
-    var endIndex=displayRows;
+    let displayRows=30
+    let startIndex=0;
+    let endIndex=displayRows;
 
-    var has_changes = false;
+    let has_changes = false;
+    var save_timeout = null;
 
     function notifyChange() {
+        if (save_timeout != null) clearTimeout(save_timeout);
         has_changes = true;
 
         $("#save").attr('disabled', false);
     }
 
     function resetChanged() {
+        if (save_timeout != null) clearTimeout(save_timeout);
+
         $("#save").attr('disabled', true);
         has_changes = false;
     }
 
+    function checkForSave (csv) {
+
+        if (save_timeout != null) clearTimeout(save_timeout);
+
+        // This is a work-around that checks if the user actually saved the file or if the save dialog was cancelled.
+        let counter = 0;
+        let checker =
+            function() {
+                console.log('checker ...', counter);
+
+                if (counter > 20) return;
+
+                let reader = new FileReader();
+
+                reader.onload =
+                    function(event) {
+
+                        let content = event.target.result;
+
+                        if (content == csv) { // ok content of the file is actually equal to desired content.
+                            console.log('Save success ...');
+                            resetChanged();
+                            return;
+                        }
+
+                        counter++;
+                        save_timeout = setTimeout(checker, 3000);
+                    };
+
+                reader.readAsText(file);
+            };
+
+        save_timeout = setTimeout(checker, 3000);
+    };
+
+    // public interface
     var that =
         {
             hasChanges: function () { return has_changes; }
@@ -490,7 +530,9 @@ function setupInterface(data, file, urls) {
 
         csv = csv.join('\n');
 
-        openSaveFileDialog (csv, file.name, null)
+        openSaveFileDialog (csv, file.name, null);
+
+        checkForSave(csv);
     }
 
     function openSaveFileDialog (data, filename, mimetype) {
