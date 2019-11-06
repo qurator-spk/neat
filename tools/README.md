@@ -44,14 +44,11 @@ page2tsv PAGE5.xml PAGE.tsv --image-url=http://link-to-corresponding-image-5
 ...
 ```
 
-A corresponding URL-mapping file can be obtained from:
+For instance, for the file assets/example.xml:
 
 ```
-extract-doc-links PAGE.tsv  PAGE-urls.tsv
+page2tsv example.xml example4.tsv --image-url=http://content.staatsbibliothek-berlin.de/zefys/SNP27646518-18800101-0-3-0-0/left,top,width,height/full/0/default.jpg
 ```
-By loading the annotated TSV as well as the url mapping file into 
-ner.edith, you will be able to jump directly to the original image
-where the full text has been extracted from.
 
 ---
 
@@ -62,13 +59,3 @@ Create a URL-annotated TSV file from an existing TSV file:
 ```
 annotate-tsv enp_DE.tsv enp_DE-annotated.tsv
 ```
-Create a corresponding URL-mapping file:
-
-```
-extract-doc-links enp_DE.tsv  enp_DE-urls.tsv
-```
-
-By loading the annotated TSV as well as the url mapping file into 
-ner.edith, you will be able to jump directly to the original image
-where the full text has been extracted from.
-

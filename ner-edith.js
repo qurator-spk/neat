@@ -3,6 +3,39 @@ function loadFile(evt, onComplete) {
 
     var file = evt.target.files[0];
 
+    var urls = null;
+
+    var reader = new FileReader();
+
+    reader.onload =
+        function(event) {
+
+            let link_detector = /(https?:\/\/[^\s]+)/g;
+
+            let lines = event.target.result.split(/\r\n|\n/);
+            for(var i = 0; i < lines.length; i++){
+
+                let line = lines[i];
+
+                if (!line.startsWith('#')) continue;
+
+                let tmp = line.match(link_detector);
+
+                if (tmp == null) continue;
+
+                //console.log(tmp);
+
+                if (urls == null) {
+                    urls = tmp;
+                }
+                else {
+                    urls.push(tmp[0])
+                }
+            };
+        };
+
+    reader.readAsText(file);
+
     Papa.parse(file, {
         header: true,
         delimiter: '\t',
@@ -11,23 +44,36 @@ function loadFile(evt, onComplete) {
         comments: "#",
         skipEmptyLines: true,
         dynamicTyping: true,
-        complete: function(results) { onComplete(results, file) }
+        complete: function(results) { onComplete(results, file, urls); }
     });
 }
 
+function setupInterface(data, file, urls) {
 
-var displayRows=30
-var startIndex=0;
-var endIndex=displayRows;
-var urls = null;
-
-function setupInterface(data, file) {
+    var displayRows=30
+    var startIndex=0;
+    var endIndex=displayRows;
 
     function updatePreview(nRow) {
 
         if (urls == null) return;
 
-        let img_url = urls.data[data.data[nRow]['url_id']]['url']
+        let img_url = urls[data.data[nRow]['url_id']];
+
+        let left = data.data[nRow]['left'];
+        let right = data.data[nRow]['right'];
+        let top = data.data[nRow]['top'];
+        let bottom = data.data[nRow]['bottom'];
+
+        let width = right - left;
+        let height = bottom - top;
+
+        img_url = img_url.replace('left',  left.toString());
+        img_url = img_url.replace('right', right.toString());
+        img_url = img_url.replace('top',   top.toString());
+        img_url = img_url.replace('bottom',bottom.toString());
+        img_url = img_url.replace('width', width.toString());
+        img_url = img_url.replace('height', height.toString());
 
         console.log(img_url);
 
@@ -40,45 +86,11 @@ function setupInterface(data, file) {
 
     function gotoLocation(evt) {
 
-        if (urls != null) {
+        if (urls == null) return;
 
-            let nRow = parseInt($(evt.target).text());
+        let nRow = parseInt($(evt.target).text());
 
-            updatePreview(nRow)
-        }
-        else {
-            let url_mapping_html =
-                `
-                <br/>
-                <br/>
-                <br/>
-                <input type="file" id="url-mapping-tsv-file" style="visibility: hidden; width: 1px; height: 1px"/>
-                Please
-                <a href="" onclick="$('#url-mapping-tsv-file').click(); return false">upload a url mapping file</a>
-                 or<button class="btn btn-link" id="goback">go back to edit mode.</button>
-                `;
-
-            $("#tableregion").html(url_mapping_html);
-            $("#btn-region").empty();
-            $("#region-right").empty();
-
-            $('#goback').on('click',
-                function(evt) {
-                    setupInterface(data, file);
-                 }
-            );
-
-            $('#url-mapping-tsv-file').change(
-                function(evt) {
-                    loadFile(evt,
-                        function(results, url_mapping_file) {
-                            urls = results;
-
-                            setupInterface(data, file);
-                        });
-                }
-            );
-        }
+        updatePreview(nRow)
     }
 
     function colorCode() {
@@ -426,6 +438,23 @@ function setupInterface(data, file) {
                     dynamicTyping: true
                 });
 
+        let lines = csv.split(/\r\n|\n/);
+
+        csv = [ lines[0] ];
+        let url_id = -1;
+
+        for(var i = 0; i < data.data.length; i++){
+            if (data.data[i]['url_id'] > url_id) {
+
+                url_id = data.data[i]['url_id'];
+
+                csv.push("# " + urls[url_id]);
+            }
+            csv.push(lines[i+1]);
+        }
+
+        csv = csv.join('\n');
+
         openSaveFileDialog (csv, file.name, null)
     }
 
@@ -474,8 +503,6 @@ function setupInterface(data, file) {
             if (!$.contains($('#table')[0], target)) return
 
             $(target).data('tableInfo').clickAction(target);
-
-            //makeTdEditable(target);
         });
 
     updateTable();
@@ -541,9 +568,9 @@ $(document).ready(
             function(evt) {
 
                 loadFile ( evt,
-                    function(results, file) {
+                    function(results, file, urls) {
 
-                        setupInterface(results, file);
+                        setupInterface(results, file, urls);
                     })
             }
         );
