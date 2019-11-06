@@ -52,6 +52,24 @@ function setupInterface(data, file, urls) {
     var startIndex=0;
     var endIndex=displayRows;
 
+    var has_changes = false;
+
+    function notifyChange() {
+        has_changes = true;
+
+        $("#save").attr('disabled', false);
+    }
+
+    function resetChanged() {
+        $("#save").attr('disabled', true);
+        has_changes = false;
+    }
+
+    var that =
+        {
+            hasChanges: function () { return has_changes; }
+        };
+
     function updatePreview(nRow) {
 
         if (urls == null) return;
@@ -132,6 +150,8 @@ function setupInterface(data, file, urls) {
                         let tableInfo = $(td).data('tableInfo');
 
                         data.data[tableInfo.nRow][tableInfo.column] = newValue;
+
+                        notifyChange();
                     }
                     else {
                         $(td).html(editingTd.data);
@@ -205,6 +225,8 @@ function setupInterface(data, file, urls) {
                     data.data[tableInfo.nRow - 1]['TOKEN'] += data.data[tableInfo.nRow]['TOKEN'];
 
                     data.data.splice(tableInfo.nRow, 1);
+
+                    notifyChange();
                 }
                 else if (editingTd.tokenizer_action.includes('split')) {
 
@@ -216,6 +238,8 @@ function setupInterface(data, file, urls) {
                         data.data[pos]['No.']++;
                         pos++;
                     }
+
+                    notifyChange();
                 }
                 else if (editingTd.tokenizer_action.includes('start-sentence')) {
                     let pos = tableInfo.nRow;
@@ -225,6 +249,8 @@ function setupInterface(data, file, urls) {
                         pos++;
                         word_pos++;
                     }
+
+                    notifyChange();
                 }
 
                 editingTd = null;
@@ -271,6 +297,8 @@ function setupInterface(data, file, urls) {
                 editingTd = null;
 
                 colorCode();
+
+                notifyChange();
             }
         };
 
@@ -423,7 +451,7 @@ function setupInterface(data, file, urls) {
         `;
 
     let save_html =
-        `<button class="btn btn-primary saveButton">Save Changes</button>`
+        `<button class="btn btn-primary saveButton" id="save" disabled>Save Changes</button>`
 
     $("#tableregion").html(table_html)
 
@@ -490,7 +518,6 @@ function setupInterface(data, file, urls) {
         lnk.href = objectURL = url.createObjectURL(blob);
         lnk.dispatchEvent(new MouseEvent('click'));
         setTimeout(url.revokeObjectURL.bind(url, objectURL));
-
     }
 
     $('.saveButton').on('click', saveFile)
@@ -566,18 +593,31 @@ function setupInterface(data, file, urls) {
             updateTable();
         }
     );
+
+    return that;
 }
 
 
 $(document).ready(
     function() {
+
         $('#tsv-file').change(
             function(evt) {
 
                 loadFile ( evt,
                     function(results, file, urls) {
 
-                        setupInterface(results, file, urls);
+                        var ner_edith = setupInterface(results, file, urls);
+
+                        $(window).bind("beforeunload",
+                            function() {
+
+                                console.log(ner_edith.hasChanges());
+
+                                if (ner_edith.hasChanges())
+                                    return confirm("You have unsaved changes. Do you want to save them before leaving?");
+                            }
+                        );
                     })
             }
         );

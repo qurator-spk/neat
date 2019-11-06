@@ -47,7 +47,7 @@ page2tsv PAGE5.xml PAGE.tsv --image-url=http://link-to-corresponding-image-5
 For instance, for the file assets/example.xml:
 
 ```
-page2tsv example.xml example.tsv --image-url=http://content.staatsbibliothek-berlin.de/zefys/SNP27646518-18800101-0-3-0-0/left,top,width,height/full/0/default.jpg
+page2tsv example.xml example    .tsv --image-url=http://content.staatsbibliothek-berlin.de/zefys/SNP27646518-18800101-0-3-0-0/left,top,width,height/full/0/default.jpg
 ```
 
 ---
