@@ -23,8 +23,6 @@ function loadFile(evt, onComplete) {
 
                 if (tmp == null) continue;
 
-                //console.log(tmp);
-
                 if (urls == null) {
                     urls = tmp;
                 }
@@ -65,6 +63,11 @@ function setupInterface(data, file, urls) {
         let top = data.data[nRow]['top'];
         let bottom = data.data[nRow]['bottom'];
 
+        top = Math.max(0, top - 25);
+        bottom = bottom + 25;
+        left = Math.max(0, left - 50);
+        right = right + 50;
+
         let width = right - left;
         let height = bottom - top;
 
@@ -75,7 +78,7 @@ function setupInterface(data, file, urls) {
         img_url = img_url.replace('width', width.toString());
         img_url = img_url.replace('height', height.toString());
 
-        console.log(img_url);
+        //console.log(img_url);
 
         if (img_url == "http://empty")
             return
@@ -366,7 +369,7 @@ function setupInterface(data, file, urls) {
 
         $(".offset").on('click', gotoLocation);
 
-        updatePreview(startIndex)
+        //updatePreview(startIndex)
 
         if ($("#docpos").val() != startIndex) {
 
