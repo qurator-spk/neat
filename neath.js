@@ -668,14 +668,14 @@ $(document).ready(
                 loadFile ( evt,
                     function(results, file, urls) {
 
-                        var ner_edith = setupInterface(results, file, urls);
+                        var neath = setupInterface(results, file, urls);
 
                         $(window).bind("beforeunload",
                             function() {
 
-                                console.log(ner_edith.hasChanges());
+                                console.log(neath.hasChanges());
 
-                                if (ner_edith.hasChanges())
+                                if (neath.hasChanges())
                                     return confirm("You have unsaved changes. Do you want to save them before leaving?");
                             }
                         );
