@@ -321,8 +321,8 @@ function setupInterface(data, file, urls) {
         let edit_html = `
             <div class="accordion" id="tokenizer" style="display:block;">
                 <section class="accordion-item tokenizer-action">&#8597;&nbsp;&nbsp;split</section>
-                <section class="accordion-item tokenizer-action">&#10227;&nbsp;merge-above</section>
-                <section class="accordion-item tokenizer-action">start-sentence</section>
+                <section class="accordion-item tokenizer-action">&#10227;&nbsp;merge</section>
+                <section class="accordion-item tokenizer-action">&#9735;&nbsp;sentence</section>
             </div>
         `;
 
