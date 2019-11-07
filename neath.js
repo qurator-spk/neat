@@ -423,7 +423,7 @@ function setupInterface(data, file, urls) {
                   if (nRow >= endIndex) return;
 
                   var row = $("<tr/>");
-                  row.append($('<td> <button class="btn btn-link btn-xs py-0 offset">' +
+                  row.append($('<td> <button class="btn btn-link btn-xs py-0 offset" onmouseover="click();">' +
                                       nRow + '</button>  </td>'));
 
                   $.each(el,
