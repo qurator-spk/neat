@@ -290,7 +290,7 @@ function setupInterface(data, file, urls) {
                 else if (editingTd.tokenizer_action.includes('split')) {
 
                     data.data.splice(tableInfo.nRow, 0, JSON.parse(JSON.stringify(data.data[tableInfo.nRow])));
-                     data.data[tableInfo.nRow + 1]['No.'] += 1
+                    data.data[tableInfo.nRow + 1]['No.'] += 1
 
                     let pos = tableInfo.nRow + 2;
                     while ((pos < data.data.length) && (data.data[pos]['No.'] > 1)) {
@@ -300,10 +300,21 @@ function setupInterface(data, file, urls) {
 
                     notifyChange();
                 }
-                else if (editingTd.tokenizer_action.includes('start-sentence')) {
+                else if (editingTd.tokenizer_action.includes('sentence')) {
+
                     let pos = tableInfo.nRow;
+
+                    let new_row = JSON.parse(JSON.stringify(data.data[pos]))
+
+                    console.log(new_row)
+
+                    data.data.splice(pos, 0, new_row);
+                    data.data[pos]['No.'] = 0
+                    data.data[pos]['TOKEN'] = ''
+                    pos += 1
+
                     let word_pos = 1;
-                    while ((pos < data.data.length) && (data.data[pos]['No.'] != 1)) {
+                    while ((pos < data.data.length) && (data.data[pos]['No.'] != 1) && (data.data[pos]['TOKEN'] != '') ) {
                         data.data[pos]['No.'] = word_pos;
                         pos++;
                         word_pos++;
