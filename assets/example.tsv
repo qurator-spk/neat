@@ -1,14 +1,14 @@
 No.	TOKEN	NE-TAG	NE-EMB	GND-ID	url_id	left	right	top	bottom
 # http://content.staatsbibliothek-berlin.de/zefys/SNP27646518-18800101-0-3-0-0/left,top,width,height/full/0/default.jpg
-0	Donnerfiag,	O	O	-	0	174	352	358	390
-0	1.	O	O	-	0	367	392	361	381
-0	Januar.	O	O	-	0	406	518	358	386
-0	Serliner	O	O	-	0	816	984	358	388
-0	Tageblatt.	O	O	-	0	1005	1208	360	387
-0	Nr.	O	O	-	0	1237	1288	360	382
-0	1.	O	O	-	0	1304	1326	361	381
-0	Seite	O	O	-	0	1837	1926	361	392
-0	3;	O	O	-	0	1939	1967	364	385
+1	Donnerstag,	O	O	-	0	174	352	358	390
+2	1.	O	O	-	0	367	392	361	381
+3	Januar.	O	O	-	0	406	518	358	386
+1	Berliner	O	O	-	0	816	984	358	388
+2	Tageblatt.	O	O	-	0	1005	1208	360	387
+3	Nr.	O	O	-	0	1237	1288	360	382
+4	1.	O	O	-	0	1304	1326	361	381
+1	Seite	O	O	-	0	1837	1926	361	392
+2	3;	O	O	-	0	1939	1967	364	385
 0	Ram,	O	O	-	0	155	212	392	419
 0	deffen	O	O	-	0	221	264	401	419
 0	Ende	O	O	-	0	275	314	401	418
