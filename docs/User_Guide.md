@@ -80,11 +80,11 @@ We also provide some [Python tools](https://github.com/qurator-spk/neath/tree/ma
 Provided facsimile images are available online via the [iiif.io](https://iiif.io/) Image API, [neath](https://github.com/qurator-spk/neath) supports the embedding of facsimile snippets into its interface to help with data annotation and correction. 
 This further requires that OCR with word segmentation is applied to the image to determine bounding boxes for tokens. 
 
-The iiif-image-url contained in the source ``#`` can then be used as a replacement for ``url_id`` in combination with the token bounding boxes as ``left,right,top,bottom`` to obtain the facsimile snippet url and display the image in the leftmost column.
+The iiif-image-url contained in the source ``#`` can then be used as a replacement for ``url_id`` in combination with the token bounding boxes as ``left,right,top,bottom`` to obtain the facsimile snippet url and display the image in the leftmost column. Clicking on the facsimile snippet opens up a new tab with a larger context.
 
 ![Screenshot](./../assets/snippet.png)
 
-Clicking on the facsimile snippet opens up a new tab with a larger context.
+
 #### Tagging
 * adding a tag
 * removing a tag
