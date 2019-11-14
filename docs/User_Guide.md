@@ -81,10 +81,10 @@ Provided facsimile images are available online via the [iiif.io](https://iiif.io
 This further requires that OCR with word segmentation is applied to the image to determine bounding boxes for tokens. 
 
 The iiif-image-url contained in the source ``#`` can then be used as a replacement for ``url_id`` in combination with the token bounding boxes as ``left,right,top,bottom`` to obtain the facsimile snippet url and display the image in the leftmost column.
+
 ![Screenshot](./../assets/snippet.png)
 
 Clicking on the facsimile snippet opens up a new tab with a larger context.
-![Screenshot](./../assets/context_window.jpg)
 #### Tagging
 * adding a tag
 * removing a tag
