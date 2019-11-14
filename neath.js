@@ -381,9 +381,9 @@ function setupInterface(data, file, urls) {
                         <div class="ner_per type_select">B-PER</div>
                         <div class="ner_loc type_select">B-LOC</div>
                         <div class="ner_org type_select">B-ORG</div>
-                        <div class="ner_pub type_select">B-WORK</div>
+                        <div class="ner_work type_select">B-WORK</div>
                         <div class="ner_conf type_select">B-CONF</div>
-                        <div class="ner_art type_select">B-EVT</div>
+                        <div class="ner_evt type_select">B-EVT</div>
                         <div class="ner_todo type_select">B-TODO</div>
                     </div>
                 </section>
@@ -392,9 +392,9 @@ function setupInterface(data, file, urls) {
                         <div class="ner_per type_select">I-PER</div>
                         <div class="ner_loc type_select">I-LOC</div>
                         <div class="ner_org type_select">I-ORG</div>
-                        <div class="ner_pub type_select">I-WORK</div>
+                        <div class="ner_work type_select">I-WORK</div>
                         <div class="ner_conf type_select">I-CONF</div>
-                        <div class="ner_art type_select">I-EVT</div>
+                        <div class="ner_evt type_select">I-EVT</div>
                         <div class="ner_todo type_select">I-TODO</div>
                     </div>
                 </section>
