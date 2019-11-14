@@ -2,13 +2,15 @@
 #### version 0.1
 
 ### 1. Introduction
-[neath](https://github.com/qurator-spk/neath) is a simple, browser-based tool for editing and annotating text with named entities to produce a corpus for training/testing/evaluation. It can be used to either add or correct named entity BIO-tags in a TSV file and to correct the token text and or segmentation (e.g. due to OCR errors). [neath](https://github.com/qurator-spk/neath) is developed at the [Berlin State Library](http://staatsbibliothek-berlin.de/) for data annotation in the context of the [SoNAR-IDH](https://sonar.fh-potsdam.de/) project and the [QURATOR](https://qurator.ai/) project.
+[neath](https://github.com/qurator-spk/neath) is a simple, browser-based tool for editing and annotating text with named entities to produce a corpus for training/testing/evaluation. It can be used to add or correct named entity BIO-tags in a TSV file and to correct the token text or segmentation (e.g. due to OCR errors). 
+
+[neath](https://github.com/qurator-spk/neath) is developed at the [Berlin State Library](http://staatsbibliothek-berlin.de/) for data annotation in the context of the [SoNAR-IDH](https://sonar.fh-potsdam.de/) project and the [QURATOR](https://qurator.ai/) project.
 
 ### 2. User Guide
 #### Technical Requirements 
 [neath](https://github.com/qurator-spk/neath) runs locally as a pure HTML+JavaScript webpage in your web browser. No software needs to be installed, but JavaScript has to be enabled in the browser. Any fairly recent browser should work, but only Chrome and Firefox are tested.
 #### Data input format   
-The input data format is based on the format used in the [GermEval2014 Named Entity Recognition Shared Task](https://sites.google.com/site/germeval2014ner/data). Here, text is encoded as one token per line, with name spans encoded in the BIO-scheme, provided as tab-separated values:
+The input data format is based on the format used in the [GermEval2014 Named Entity Recognition Shared Task](https://sites.google.com/site/germeval2014ner/data). Text is encoded as one token per line, with name spans encoded in the BIO-scheme, provided as tab-separated values:
 * the first column contains either a `#`, which signals the source the sentence is cited from, or the token position within the sentence
 * sentence boundaries are indicated by ``0``
 * the second column contains the token text 
