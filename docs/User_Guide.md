@@ -2,7 +2,7 @@
 #### version 0.1
 
 ### 1. Introduction
-[neath](https://github.com/qurator-spk/neath) is a simple, browser-based tool for editing and annotating text with named entities to produce a corpus for training/testing/evaluation. It can be used to add or correct named entity BIO-tags in a TSV file and to correct the token text or segmentation (e.g. due to OCR errors). 
+[neath](https://github.com/qurator-spk/neath) is a simple, browser-based tool for editing and annotating text with named entities to produce a corpus for training/testing/evaluation. It can be used to add or correct named entity BIO-tags in a TSV file and to correct the token text or tokenization (e.g. due to OCR/segmentation errors). 
 
 [neath](https://github.com/qurator-spk/neath) is developed at the [Berlin State Library](http://staatsbibliothek-berlin.de/) for data annotation in the context of the [SoNAR-IDH](https://sonar.fh-potsdam.de/) project and the [QURATOR](https://qurator.ai/) project.
 
@@ -77,18 +77,23 @@ We also provide some [Python tools](https://github.com/qurator-spk/neath/tree/ma
 * use mouse wheel to scroll up and down
 * use navigation `<<` and `>>` to move faster
 #### Image Support
+Provided facsimile images are available online via the [iiif.io](https://iiif.io/) Image API, [neath](https://github.com/qurator-spk/neath) supports the embedding of facsimile snippets into its interface to help with data anotation and correction. 
+This further requires that OCR with word segmentation is applied to the image to determine bounding boxes for tokens. 
 
+The iiif-image-url contained in the source ``#`` can then be used as a replacement for ``url_id`` in combination with the token bounding boxes as ``left,right,top,bottom`` to obtain the facsimile snippet url and display the image.
+
+Clicking on the facsimile snippet opens up a new tab with a larger context.
 #### Tagging
 * adding a tag
 * removing a tag
 * changing a tag
-#### OCR correction
+#### Text correction
 * editing the token text
-#### Segmentation correction
+#### Tokenization correction
 * merging two tokens
 * splitting a token
 * sentence boundaries
-#### Data export/Saving progress
+#### Saving progress
 [neath](https://github.com/qurator-spk/neath) runs fully locally in the browser. Therefore it can not automatically save any changes you made to disk. You have to use the `Save Changes` button in order to so manually from time to time.
 
 If your browser automatically saves all downloads to your `Downloads` folder, you might want to configure it so that it instead prompts you where to save.
