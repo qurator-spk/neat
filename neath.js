@@ -180,8 +180,8 @@ function setupInterface(data, file, urls) {
         $("#table td:contains('I-LOC')").addClass('ner_loc');
         $("#table td:contains('B-ORG')").addClass('ner_org');
         $("#table td:contains('I-ORG')").addClass('ner_org');
-        $("#table td:contains('B-PUB')").addClass('ner_pub');
-        $("#table td:contains('I-PUB')").addClass('ner_pub');
+        $("#table td:contains('B-WORK')").addClass('ner_work');
+        $("#table td:contains('I-WORK')").addClass('ner_work');
         $("#table td:contains('B-CONF')").addClass('ner_conf');
         $("#table td:contains('I-CONF')").addClass('ner_conf');
         $("#table td:contains('B-ART')").addClass('ner_art');
@@ -381,7 +381,7 @@ function setupInterface(data, file, urls) {
                         <div class="ner_per type_select">B-PER</div>
                         <div class="ner_loc type_select">B-LOC</div>
                         <div class="ner_org type_select">B-ORG</div>
-                        <div class="ner_pub type_select">B-PUB</div>
+                        <div class="ner_pub type_select">B-WORK</div>
                         <div class="ner_conf type_select">B-CONF</div>
                         <div class="ner_art type_select">B-ART</div>
                         <div class="ner_todo type_select">B-TODO</div>
@@ -392,7 +392,7 @@ function setupInterface(data, file, urls) {
                         <div class="ner_per type_select">I-PER</div>
                         <div class="ner_loc type_select">I-LOC</div>
                         <div class="ner_org type_select">I-ORG</div>
-                        <div class="ner_pub type_select">I-PUB</div>
+                        <div class="ner_pub type_select">I-WORK</div>
                         <div class="ner_conf type_select">I-CONF</div>
                         <div class="ner_art type_select">I-ART</div>
                         <div class="ner_todo type_select">I-TODO</div>
