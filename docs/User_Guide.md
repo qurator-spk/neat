@@ -11,11 +11,12 @@
 [neath](https://github.com/qurator-spk/neath) runs locally as a pure HTML+JavaScript webpage in your web browser. No software needs to be installed, but JavaScript has to be enabled in the browser. Any fairly recent browser should work, but only Chrome and Firefox are tested.
 #### Data input format   
 The input data format is based on the format used in the [GermEval2014 Named Entity Recognition Shared Task](https://sites.google.com/site/germeval2014ner/data). Text is encoded as one token per line, with name spans encoded in the BIO-scheme, provided as tab-separated values:
-* the first column contains either a `#`, which signals the source the sentence is cited from, or the token position within the sentence
+* the first column contains either a `#`, which signals the source the sentence is cited from, or 
+* the token position within the sentence ``>=1``
 * sentence boundaries are indicated by ``0``
-* the second column contains the token text 
-* outer spans are encoded in the third column
-* embedded spans are encoded in the fourth column
+* the second column contains the token ``text`` 
+* outer entity spans are encoded in the third column ``NE-TAG``
+* embedded entity spans are encoded in the fourth column ``NE-EMB`` 
 
 Example (simple):
 ```tsv
@@ -42,9 +43,9 @@ No.	TOKEN	NE-TAG	NE-EMB
 ```
 
 For our purposes we extend this format by adding
-* a fifth column for an identifier for the outer span from an authority file (in this case, the [GND](https://www.dnb.de/EN/Professionell/Standardisierung/GND/gnd_node.html) is used) 
-* column six for use as a variable
-* finally, columns 7+ are used for storing pixel coordinates for facsimile snippets 
+* a fifth column for an ``ID`` for the outer ``NE-TAG`` from an authority file (in this case, the [GND](https://www.dnb.de/EN/Professionell/Standardisierung/GND/gnd_node.html) is used) 
+* column six for use as a variable ``url_id``
+* finally, columns 7+ are used for storing ``left,right,top,bottom pixel`` coordinates for facsimile snippets 
 
 Example (full):
 ```tsv
