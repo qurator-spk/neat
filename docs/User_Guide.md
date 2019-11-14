@@ -44,8 +44,8 @@ No.	TOKEN	NE-TAG	NE-EMB
 
 For our purposes we extend this format by adding
 * a fifth column for an ``ID`` for the outer ``NE-TAG`` from an authority file (in this case, the [GND](https://www.dnb.de/EN/Professionell/Standardisierung/GND/gnd_node.html) is used) 
-* column six for use as a variable ``url_id``
-* finally, columns 7+ are used for storing ``left,right,top,bottom pixel`` coordinates for facsimile snippets 
+* column six for use as a variable ``url_id`` (see [Image Support](https://github.com/qurator-spk/neath/blob/master/docs/User_Guide.md#image-support) for further details)
+* finally, columns 7+ are used for storing ``left,right,top,bottom`` pixel coordinates for facsimile snippets 
 
 Example (full):
 ```tsv
@@ -76,7 +76,8 @@ We also provide some [Python tools](https://github.com/qurator-spk/neath/tree/ma
 #### Navigation
 * use mouse wheel to scroll up and down
 * use navigation `<<` and `>>` to move faster
-* show image snippet
+#### Image Support
+
 #### Tagging
 * adding a tag
 * removing a tag
@@ -86,6 +87,7 @@ We also provide some [Python tools](https://github.com/qurator-spk/neath/tree/ma
 #### Segmentation correction
 * merging two tokens
 * splitting a token
+* sentence boundaries
 #### Data export/Saving progress
 [neath](https://github.com/qurator-spk/neath) runs fully locally in the browser. Therefore it can not automatically save any changes you made to disk. You have to use the `Save Changes` button in order to so manually from time to time.
 
