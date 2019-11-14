@@ -9,8 +9,8 @@
 ### 2. User Guide
 #### Technical Requirements 
 [neath](https://github.com/qurator-spk/neath) runs locally as a pure HTML+JavaScript webpage in your web browser. No software needs to be installed, but JavaScript has to be enabled in the browser. Any fairly recent browser should work, but only Chrome and Firefox are tested.
-#### Data input format   
-The input data format is based on the format used in the [GermEval2014 Named Entity Recognition Shared Task](https://sites.google.com/site/germeval2014ner/data). Text is encoded as one token per line, with name spans encoded in the BIO-scheme, provided as tab-separated values:
+#### Data format   
+The data format is based on the format used in the [GermEval2014 Named Entity Recognition Shared Task](https://sites.google.com/site/germeval2014ner/data). Text is encoded as one token per line, with name spans encoded in the BIO-scheme, provided as tab-separated values:
 * the first column contains either a `#`, which signals the source the sentence is cited from, or 
 * the token position within the sentence ``>=1``
 * sentence boundaries are indicated by ``0``
@@ -80,9 +80,11 @@ We also provide some [Python tools](https://github.com/qurator-spk/neath/tree/ma
 Provided facsimile images are available online via the [iiif.io](https://iiif.io/) Image API, [neath](https://github.com/qurator-spk/neath) supports the embedding of facsimile snippets into its interface to help with data annotation and correction. 
 This further requires that OCR with word segmentation is applied to the image to determine bounding boxes for tokens. 
 
-The iiif-image-url contained in the source ``#`` can then be used as a replacement for ``url_id`` in combination with the token bounding boxes as ``left,right,top,bottom`` to obtain the facsimile snippet url and display the image.
+The iiif-image-url contained in the source ``#`` can then be used as a replacement for ``url_id`` in combination with the token bounding boxes as ``left,right,top,bottom`` to obtain the facsimile snippet url and display the image in the leftmost column.
+![Screenshot](./../assets/snippet.png)
 
 Clicking on the facsimile snippet opens up a new tab with a larger context.
+![Screenshot](./../assets/context_window.jpg)
 #### Tagging
 * adding a tag
 * removing a tag
