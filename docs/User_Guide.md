@@ -1,6 +1,13 @@
 # User Guide
 #### version 0.1
 
+### Table of contents
+[1. Introduction](https://github.com/qurator-spk/neath/blob/master/docs/User_Guide.md#1-introduction) 
+
+[2. User Guide](https://github.com/qurator-spk/neath/blob/master/docs/User_Guide.md#2-user-guide)   
+
+[3. FAQ](https://github.com/qurator-spk/neath/blob/master/docs/User_Guide.md#3-faq)  
+
 ### 1. Introduction
 [neath](https://github.com/qurator-spk/neath) is a simple, browser-based tool for editing and annotating text with named entities to produce a corpus for training/testing/evaluation. It can be used to add or correct named entity BIO-tags in a TSV file and to correct the token text or tokenization (e.g. due to OCR/segmentation errors). 
 
