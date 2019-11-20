@@ -22,7 +22,7 @@ OCR is based on [OCR-D](https://github.com/OCR-D)'s [ocrd_tesserocr](https://git
 
 ### Tokenization
 
-A simple Python tool is used for the [transformation](https://github.com/qurator-spk/neath/tree/master/tools) of [PAGE-XML](https://github.com/PRImA-Research-Lab/PAGE-XML) to [TSV](https://github.com/qurator-spk/neath/blob/master/docs/User_Guide.md#data-format).
+A simple [Python tool](https://github.com/qurator-spk/neath/tree/master/tools) is used for the [transformation](https://github.com/qurator-spk/neath/tree/master/tools) of [PAGE-XML](https://github.com/PRImA-Research-Lab/PAGE-XML) to [TSV](https://github.com/qurator-spk/neath/blob/master/docs/User_Guide.md#data-format).
 
 ``INPUT ``: [PAGE-XML](https://github.com/PRImA-Research-Lab/PAGE-XML) file with bounding boxes for words and the contained text 
 
@@ -30,8 +30,8 @@ A simple Python tool is used for the [transformation](https://github.com/qurator
 
 Some postprocessing is then applied to the derived [TSV](https://github.com/qurator-spk/neath/blob/master/docs/User_Guide.md#data-format) file:
   * replace ``„`` and ``“`` with ``"``
-  * detect sentence boundaries and mark them with a leading ``0``
-  * detect punctuation and split it from the adjacent string
+  * detect sentence boundaries and mark them with a newline and leading ``0``
+  * detect punctuation (``.``, ``,``, ``;``, ``:``, ``!``, ``?``) and split it from the adjacent string
 
 ### Named Entity Recognition
 
