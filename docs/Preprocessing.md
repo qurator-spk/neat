@@ -14,7 +14,11 @@ OCR is based on [OCR-D](https://github.com/OCR-D)'s [ocrd_tesserocr](https://git
 
 ### Tokenization
 
-[Transformation](https://github.com/qurator-spk/neath/tree/master/tools) of [PAGE-XML](https://github.com/PRImA-Research-Lab/PAGE-XML) to [TSV](https://github.com/qurator-spk/neath/blob/master/docs/User_Guide.md#data-format).
+* [Transformation](https://github.com/qurator-spk/neath/tree/master/tools) of [PAGE-XML](https://github.com/PRImA-Research-Lab/PAGE-XML) to [TSV](https://github.com/qurator-spk/neath/blob/master/docs/User_Guide.md#data-format).
+* Postprocessing:
+  * replace ``„`` and ``“`` with ``"``
+  * sentence boundaries
+  * punctuation
 
 ### Named Entity Recognition
 
