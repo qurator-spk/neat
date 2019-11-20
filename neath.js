@@ -48,7 +48,7 @@ function loadFile(evt, onComplete) {
 
 function setupInterface(data, file, urls) {
 
-    let displayRows=20
+    let displayRows=15
     let startIndex=0;
     let endIndex=displayRows;
 
