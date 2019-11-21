@@ -20,7 +20,7 @@ OCR is based on [OCR-D](https://github.com/OCR-D)'s [ocrd_tesserocr](https://git
 
 ``OUTPUT``: [PAGE-XML](https://github.com/PRImA-Research-Lab/PAGE-XML) file with bounding boxes for words and the contained text
 
-### Tokenization
+### TSV Transformation
 
 A simple [Python tool](https://github.com/qurator-spk/neath/tree/master/tools) is used for the [transformation](https://github.com/qurator-spk/neath/tree/master/tools) of [PAGE-XML](https://github.com/PRImA-Research-Lab/PAGE-XML) to [TSV](https://github.com/qurator-spk/neath/blob/master/docs/User_Guide.md#data-format).
 
@@ -28,10 +28,13 @@ A simple [Python tool](https://github.com/qurator-spk/neath/tree/master/tools) i
 
 ``OUTPUT``: [TSV](https://github.com/qurator-spk/neath/blob/master/docs/User_Guide.md#data-format) file in the desired format for [neath](https://github.com/qurator-spk/neath)
 
-Some postprocessing is then applied to the derived [TSV](https://github.com/qurator-spk/neath/blob/master/docs/User_Guide.md#data-format) file:
-  * replace ``„`` and ``“`` with ``"``
-  * detect sentence boundaries and mark them with a newline and leading ``0``
-  * detect punctuation (``.``, ``,``, ``;``, ``:``, ``!``, ``?``) and split it from the adjacent string
+### Tokenization
+
+For tokenization, [SoMaJo](https://github.com/tsproisl/SoMaJo) is used.
+
+``INPUT ``: [TSV](https://github.com/qurator-spk/neath/blob/master/docs/User_Guide.md#data-format) file in the desired format for [neath](https://github.com/qurator-spk/neath)
+
+``OUTPUT``: [TSV](https://github.com/qurator-spk/neath/blob/master/docs/User_Guide.md#data-format) file with tokenization
 
 ### Named Entity Recognition
 
