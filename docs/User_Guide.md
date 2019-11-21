@@ -79,6 +79,8 @@ No.	TOKEN	NE-TAG	NE-EMB	GND-ID	url_id	left,right,top,bottom
 ```
 
 #### Data preparation  
+The preprocessing pipeline applied is documented in [Preprocessing](https://github.com/qurator-spk/neath/blob/master/docs/Preprocessing.md). 
+
 We also provide some [Python tools](https://github.com/qurator-spk/neath/tree/master/tools) that help with data wrangling.
 #### Navigation
 * use mouse wheel to scroll up and down
