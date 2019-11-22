@@ -6,7 +6,7 @@ comprises the following steps:
 
 ### Layout Analysis & Textline Extraction
 
-Layout Analysis & Textline Extraction @[sbb_pixelwise_segmentation](https://github.com/qurator-spk/pixelwise_segmentation_SBB)
+Layout Analysis & Textline Extraction @[sbb_textline_detector](https://github.com/qurator-spk/sbb_textline_detector)
 
 ``INPUT ``: image file
 
