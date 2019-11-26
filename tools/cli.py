@@ -103,7 +103,7 @@ def extract_doc_links(tsv_file):
     return parts
 
 
-def ner(tsv, ner_rest_endpoint, url_num):
+def ner(tsv, ner_rest_endpoint):
 
     resp = requests.post(url=ner_rest_endpoint, json={'text': " ".join(tsv.TOKEN.tolist())})
 
@@ -136,9 +136,9 @@ def ner(tsv, ner_rest_endpoint, url_num):
                 import ipdb;ipdb.set_trace()
 
             if sentence_break:
-                tsv_result.append((0, '', 'O', 'O', '-', url_num, row.left, row.right, row.top, row.bottom))
+                tsv_result.append((0, '', 'O', 'O', '-', row.url_id, row.left, row.right, row.top, row.bottom))
             else:
-                tsv_result.append((0, ner_token, ner_tag, 'O', '-', url_num, row.left, row.right, row.top, row.bottom))
+                tsv_result.append((0, ner_token, ner_tag, 'O', '-', row.url_id, row.left, row.right, row.top, row.bottom))
 
     return pd.DataFrame(tsv_result, columns=['No.', 'TOKEN', 'NE-TAG', 'NE-EMB', 'GND-ID', 'url_id',
                                              'left', 'right', 'top', 'bottom'])
@@ -194,6 +194,6 @@ def page2tsv(page_xml_file, tsv_out_file, image_url, ner_rest_endpoint, noproxy)
                                      'url_id', 'left', 'right', 'top', 'bottom'])
 
     if ner_rest_endpoint is not None:
-        tsv = ner(tsv, ner_rest_endpoint, len(urls))
+        tsv = ner(tsv, ner_rest_endpoint)
 
     tsv.to_csv(tsv_out_file, sep="\t", quoting=3, index=False, mode='a', header=False)
