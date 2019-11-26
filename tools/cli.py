@@ -4,6 +4,9 @@ import pandas as pd
 from io import StringIO
 import os
 import xml.etree.ElementTree as ET
+import requests
+import unicodedata
+import json
 
 
 @click.command()
@@ -100,11 +103,58 @@ def extract_doc_links(tsv_file):
     return parts
 
 
+def ner(tsv, ner_rest_endpoint, url_num):
+
+    resp = requests.post(url=ner_rest_endpoint, json={'text': " ".join(tsv.TOKEN.tolist())})
+
+    def iterate_ner_results(result_sentences):
+
+        for sen in result_sentences:
+
+            for token in sen:
+
+                yield unicodedata.normalize('NFC', token['word']), token['prediction'], False
+
+            yield '', '', True
+
+    result_sequence = iterate_ner_results(json.loads(resp.content))
+
+    tsv_result = []
+    for idx, row in tsv.iterrows():
+
+        row_token = unicodedata.normalize('NFC', row.TOKEN.replace(' ', ''))
+
+        ner_token_concat = ''
+        while row_token != ner_token_concat:
+
+            ner_token, ner_tag, sentence_break = next(result_sequence)
+            ner_token_concat += ner_token
+
+            try:
+                assert len(row_token) >= len(ner_token_concat)
+            except AssertionError:
+                import ipdb;ipdb.set_trace()
+
+            if sentence_break:
+                tsv_result.append((0, '', 'O', 'O', '-', url_num, row.left, row.right, row.top, row.bottom))
+            else:
+                tsv_result.append((0, ner_token, ner_tag, 'O', '-', url_num, row.left, row.right, row.top, row.bottom))
+
+    return pd.DataFrame(tsv_result, columns=['No.', 'TOKEN', 'NE-TAG', 'NE-EMB', 'GND-ID', 'url_id',
+                                             'left', 'right', 'top', 'bottom'])
+
+
 @click.command()
 @click.argument('page-xml-file', type=click.Path(exists=True), required=True, nargs=1)
 @click.argument('tsv-out-file', type=click.Path(), required=True, nargs=1)
 @click.option('--image-url', type=str, default='http://empty')
-def page2tsv(page_xml_file, tsv_out_file, image_url):
+@click.option('--ner-rest-endpoint', type=str, default=None,
+              help="REST endpoint of sbb_ner service. See https://github.com/qurator-spk/sbb_ner for details.")
+@click.option('--noproxy', type=bool, default=False, help='disable proxy. default: enabled.')
+def page2tsv(page_xml_file, tsv_out_file, image_url, ner_rest_endpoint, noproxy):
+
+    if noproxy:
+        os.environ['no_proxy'] = '*'
 
     tree = ET.parse(page_xml_file)
     xmlns = tree.getroot().tag.split('}')[0].strip('{')
@@ -142,5 +192,8 @@ def page2tsv(page_xml_file, tsv_out_file, image_url):
 
     tsv = pd.DataFrame(tsv, columns=['No.', 'TOKEN', 'NE-TAG', 'NE-EMB', 'GND-ID',
                                      'url_id', 'left', 'right', 'top', 'bottom'])
+
+    if ner_rest_endpoint is not None:
+        tsv = ner(tsv, ner_rest_endpoint, len(urls))
 
     tsv.to_csv(tsv_out_file, sep="\t", quoting=3, index=False, mode='a', header=False)
