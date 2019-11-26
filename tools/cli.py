@@ -130,10 +130,7 @@ def ner(tsv, ner_rest_endpoint):
             ner_token, ner_tag, sentence_break = next(result_sequence)
             ner_token_concat += ner_token
 
-            try:
-                assert len(row_token) >= len(ner_token_concat)
-            except AssertionError:
-                import ipdb;ipdb.set_trace()
+            assert len(row_token) >= len(ner_token_concat)
 
             if sentence_break:
                 tsv_result.append((0, '', 'O', 'O', '-', row.url_id, row.left, row.right, row.top, row.bottom))
