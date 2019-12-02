@@ -135,7 +135,8 @@ def ner(tsv, ner_rest_endpoint):
             if sentence_break:
                 tsv_result.append((0, '', 'O', 'O', '-', row.url_id, row.left, row.right, row.top, row.bottom))
             else:
-                tsv_result.append((0, ner_token, ner_tag, 'O', '-', row.url_id, row.left, row.right, row.top, row.bottom))
+                tsv_result.append((0, ner_token, ner_tag, 'O', '-', row.url_id, row.left, row.right, row.top,
+                                   row.bottom))
 
     return pd.DataFrame(tsv_result, columns=['No.', 'TOKEN', 'NE-TAG', 'NE-EMB', 'GND-ID', 'url_id',
                                              'left', 'right', 'top', 'bottom'])
@@ -147,7 +148,7 @@ def ner(tsv, ner_rest_endpoint):
 @click.option('--image-url', type=str, default='http://empty')
 @click.option('--ner-rest-endpoint', type=str, default=None,
               help="REST endpoint of sbb_ner service. See https://github.com/qurator-spk/sbb_ner for details.")
-@click.option('--noproxy', type=bool, default=False, help='disable proxy. default: enabled.')
+@click.option('--noproxy', type=bool, is_flag=True, help='disable proxy. default: enabled.')
 def page2tsv(page_xml_file, tsv_out_file, image_url, ner_rest_endpoint, noproxy):
 
     if noproxy:
