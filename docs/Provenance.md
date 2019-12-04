@@ -1,6 +1,6 @@
-# Preprocessing
+# Provenance
 
-The preprocessing pipeline that is developed at the 
+The processing pipeline that is developed at the 
 [Berlin State Library](http://staatsbibliothek-berlin.de/) 
 comprises the following steps:
 
