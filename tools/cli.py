@@ -172,7 +172,7 @@ def page2tsv(page_xml_file, tsv_out_file, image_url, ner_rest_endpoint, noproxy)
             text = word.text
             for coords in words.findall('.//{%s}Coords' % xmlns):
 
-                # transform the OCR coordinates by 0.5685 to derived the correct coords for the web presentation
+                # transform the OCR coordinates by 0.5685 to derive the correct coords for the web presentation image
                 points = [int(0.5685 * float(pos)) for p in coords.attrib['points'].split(' ') for pos in p.split(',')]
 
                 x_points = [points[i] for i in range(0, len(points), 2)]
