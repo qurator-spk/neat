@@ -168,7 +168,11 @@ function setupInterface(data, file, urls) {
 
         if (urls == null) return;
 
-        let nRow = parseInt($(evt.target).text());
+        // let nRow = parseInt($(evt.target).text());
+
+        let tableInfo = $(evt.target).data('tableInfo');
+
+        let nRow = tableInfo.nRow;
 
         updatePreview(nRow)
     }
@@ -422,7 +426,7 @@ function setupInterface(data, file, urls) {
 
         let editable_html =
             `
-                <td class="editable">
+                <td class="editable hover">
             `;
 
         $('#table-body').empty();
@@ -434,8 +438,11 @@ function setupInterface(data, file, urls) {
                   if (nRow >= endIndex) return;
 
                   var row = $("<tr/>");
-                  row.append($('<td> <button class="btn btn-link btn-xs py-0 offset" onmouseover="click();">' +
-                                      nRow + '</button>  </td>'));
+
+                  row.append($('<td class="hover"/>').
+                                text(nRow).
+                                data('tableInfo', { 'nRow': nRow })
+                            );
 
                   $.each(el,
                       function(column, content) {
@@ -465,9 +472,7 @@ function setupInterface(data, file, urls) {
 
         colorCode();
 
-        $(".offset").on('click', gotoLocation);
-
-        //updatePreview(startIndex)
+        $(".hover").on('mouseover', gotoLocation);
 
         if ($("#docpos").val() != startIndex) {
 
