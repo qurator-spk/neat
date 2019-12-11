@@ -164,19 +164,6 @@ function setupInterface(data, file, urls) {
         $("#preview-link").attr("href", img_url);
     }
 
-    function gotoLocation(evt) {
-
-        if (urls == null) return;
-
-        // let nRow = parseInt($(evt.target).text());
-
-        let tableInfo = $(evt.target).data('tableInfo');
-
-        let nRow = tableInfo.nRow;
-
-        updatePreview(nRow)
-    }
-
     function colorCode() {
         $("#table td:contains('B-PER')").addClass('ner_per');
         $("#table td:contains('I-PER')").addClass('ner_per');
@@ -195,6 +182,18 @@ function setupInterface(data, file, urls) {
     }
 
     let editingTd;
+
+    function gotoLocation(evt) {
+
+        if (urls == null) return;
+        if (editingTd != null) return;
+
+        let tableInfo = $(evt.target).data('tableInfo');
+
+        let nRow = tableInfo.nRow;
+
+        updatePreview(nRow)
+    }
 
     function makeTdEditable(td) {
 
