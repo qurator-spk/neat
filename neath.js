@@ -487,7 +487,7 @@ function setupInterface(data, file, urls) {
                             clickAction = makeTagEdit
 
                             let tagAction = function(tag) {
-                                   data.data[nRow][column] = tag;
+                                   data.data[$(td).data('tableInfo').nRow][column] = tag;
 
                                    $(td).html(tag);
                                    colorCode();
