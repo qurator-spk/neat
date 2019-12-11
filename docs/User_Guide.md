@@ -82,7 +82,42 @@ No.	TOKEN	NE-TAG	NE-EMB	GND-ID	url_id	left,right,top,bottom
 The processing pipeline applied is documented in [Provenance](https://github.com/qurator-spk/neath/blob/master/docs/Provenance.md). 
 
 We also provide some [Python tools](https://github.com/qurator-spk/neath/tree/master/tools) that help with data wrangling.
-#### Navigation
+#### Keyboard - Layout
+
+| Key Combi|      Action      |
+|:---------|:-------------------------------------------|
+| Left     |  Move one cell left                        |
+| Right    |  Move one cell right                       |
+| Up       |  Move one row up                           |
+| Down     |  Move one row down                         |
+| PageDown |  Move page down                            |
+| PageUp   |  Move page up                              |
+|----------|--------------------------------------------|
+| s  t     |  Start new sentence in current row         |
+| m  e     |  Merge current row with row above          |
+| s  p     |  Create copy of current row one row below  |
+| 0        |  Set POSITION of current row to zero       |
+|----------|--------------------------------------------|
+| backspace|  Set NE-TAG / NE-EMB to "O"                |
+| b  p     |  Set NE-TAG / NE-EMB to "B-PER"            |
+| b  l     |  Set NE-TAG / NE-EMB to "B-LOC"            |
+| b  o     |  Set NE-TAG / NE-EMB to "B-ORG"            |
+| b  w     |  Set NE-TAG / NE-EMB to "B-WORK"           |
+| b  c     |  Set NE-TAG / NE-EMB to "B-CONF"           |
+| b  e     |  Set NE-TAG / NE-EMB to "B-EVT"            |
+| b  t     |  Set NE-TAG / NE-EMB to "B-TODO"           |
+| i  p     |  Set NE-TAG / NE-EMB to "I-PER"            |
+| i  l     |  Set NE-TAG / NE-EMB to "I-LOC"            |
+| i  o     |  Set NE-TAG / NE-EMB to "I-ORG"            |
+| i  w     |  Set NE-TAG / NE-EMB to "I-WORK"           |
+| i  c     |  Set NE-TAG / NE-EMB to "I-CONF"           | 
+| i  e     |  Set NE-TAG / NE-EMB to "I-EVT"            |
+| i  t     |  Set NE-TAG / NE-EMB to "I-TODO"           |
+|----------|--------------------------------------------|
+| enter    | Edit TOKEN or GND-ID                       |
+|----------|--------------------------------------------|
+
+#### Mouse-Navigation
 * use mouse wheel to scroll up and down
 * use navigation `<<` and `>>` to move faster
 #### Image Support
