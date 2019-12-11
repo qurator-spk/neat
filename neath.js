@@ -595,7 +595,8 @@ function setupInterface(data, file, urls) {
             $("#docpos").val(data.data.length - startIndex);
         }
 
-        updatePreview($(':focus').data('tableInfo').nRow);
+        if ($(':focus').data('tableInfo'))
+            updatePreview($(':focus').data('tableInfo').nRow);
     }
 
     let wnd_listener = new window.keypress.Listener();
