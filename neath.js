@@ -747,27 +747,6 @@ function setupInterface(data, file, urls) {
 
     createTable();
 
-    $('#tableregion')[0].addEventListener("wheel",
-        function(event) {
-
-            if (event.deltaY < 0) {
-
-                if (startIndex <= 0) return;
-
-                startIndex -= 1;
-                endIndex -= 1;
-            }
-            else {
-
-                if (endIndex >= data.data.length) return;
-
-                startIndex += 1;
-                endIndex += 1;
-            }
-
-            updateTable();
-        });
-
     function stepsBackward (nrows) {
 
         if (startIndex >= nrows) {
@@ -794,6 +773,15 @@ function setupInterface(data, file, urls) {
 
         updateTable();
     }
+
+    $('#tableregion')[0].addEventListener("wheel",
+        function(event) {
+
+            if (event.deltaY < 0) stepsBackward(1);
+            else stepsForward(1);
+
+            updateTable();
+        });
 
     $('#back').on('click', function() { stepsBackward(displayRows); } );
 
