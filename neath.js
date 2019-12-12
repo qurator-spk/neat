@@ -781,8 +781,6 @@ function setupInterface(data, file, urls) {
 
             if (event.deltaY < 0) stepsBackward(1);
             else stepsForward(1);
-
-            updateTable();
         });
 
     $('#back').on('click', function() { stepsBackward(displayRows); } );
