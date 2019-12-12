@@ -59,6 +59,8 @@ function setupInterface(data, file, urls) {
 
     let save_timeout = null;
 
+    let listener_defaults = { prevent_repeat  : true };
+
     function notifyChange() {
         if (save_timeout != null) clearTimeout(save_timeout);
         has_changes = true;
@@ -184,10 +186,9 @@ function setupInterface(data, file, urls) {
     function makeTdEditable(td) {
 
         editingTd = {
-            elem: td,
             data: td.innerHTML,
             finish:
-                function (td, isOk) {
+                function (isOk) {
 
                     if (isOk) {
 
@@ -199,16 +200,13 @@ function setupInterface(data, file, urls) {
 
                         data.data[tableInfo.nRow][tableInfo.column] = newValue;
 
+                        sanitizeData();
                         notifyChange();
+                        updateTable();
                     }
                     else {
                         $(td).html(editingTd.data);
                     }
-
-                    let listener = new window.keypress.Listener(td);
-
-                    listener.simple_combo("enter", function() { td.click(); });
-
                     editingTd = null;
                     $(td).focus();
                 }
@@ -225,7 +223,7 @@ function setupInterface(data, file, urls) {
         textArea.focus();
 
         let edit_html =
-            `<div class="edit-controls">
+            `<div class="edit-controls" id="TdEdit">
                 <button class="btn btn-secondary btn-sm" id="edit-ok">OK</button>
                 <button class="btn btn-secondary btn-sm" id="edit-cancel">CANCEL</button>
              </div>`
@@ -234,96 +232,100 @@ function setupInterface(data, file, urls) {
 
         $('#edit-ok').on('click',
             function(evt) {
-                editingTd.finish(editingTd.elem, true);
+                editingTd.finish(true);
             });
 
         $('#edit-cancel').on('click',
             function(evt) {
-                editingTd.finish(editingTd.elem, false);
+                editingTd.finish(false);
             });
 
-        let listener = new window.keypress.Listener(td);
+        let listener = new window.keypress.Listener($('#edit-area'), listener_defaults);
 
         listener.simple_combo('enter', function() { $('#edit-ok').click(); } );
         listener.simple_combo('esc', function() { $('#edit-cancel').click(); } );
     }
 
+    function sanitizeData() {
+        word_pos = 1;
+        for(let i = 0; i < data.data.length; i++){
+            if ((data.data[i]['TOKEN'] == null) || (data.data[i]['TOKEN'].toString().length == 0)){
+                word_pos = 0;
+            }
+            data.data[i]['No.'] = word_pos;
+
+            if (data.data[i]['TOKEN'] == null) data.data[i]['TOKEN'] = '';
+            if (data.data[i]['GND-ID'] == null) data.data[i]['GND-ID'] = '';
+            if (data.data[i]['NE-TAG'] == null) data.data[i]['NE-TAG'] = '';
+            if (data.data[i]['NE-EMB'] == null) data.data[i]['NE-EMB'] = '';
+
+            data.data[i]['TOKEN'] = data.data[i]['TOKEN'].toString().replace(/(\r\n|\n|\r)/gm, "");
+            data.data[i]['GND-ID'] = data.data[i]['GND-ID'].toString().replace(/(\r\n|\n|\r)/gm, "");
+            data.data[i]['NE-TAG'] = data.data[i]['NE-TAG'].toString().replace(/(\r\n|\n|\r)/gm, "");
+            data.data[i]['NE-EMB'] = data.data[i]['NE-EMB'].toString().replace(/(\r\n|\n|\r)/gm, "");
+
+            word_pos++;
+        }
+    }
+
     function tableEditAction(nRow, action) {
 
+        if (editingTd != null) return;
+
         if (action == null) return;
+
+        if (data.data[nRow]['TOKEN'] == null) data.data[nRow]['TOKEN'] = '';
 
         if (action.includes('merge')) {
 
             if (nRow < 1) return;
 
-            let pos = nRow + 1;
-            word_pos = data.data[nRow - 1]['No.'] + 1
-            while((pos < data.data.length) && (data.data[pos]['No.'] > 1)) {
-                data.data[pos]['No.'] = word_pos;
-                pos++;
-                word_pos++;
-            }
+            if (data.data[nRow - 1]['TOKEN'] == null) data.data[nRow - 1]['TOKEN'] = '';
 
-            data.data[nRow - 1]['TOKEN'] += data.data[nRow]['TOKEN'];
+            data.data[nRow - 1]['TOKEN'] =
+                data.data[nRow - 1]['TOKEN'].toString() + data.data[nRow]['TOKEN'].toString();
 
             data.data.splice(nRow, 1);
-
-            notifyChange();
         }
         else if (action.includes('split')) {
 
             data.data.splice(nRow, 0, JSON.parse(JSON.stringify(data.data[nRow])));
-            data.data[nRow + 1]['No.'] += 1;
-
-            let pos = nRow + 2;
-            while ((pos < data.data.length) && (data.data[pos]['No.'] > 1)) {
-                data.data[pos]['No.']++;
-                pos++;
-            }
-
-            notifyChange();
+        }
+        else if (action.includes('delete')) {
+            data.data.splice(nRow, 1);
         }
         else if (action.includes('sentence')) {
 
-            let pos = nRow;
+            let new_line = JSON.parse(JSON.stringify(data.data[nRow]));
+            new_line['TOKEN'] = '';
+            new_line['NE-TAG'] = 'O';
+            new_line['NE-EMB'] = 'O';
+            new_line['GND-ID'] = '';
 
-            let new_row = JSON.parse(JSON.stringify(data.data[pos]))
-
-            console.log(new_row)
-
-            data.data.splice(pos, 0, new_row);
-            data.data[pos]['No.'] = 0
-            data.data[pos]['TOKEN'] = ''
-            pos += 1
-
-            let word_pos = 1;
-            while ((pos < data.data.length) && (data.data[pos]['No.'] != 1) && (data.data[pos]['TOKEN'] != '') ) {
-                data.data[pos]['No.'] = word_pos;
-                pos++;
-                word_pos++;
-            }
-
-            notifyChange();
+            data.data.splice(nRow, 0, new_line);
         }
 
+        sanitizeData();
+        notifyChange();
         updateTable();
     }
 
     function makeLineSplitMerge(td) {
 
         editingTd = {
-            elem: td,
             data: td.innerHTML,
-            tokenizer_action: null,
-            finish: function(td, isOk) {
+            finish: function(action, isOk) {
+
                 $(td).html(editingTd.data);
                 $(td).addClass('editable');
 
                 let tableInfo = $(td).data('tableInfo');
 
-                tableEditAction(tableInfo.nRow, editingTd.tokenizer_action)
-
                 editingTd = null;
+
+                tableEditAction(tableInfo.nRow, action)
+
+                $(td).focus();
             }
         };
 
@@ -337,23 +339,16 @@ function setupInterface(data, file, urls) {
         $(td).removeClass('editable');
         $(td).html(edit_html);
 
-        $('#tokenizer').mouseleave(
-            function(event) {
-                editingTd.finish(editingTd.elem, false);
-            });
+        $('#tokenizer').mouseleave( function(event) { editingTd.finish(null, false); });
 
-        $('.tokenizer-action').click(
-            function(event) {
-                editingTd.tokenizer_action = $(event.target).text();
-            });
+        $('.tokenizer-action').click(function(event) { editingTd.finish($(event.target).text(), true); });
     }
 
     function makeTagEdit(td) {
 
         editingTd = {
-            elem: td,
             data: td.innerHTML,
-            finish: function(td, isOk) {
+            finish: function(isOk) {
 
                 let tableInfo = $(td).data('tableInfo');
 
@@ -401,24 +396,21 @@ function setupInterface(data, file, urls) {
 
         $(td).removeClass('editable');
         $(td).html(edit_html);
-        $('#tagger').mouseleave(
-            function(event) {
-                editingTd.finish(editingTd.elem, false);
-            });
+        $('#tagger').mouseleave( function(event) { editingTd.finish(false); });
 
         $('.type_select').click(
             function(event) {
                 editingTd.data = $(event.target).text();
+
+                editingTd.finish(true);
             });
     }
 
     function createTable() {
 
-        editingTd = null;
+        sanitizeData();
 
         let editable_html =`<td class="editable hover">`;
-
-        $('#table-body').empty();
 
         $.each(data.data,
               function(nRow, el) {
@@ -435,7 +427,7 @@ function setupInterface(data, file, urls) {
                                 data('tableInfo', { 'nRow': nRow })
                             );
 
-                  let row_listener = new window.keypress.Listener(row);
+                  let row_listener = new window.keypress.Listener(row, listener_defaults);
 
                   row_listener.sequence_combo('0',
                       function() {
@@ -459,40 +451,45 @@ function setupInterface(data, file, urls) {
                       tableEditAction(row.data('tableInfo').nRow, 'merge');
                   });
 
+                  row_listener.sequence_combo('d l', function() {
+                      tableEditAction(row.data('tableInfo').nRow, 'delete');
+                  });
+
+
                   $.each(el,
                       function(column, content) {
 
                           let td = $(editable_html)
 
-                          let listener = new window.keypress.Listener(td);
+                          let listener = new window.keypress.Listener(td, listener_defaults);
 
                           if (do_not_display.has(column)) return
 
                           let clickAction = function() { console.log('Do something different');}
 
                           if (column == 'No.') {
-
-                            clickAction = makeLineSplitMerge
+                            clickAction = makeLineSplitMerge;
                           }
 
-                          if ((column == 'TOKEN') || (column == 'GND-ID')) {
-                            clickAction = makeTdEditable
+                          if ((column == 'TOKEN') || (column == 'GND-ID'))  {
+                            clickAction = makeTdEditable;
 
-                            listener.simple_combo("enter", function() {
-                                td.click();
-                            });
+                            listener.simple_combo('enter', function() { $(td).click(); });
                           }
 
                           if ((column == 'NE-TAG') || (column == 'NE-EMB')) {
-                            clickAction = makeTagEdit
+                            clickAction = makeTagEdit;
 
-                            let tagAction = function(tag) {
-                                   data.data[$(td).data('tableInfo').nRow][column] = tag;
+                            function tagAction(tag) {
 
-                                   $(td).html(tag);
-                                   colorCode();
-                                   notifyChange();
-                                };
+                                tableInfo = $(td).data('tableInfo');
+
+                                data.data[tableInfo.nRow][tableInfo.column] = tag;
+
+                                td.html(tag);
+                                colorCode();
+                                notifyChange();
+                            };
 
                             listener.sequence_combo('b p', function() { tagAction('B-PER'); });
                             listener.sequence_combo('b l', function() { tagAction('B-LOC'); });

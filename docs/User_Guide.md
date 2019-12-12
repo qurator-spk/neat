@@ -95,8 +95,8 @@ We also provide some [Python tools](https://github.com/qurator-spk/neath/tree/ma
 |----------|--------------------------------------------|
 | s  t     |  Start new sentence in current row         |
 | m  e     |  Merge current row with row above          |
-| s  p     |  Create copy of current row one row below  |
-| 0        |  Set POSITION of current row to zero       |
+| s  p     |  Create copy of current row                |
+| d  l     |  Delete current row                        |
 |----------|--------------------------------------------|
 | backspace|  Set NE-TAG / NE-EMB to "O"                |
 | b  p     |  Set NE-TAG / NE-EMB to "B-PER"            |
