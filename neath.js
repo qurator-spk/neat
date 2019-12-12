@@ -777,6 +777,8 @@ function setupInterface(data, file, urls) {
     $('#tableregion')[0].addEventListener("wheel",
         function(event) {
 
+            if (editingTd != null) return;
+
             if (event.deltaY < 0) stepsBackward(1);
             else stepsForward(1);
 
