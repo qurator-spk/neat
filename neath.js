@@ -854,37 +854,76 @@ function setupInterface(data, file, urls) {
             }
         });
 
-     wnd_listener.simple_combo('up',
-        function() {
-            if (editingTd != null) return true;
+     wnd_listener.register_combo(
+        {
+            keys: 'meta up',
+            on_keydown:
+                function() {
+                    if (editingTd != null) return true;
 
-            let prev = $(':focus').closest('tr').prev('tr')
+                    stepsBackward(1);
+                },
+            is_solitary: true
+        }
+    );
 
-            let pos = $(':focus').closest('tr').children('.editable').index($(':focus'))
+     wnd_listener.register_combo(
+        {
+            keys: 'up',
 
-            if (prev.length==0) {
-                stepsBackward(1);
-            }
-            else {
-                prev.children('.editable')[pos].focus();
-            }
+            on_keydown:
+                function() {
+                    if (editingTd != null) return true;
+
+                    let prev = $(':focus').closest('tr').prev('tr')
+
+                    let pos = $(':focus').closest('tr').children('.editable').index($(':focus'))
+
+                    if (prev.length==0) {
+                        stepsBackward(1);
+                    }
+                    else {
+                        prev.children('.editable')[pos].focus();
+                    }
+                },
+            is_solitary : true
         });
 
-    wnd_listener.simple_combo('down',
-        function() {
-            if (editingTd != null) return true;
+    wnd_listener.register_combo(
+        {
+            keys: 'meta down',
 
-            let next = $(':focus').closest('tr').next('tr')
+            on_keydown: function() {
+                if (editingTd != null) return true;
 
-            let pos = $(':focus').closest('tr').children('.editable').index($(':focus'))
-
-            if (next.length==0) {
                 stepsForward(1);
-            }
-            else {
-                next.children('.editable')[pos].focus();
-            }
-        });
+            },
+            is_solitary: true
+        }
+    );
+
+    wnd_listener.register_combo(
+        {
+        keys : 'down',
+        on_keydown:
+            function() {
+                if (editingTd != null) return true;
+
+                let next = $(':focus').closest('tr').next('tr')
+
+                let pos = $(':focus').closest('tr').children('.editable').index($(':focus'))
+
+                if (next.length==0) {
+                    stepsForward(1);
+                }
+                else {
+                    next.children('.editable')[pos].focus();
+                }
+            },
+        is_solitary: true,
+        }
+    );
+
 
     wnd_listener.sequence_combo('l a',
         function() {

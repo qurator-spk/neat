@@ -92,6 +92,8 @@ We also provide some [Python tools](https://github.com/qurator-spk/neath/tree/ma
 | Down     |  Move one row down                         |
 | PageDown |  Move page down                            |
 | PageUp   |  Move page up                              |
+| Crtl+Up  |  Move entire table one row up              |
+| Crtl+Down|  Move entire table one row down            |
 |----------|--------------------------------------------|
 | s  t     |  Start new sentence in current row         |
 | m  e     |  Merge current row with row above          |
