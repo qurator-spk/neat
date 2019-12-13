@@ -773,9 +773,16 @@ function setupInterface(data, file, urls) {
 
                 if (editingTd) {
 
-                    if (target == editingTd.elem) return;
+                    if (target == $(':focus')) return;
+                    if ($.contains($(':focus')[0], target)) return;
+                    if ($.contains(target, $(':focus')[0])) return;
 
-                    editingTd.finish(editingTd.elem, true);
+                    let refocus = $(':focus');
+
+                    editingTd.finish(true);
+
+                    refocus.focus();
+
                 }
 
                 if (!$.contains($('#table')[0], target)) return
