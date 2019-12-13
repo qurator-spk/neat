@@ -429,7 +429,13 @@ function setupInterface(data, file, urls) {
 
                   let row = $("<tr/>").data('tableInfo', { 'nRow': nRow });
 
-                  row.focusin(function() { updatePreview(row.data('tableInfo').nRow); });
+                  row.focusin(
+                    function() {
+                        updatePreview(row.data('tableInfo').nRow);
+
+                        $('#preview').css('transform', 'translate(0,' + (row.position().top + row.height()/2) + 'px)'
+                                                        + ' translate(0%,-50%)');
+                    });
 
                   row.append($('<td class="hover"/>').
                                 text(nRow).
