@@ -48,6 +48,8 @@ function loadFile(evt, onComplete) {
 
 function setupInterface(data, file, urls) {
 
+    // private variables of app
+
     let displayRows=15
     let startIndex=0;
     let endIndex=displayRows;
@@ -60,6 +62,15 @@ function setupInterface(data, file, urls) {
     let save_timeout = null;
 
     let listener_defaults = { prevent_repeat  : true };
+
+    let editingTd;
+
+    let wnd_listener = new window.keypress.Listener();
+    let slider_pos = data.data.length - startIndex;
+    let slider_min = displayRows;
+    let slider_max = data.data.length;
+
+    // private functions of app
 
     function notifyChange() {
         if (save_timeout != null) clearTimeout(save_timeout);
@@ -180,8 +191,6 @@ function setupInterface(data, file, urls) {
         $("#table td:contains('B-TODO')").addClass('ner_todo');
         $("#table td:contains('I-TODO')").addClass('ner_todo');
     }
-
-    let editingTd;
 
     function makeTdEditable(td) {
 
@@ -596,69 +605,6 @@ function setupInterface(data, file, urls) {
             updatePreview($(':focus').data('tableInfo').nRow);
     }
 
-    let wnd_listener = new window.keypress.Listener();
-
-    wnd_listener.simple_combo('tab',
-        function () {
-            if (editingTd != null)
-                return false; // If we are in editing mode, we do not want to propagate the TAB event.
-            else return true; // In non-editing mode, we want to get the "normal" tab behaviour.
-        });
-
-    let slider_pos = data.data.length - startIndex;
-    let slider_min = displayRows;
-    let slider_max = data.data.length;
-
-    let range_html =
-            `
-            <input type="range" orient="vertical" class="form-control-range"
-                style="-webkit-appearance: slider-vertical;height:100%;outline: 0 none !important;"
-                min="${slider_min}" max="${slider_max}" value="${slider_pos}" id="docpos" />
-            `;
-
-    $("#region-right").html(range_html)
-
-    $("#docpos").change(
-        function(evt) {
-
-            if (startIndex == data.data.length - this.value) return;
-
-            startIndex = data.data.length - this.value;
-            endIndex = startIndex + displayRows;
-
-            updateTable();
-        });
-
-    $('#docpos').slider();
-
-     let table_html =
-        `
-        <table id="table">
-            <thead>
-            <tr>
-                <th><button class="btn btn-link" id="back" tabindex="-1"><<</button>LOCATION</th>
-                <th>POSITION</th>
-                <th>TOKEN</th>
-                <th>NE-TAG</th>
-                <th>NE-EMB</th>
-                <th>GND-ID<button class="btn btn-link" id="next" tabindex="-1">>></button></th>
-            </tr>
-            </thead>
-            <tbody id="table-body"></tbody>
-        </table>
-        <br/>
-        <br/>
-        `;
-
-    let save_html =
-        `<button class="btn btn-primary saveButton" id="save" disabled tabindex="-1">Save Changes</button>`
-
-    $("#tableregion").html(table_html)
-
-    $("#btn-region").html(save_html)
-
-    $("#file-region").html('<h3>' + file.name + '</h3>');
-
     function saveFile(evt) {
 
         let csv =
@@ -723,27 +669,6 @@ function setupInterface(data, file, urls) {
         setTimeout(url.revokeObjectURL.bind(url, objectURL));
     }
 
-    $('.saveButton').on('click', saveFile)
-
-    $('#table').on('click',
-        function(event) {
-
-            let target = event.target.closest('.editable');
-
-            if (editingTd) {
-
-                if (target == editingTd.elem) return;
-
-                editingTd.finish(editingTd.elem, true);
-            }
-
-            if (!$.contains($('#table')[0], target)) return
-
-            $(target).data('tableInfo').clickAction(target);
-        });
-
-    createTable();
-
     function stepsBackward (nrows) {
 
         if (startIndex >= nrows) {
@@ -771,6 +696,94 @@ function setupInterface(data, file, urls) {
         updateTable();
     }
 
+    function init() {
+
+        $("#tableregion").empty();
+
+        $("#btn-region").empty();
+
+        $("#file-region").empty();
+
+        $("#region-right").empty();
+
+        let range_html =
+                `
+                <input type="range" orient="vertical" class="form-control-range"
+                    style="-webkit-appearance: slider-vertical;height:100%;outline: 0 none !important;"
+                    min="${slider_min}" max="${slider_max}" value="${slider_pos}" id="docpos" />
+                `;
+
+        $("#region-right").html(range_html)
+
+        $("#docpos").change(
+            function(evt) {
+
+                if (startIndex == data.data.length - this.value) return;
+
+                startIndex = data.data.length - this.value;
+                endIndex = startIndex + displayRows;
+
+                updateTable();
+            });
+
+        $('#docpos').slider();
+
+         let table_html =
+            `
+            <table id="table">
+                <thead>
+                <tr>
+                    <th><button class="btn btn-link" id="back" tabindex="-1"><<</button>LOCATION</th>
+                    <th>POSITION</th>
+                    <th>TOKEN</th>
+                    <th>NE-TAG</th>
+                    <th>NE-EMB</th>
+                    <th>GND-ID<button class="btn btn-link" id="next" tabindex="-1">>></button></th>
+                </tr>
+                </thead>
+                <tbody id="table-body"></tbody>
+            </table>
+            <br/>
+            <br/>
+            `;
+
+        let save_html =
+            `<button class="btn btn-primary saveButton" id="save" disabled tabindex="-1">Save Changes</button>`
+
+        $("#tableregion").html(table_html)
+
+        $("#btn-region").html(save_html)
+
+        $("#save").attr('disabled', !has_changes);
+
+        $("#file-region").html('<h3>' + file.name + '</h3>');
+
+        $('.saveButton').on('click', saveFile)
+
+        $('#table').on('click',
+            function(event) {
+
+                let target = event.target.closest('.editable');
+
+                if (editingTd) {
+
+                    if (target == editingTd.elem) return;
+
+                    editingTd.finish(editingTd.elem, true);
+                }
+
+                if (!$.contains($('#table')[0], target)) return
+
+                $(target).data('tableInfo').clickAction(target);
+            });
+
+        $('#back').on('click', function() { stepsBackward(displayRows); } );
+
+        $('#next').on('click', function() { stepsForward(displayRows); } );
+
+        createTable();
+    }
+
     $('#tableregion')[0].addEventListener("wheel",
         function(event) {
 
@@ -780,9 +793,12 @@ function setupInterface(data, file, urls) {
             else stepsForward(1);
         });
 
-    $('#back').on('click', function() { stepsBackward(displayRows); } );
-
-    $('#next').on('click', function() { stepsForward(displayRows); } );
+    wnd_listener.simple_combo('tab',
+        function () {
+            if (editingTd != null)
+                return false; // If we are in editing mode, we do not want to propagate the TAB event.
+            else return true; // In non-editing mode, we want to get the "normal" tab behaviour.
+        });
 
     wnd_listener.simple_combo('pageup',
         function() {
@@ -857,11 +873,43 @@ function setupInterface(data, file, urls) {
             }
         });
 
+    wnd_listener.sequence_combo('l a',
+        function() {
+
+            displayRows++;
+
+            endIndex = startIndex + displayRows;
+
+            if (endIndex >= data.data.length) {
+                startIndex = data.data.length - displayRows;
+                endIndex = data.data.length;
+            }
+
+            slider_min = displayRows;
+            slider_max = data.data.length;
+
+            init();
+        });
+
+    wnd_listener.sequence_combo('l r',
+        function() {
+
+            if (displayRows > 5) displayRows--;
+
+            endIndex = startIndex + displayRows;
+            slider_min = displayRows;
+            slider_max = data.data.length;
+
+            init();
+        });
+
     // public interface
     let that =
         {
             hasChanges: function () { return has_changes; }
         };
+
+    init();
 
     return that;
 }

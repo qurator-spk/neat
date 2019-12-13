@@ -115,6 +115,11 @@ We also provide some [Python tools](https://github.com/qurator-spk/neath/tree/ma
 | i  t     |  Set NE-TAG / NE-EMB to "I-TODO"           |
 |----------|--------------------------------------------|
 | enter    | Edit TOKEN or GND-ID                       |
+| esc      | Close TOKEN or GND-ID edit field without   |
+|          | application of changes.                    |
+|----------|--------------------------------------------|
+| l a      | add one display row                        |
+| l r      | remove on display row (minimum is 5)       |
 |----------|--------------------------------------------|
 
 #### Mouse-Navigation
