@@ -444,32 +444,53 @@ function setupInterface(data, file, urls) {
 
                   let row_listener = new window.keypress.Listener(row, listener_defaults);
 
-                  row_listener.sequence_combo('0',
-                      function() {
+                  row_listener.register_many(
+                    [
+                      {
+                        keys: 's t',
+                        on_keydown:
+                            function() {
+                              tableEditAction(row.data('tableInfo').nRow, 'sentence');
+                          },
+                        is_sequence: true,
+                        is_solitary: true,
+                        is_exclusive: true
+                      },
 
-                          data.data[row.data('tableInfo').nRow]['No.'] = 0;
+                      {
+                        keys: 's p',
+                        on_keydown:
+                            function() {
+                              tableEditAction(row.data('tableInfo').nRow, 'split');
+                          },
+                        is_sequence: true,
+                        is_solitary: true,
+                        is_exclusive: true
+                      },
 
-                          row.children('.editable').first().html('0');
+                      {
+                        keys: 'm e',
+                        on_keydown:
+                            function() {
+                              tableEditAction(row.data('tableInfo').nRow, 'merge');
+                          },
+                        is_sequence: true,
+                        is_solitary: true,
+                        is_exclusive: true
+                      },
 
-                          notifyChange();
-                      });
-
-                  row_listener.sequence_combo('s t', function() {
-                      tableEditAction(row.data('tableInfo').nRow, 'sentence');
-                  });
-
-                  row_listener.sequence_combo('s p', function() {
-                      tableEditAction(row.data('tableInfo').nRow, 'split');
-                  });
-
-                  row_listener.sequence_combo('m e', function() {
-                      tableEditAction(row.data('tableInfo').nRow, 'merge');
-                  });
-
-                  row_listener.sequence_combo('d l', function() {
-                      tableEditAction(row.data('tableInfo').nRow, 'delete');
-                  });
-
+                      {
+                        keys: 'd l',
+                        on_keydown:
+                            function() {
+                              tableEditAction(row.data('tableInfo').nRow, 'delete');
+                          },
+                        is_sequence: true,
+                        is_solitary: true,
+                        is_exclusive: true
+                      }
+                    ]
+                  );
 
                   $.each(el,
                       function(column, content) {
