@@ -81,7 +81,7 @@ No.	TOKEN	NE-TAG	NE-EMB	GND-ID	url_id	left,right,top,bottom
 #### Data preparation  
 The processing pipeline applied is documented in [Provenance](https://github.com/qurator-spk/neath/blob/master/docs/Provenance.md). 
 
-We also provide some [Python tools](https://github.com/qurator-spk/neath/tree/master/tools) that help with data wrangling.
+We also provide some [Python tools](https://github.com/qurator-spk/page2tsv) that help with data wrangling.
 #### Keyboard - Layout
 
 | Key Combi|      Action      |
