@@ -22,7 +22,7 @@ OCR is based on [OCR-D](https://github.com/OCR-D)'s [ocrd_tesserocr](https://git
 
 ### TSV Transformation
 
-A simple [Python tool](https://github.com/qurator-spk/neath/tree/master/tools) is used for the [transformation](https://github.com/qurator-spk/neath/tree/master/tools) of [PAGE-XML](https://github.com/PRImA-Research-Lab/PAGE-XML) to [TSV](https://github.com/qurator-spk/neath/blob/master/docs/User_Guide.md#data-format).
+A simple [Python tool](https://github.com/qurator-spk/page2tsv) is used for the transformation of the OCR results in [PAGE-XML](https://github.com/PRImA-Research-Lab/PAGE-XML) to [TSV](https://github.com/qurator-spk/neath/blob/master/docs/User_Guide.md#data-format).
 
 ``INPUT ``: [PAGE-XML](https://github.com/PRImA-Research-Lab/PAGE-XML) file with bounding boxes for words and the contained text 
 
