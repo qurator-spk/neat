@@ -164,7 +164,7 @@ For Named Entity Recognition, a [BERT-Base](https://github.com/google-research/b
 
 * left-click a tag in the `NE-TAG` or `NE-EMB` columns and subsequently select `0` to remove a wrong tag
 
-* left-click a tokeen in the `TOKEN` column to edit/correct the text content
+* left-click a token in the `TOKEN` column to edit/correct the text content
 
 * left-click the `POSITION` of a row and select `split` from the drop-down menu to create a copy of the current row
 
