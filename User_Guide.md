@@ -53,7 +53,7 @@ No.	TOKEN	NE-TAG	NE-EMB
 
 For our purposes we extend this format by adding
 * a fifth column for an ``ID`` for the outer ``NE-TAG`` from an authority file (in this case, the [GND](https://www.dnb.de/EN/Professionell/Standardisierung/GND/gnd_node.html) is used) 
-* column six for use as a variable ``url_id`` (see [Image Support](https://github.com/qurator-spk/neath/blob/master/docs/User_Guide.md#image-support) for further details)
+* column six for use as a variable ``url_id`` (see [Image Support](https://github.com/qurator-spk/neath/blob/master/User_Guide.md#image-support) for further details)
 * finally, columns 7+ are used for storing ``left,right,top,bottom`` pixel coordinates for facsimile snippets 
 
 Example (full):
@@ -81,9 +81,21 @@ No.	TOKEN	NE-TAG	NE-EMB	GND-ID	url_id	left,right,top,bottom
 ```
 
 #### Data preparation  
-The processing pipeline applied is documented in [Provenance](https://github.com/qurator-spk/neath/blob/master/docs/Provenance.md). 
+The source data that is used for annotation are OCR results in PAGE-XML format. We provide a [Python tool](https://github.com/qurator-spk/page2tsv) that help with transformation of PAGE-XML files into the TSV format required for use with [neath](https://github.com/qurator-spk/neath).
 
-We also provide some [Python tools](https://github.com/qurator-spk/page2tsv) that help with data wrangling.
+#### Provenance
+The processing pipeline applied at the Berlin State Library comprises the follows steps: 
+
+1. Layout Analysis & Textline Extraction       
+Layout Analysis & Textline Extraction @[sbb_textline_detector](https://github.com/qurator-spk/sbb_textline_detector)
+2. OCR & Word Segmentation    
+OCR is based on [OCR-D](https://github.com/OCR-D)'s [ocrd_tesserocr](https://github.com/OCR-D/ocrd_tesserocr) which requires [Tesseract](https://github.com/tesseract-ocr/tesseract) **>= 4.1.0**. The [GT4HistOCR_2000000](https://ub-backup.bib.uni-mannheim.de/~stweil/ocrd-train/data/GT4HistOCR_2000000.traineddata) model, which is [trained](https://github.com/tesseract-ocr/tesstrain/wiki/GT4HistOCR) on the [GT4HistOCR](https://zenodo.org/record/1344132) corpus, is used. Further details are available in the [paper](https://arxiv.org/abs/1809.05501).
+3. TSV Transformation   
+A simple [Python tool](https://github.com/qurator-spk/page2tsv) is used for the transformation of the OCR results in [PAGE-XML](https://github.com/PRImA-Research-Lab/PAGE-XML) to [TSV](https://github.com/qurator-spk/neath/blob/master/docs/User_Guide.md#data-format).
+4. Tokenization    
+For tokenization, [SoMaJo](https://github.com/tsproisl/SoMaJo) is used.
+5. Named Entity Recognition    
+For Named Entity Recognition, a [BERT-Base](https://github.com/google-research/bert) model was trained for noisy OCR texts with historical spelling variation. [sbb_ner](https://github.com/qurator-spk/sbb_ner) is using a combination of unsupervised training on a large (~2.3m pages) [corpus of German OCR](https://zenodo.org/record/3257041) in combination with supervised training on a small (47k tokens) [annotated corpus](https://github.com/EuropeanaNewspapers/ner-corpora/tree/master/enp_DE.sbb.bio). Further details are available in the [paper](https://corpora.linguistik.uni-erlangen.de/data/konvens/proceedings/papers/KONVENS2019_paper_4.pdf).    
 
 #### Keyboard-Navigation
 
@@ -152,4 +164,4 @@ The iiif-image-url contained in the source ``#`` can then be used as a replaceme
 [neath](https://github.com/qurator-spk/neath) runs fully locally in the browser. Therefore it can not automatically save any changes you made to disk. You have to use the `Save Changes` button in order to so manually from time to time. If your browser automatically saves all downloads to your `Downloads` folder, you might want to configure it so that it instead prompts you where to save.
 
 ### 3. Annotation Guidelines
-The most recent version of the [Annotation Guidelines](https://github.com/qurator-spk/neath/blob/master/docs/Annotation_Guidelines.pdf) is included in this repository. 
+The most recent version of the [Annotation Guidelines](https://github.com/qurator-spk/neath/blob/master/Annotation_Guidelines.pdf) is included in this repository. 
