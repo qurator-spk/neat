@@ -6,7 +6,7 @@
 
 [2. User Guide](https://github.com/qurator-spk/neath/blob/master/docs/User_Guide.md#2-user-guide)   
 
-[3. FAQ](https://github.com/qurator-spk/neath/blob/master/docs/User_Guide.md#3-faq)  
+[3. Annotation Guidelines](https://github.com/qurator-spk/neath/blob/master/docs/User_Guide.md#3-annotation-guidelines)   
 
 ### 1. Introduction
 [neath](https://github.com/qurator-spk/neath) is a simple, browser-based tool for editing and annotating text with named entities to produce a corpus for training/testing/evaluation. It can be used to add or correct named entity BIO-tags in a TSV file and to correct the token text or tokenization (e.g. due to OCR/segmentation errors). 
@@ -82,9 +82,9 @@ No.	TOKEN	NE-TAG	NE-EMB	GND-ID	url_id	left,right,top,bottom
 The processing pipeline applied is documented in [Provenance](https://github.com/qurator-spk/neath/blob/master/docs/Provenance.md). 
 
 We also provide some [Python tools](https://github.com/qurator-spk/page2tsv) that help with data wrangling.
-#### Keyboard - Layout
+#### Keyboard-Navigation
 
-| Key Combi|      Action      |
+| Key Combination|      Action      |
 |:---------|:-------------------------------------------|
 | Left     |  Move one cell left                        |
 | Right    |  Move one cell right                       |
@@ -158,4 +158,5 @@ Configuration option in Firefox:
 Configuration option in Chrome:
 
 ![Screenshot](./../assets/chrome.png)
-### 3. FAQ
+### 3. Annotation Guidelines
+The most recent version of the [Annotation Guidelines](https://github.com/qurator-spk/neath/blob/master/docs/Annotation_Guidelines.pdf) is included in this repository. 
