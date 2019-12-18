@@ -157,15 +157,20 @@ For Named Entity Recognition, a [BERT-Base](https://github.com/google-research/b
 
 #### 2.6 Mouse-Navigation
 * use mouse wheel to scroll up and down
-* use navigation `<<` and `>>` to move faster
 
-* adding a tag
-* removing a tag
-* changing a tag
-* editing the token text
-* merging two tokens
-* splitting a token
-* sentence boundaries
+* left-click `<<` and `>>` to move 15 rows up or down
+
+* left-click `O` in the `NE-TAG` or `NE-EMB` columns to open the drop-down menu and select any of the supported NE-Tags to tag a token or change an existing tag to another one
+
+* left-click a tag in the `NE-TAG` or `NE-EMB` columns and subsequently select `0` to remove a wrong tag
+
+* left-click a tokeen in the `TOKEN` column to edit/correct the text content
+
+* left-click the `POSITION` of a row and select `split` from the drop-down menu to create a copy of the current row
+
+* left-click the `POSITION` of a row and select `merge` from the drop-down menu to merge the current row with the row above
+
+* left-click the `POSITION` of a row and select `start-sentence` from the drop-down menu to start a new sentence
 
 #### 2.7 Image Support
 Provided facsimile images are available online via the [iiif.io](https://iiif.io/) Image API, [neath](https://github.com/qurator-spk/neath) supports the embedding of facsimile snippets into its interface to help with data annotation and correction. 
