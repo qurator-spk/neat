@@ -4,9 +4,25 @@
 ### Table of contents
 [1. Introduction](https://github.com/qurator-spk/neath/blob/master/docs/User_Guide.md#1-introduction) 
 
-[2. User Guide](https://github.com/qurator-spk/neath/blob/master/docs/User_Guide.md#2-user-guide)   
+[2. User Guide](https://github.com/qurator-spk/neath/blob/master/docs/User_Guide.md#2-user-guide)
 
-[3. Annotation Guidelines](https://github.com/qurator-spk/neath/blob/master/docs/User_Guide.md#3-annotation-guidelines)   
+&nbsp;&nbsp;&nbsp;[2.1 Technical requirements](https://github.com/qurator-spk/neath/blob/master/User_Guide.md#21-technical-requirements) 
+    
+&nbsp;&nbsp;&nbsp;[2.2 Data format](https://github.com/qurator-spk/neath/blob/master/User_Guide.md#22-data-format)
+    
+&nbsp;&nbsp;&nbsp;[2.3 Data preparation](https://github.com/qurator-spk/neath/blob/master/User_Guide.md#23-data-preparation)
+    
+&nbsp;&nbsp;&nbsp;[2.4 Provenance](https://github.com/qurator-spk/neath/blob/master/User_Guide.md#24-provenance)
+    
+&nbsp;&nbsp;&nbsp;[2.5 Keyboard navigation](https://github.com/qurator-spk/neath/blob/master/User_Guide.md#25-keyboard-navigation)
+    
+&nbsp;&nbsp;&nbsp;[2.6 Mouse navigation](https://github.com/qurator-spk/neath/blob/master/User_Guide.md#26-mouse-navigation)
+    
+&nbsp;&nbsp;&nbsp;[2.7 Image support](https://github.com/qurator-spk/neath/blob/master/User_Guide.md#27-image-support)
+    
+&nbsp;&nbsp;&nbsp;[2.8 Saving progress](https://github.com/qurator-spk/neath/blob/master/User_Guide.md#28-saving-progress)
+
+[3. Annotation Guidelines](https://github.com/qurator-spk/neath/blob/master/docs/User_Guide.md#3-annotation-guidelines)
 
 ### 1. Introduction
 [neath](https://github.com/qurator-spk/neath) is a simple, browser-based tool for editing and annotating text with named entities to produce a corpus for training/testing/evaluation. It can be used to add or correct named entity BIO-tags in a TSV file and to correct the token text or tokenization (e.g. due to OCR/segmentation errors). 
@@ -81,7 +97,7 @@ No.	TOKEN	NE-TAG	NE-EMB	GND-ID	url_id	left,right,top,bottom
 ```
 
 #### 2.3 Data preparation  
-The source data that is used for annotation are OCR results in [PAGE-XML](https://github.com/PRImA-Research-Lab/PAGE-XML) format. We provide a [Python tool](https://github.com/qurator-spk/page2tsv) that supports the transformation of [PAGE-XML](https://github.com/PRImA-Research-Lab/PAGE-XML) OCR files into the [TSV format](https://github.com/qurator-spk/neath/blob/master/User_Guide.md#data-format) required for use with [neath](https://github.com/qurator-spk/neath).
+The source data that is used for annotation are OCR results in [PAGE-XML](https://github.com/PRImA-Research-Lab/PAGE-XML) format. We provide a [Python tool](https://github.com/qurator-spk/page2tsv) that supports the transformation of [PAGE-XML](https://github.com/PRImA-Research-Lab/PAGE-XML) OCR files into the [TSV format](https://github.com/qurator-spk/neath/blob/master/User_Guide.md#22-data-format) required for use with [neath](https://github.com/qurator-spk/neath).
 
 #### 2.4 Provenance
 The processing pipeline applied at the Berlin State Library comprises the follows steps: 
@@ -91,7 +107,7 @@ Layout Analysis & Textline Extraction @[sbb_textline_detector](https://github.co
 2. OCR & Word Segmentation    
 OCR is based on [OCR-D](https://github.com/OCR-D)'s [ocrd_tesserocr](https://github.com/OCR-D/ocrd_tesserocr) which requires [Tesseract](https://github.com/tesseract-ocr/tesseract) **>= 4.1.0**. The [GT4HistOCR_2000000](https://ub-backup.bib.uni-mannheim.de/~stweil/ocrd-train/data/GT4HistOCR_2000000.traineddata) model, which is [trained](https://github.com/tesseract-ocr/tesstrain/wiki/GT4HistOCR) on the [GT4HistOCR](https://zenodo.org/record/1344132) corpus, is used. Further details are available in the [paper](https://arxiv.org/abs/1809.05501).
 3. TSV Transformation   
-A simple [Python tool](https://github.com/qurator-spk/page2tsv) is used for the transformation of the OCR results in [PAGE-XML](https://github.com/PRImA-Research-Lab/PAGE-XML) to [TSV](https://github.com/qurator-spk/neath/blob/master/docs/User_Guide.md#data-format).
+A simple [Python tool](https://github.com/qurator-spk/page2tsv) is used for the transformation of the OCR results in [PAGE-XML](https://github.com/PRImA-Research-Lab/PAGE-XML) to [TSV](https://github.com/qurator-spk/neath/blob/master/docs/User_Guide.md#22-data-format).
 4. Tokenization    
 For tokenization, [SoMaJo](https://github.com/tsproisl/SoMaJo) is used.
 5. Named Entity Recognition    
