@@ -15,10 +15,10 @@
 
 ### 2. User Guide
 
-#### Technical Requirements 
+#### 2.1 Technical Requirements 
 [neath](https://github.com/qurator-spk/neath) runs locally as a pure HTML+JavaScript webpage in your web browser. No software needs to be installed, but JavaScript has to be enabled in the browser. Any fairly recent browser should work, but only Chrome and Firefox are tested.
 
-#### Data format   
+#### 2.2 Data format   
 The data format is based on the format used in the [GermEval2014 Named Entity Recognition Shared Task](https://sites.google.com/site/germeval2014ner/data). Text is encoded as one token per line, with name spans encoded in the BIO-scheme, provided as tab-separated values:
 * the first column contains either a `#`, which signals the source the sentence is cited from, or 
 * the token position within the sentence ``>=1``
@@ -80,10 +80,10 @@ No.	TOKEN	NE-TAG	NE-EMB	GND-ID	url_id	left,right,top,bottom
 2	3	O	O	-	0	1939,1967,364,385
 ```
 
-#### Data preparation  
-The source data that is used for annotation are OCR results in PAGE-XML format. We provide a [Python tool](https://github.com/qurator-spk/page2tsv) that help with transformation of PAGE-XML files into the TSV format required for use with [neath](https://github.com/qurator-spk/neath).
+#### 2.3 Data preparation  
+The source data that is used for annotation are OCR results in [PAGE-XML](https://github.com/PRImA-Research-Lab/PAGE-XML) format. We provide a [Python tool](https://github.com/qurator-spk/page2tsv) that supports the transformation of [PAGE-XML](https://github.com/PRImA-Research-Lab/PAGE-XML) OCR files into the [TSV format](https://github.com/qurator-spk/neath/blob/master/User_Guide.md#data-format) required for use with [neath](https://github.com/qurator-spk/neath).
 
-#### Provenance
+#### 2.4 Provenance
 The processing pipeline applied at the Berlin State Library comprises the follows steps: 
 
 1. Layout Analysis & Textline Extraction       
@@ -97,7 +97,7 @@ For tokenization, [SoMaJo](https://github.com/tsproisl/SoMaJo) is used.
 5. Named Entity Recognition    
 For Named Entity Recognition, a [BERT-Base](https://github.com/google-research/bert) model was trained for noisy OCR texts with historical spelling variation. [sbb_ner](https://github.com/qurator-spk/sbb_ner) is using a combination of unsupervised training on a large (~2.3m pages) [corpus of German OCR](https://zenodo.org/record/3257041) in combination with supervised training on a small (47k tokens) [annotated corpus](https://github.com/EuropeanaNewspapers/ner-corpora/tree/master/enp_DE.sbb.bio). Further details are available in the [paper](https://corpora.linguistik.uni-erlangen.de/data/konvens/proceedings/papers/KONVENS2019_paper_4.pdf).    
 
-#### Keyboard-Navigation
+#### 2.5 Keyboard-Navigation
 
 | Key Combination|      Action      |
 |:---------|:-------------------------------------------|
@@ -139,28 +139,25 @@ For Named Entity Recognition, a [BERT-Base](https://github.com/google-research/b
 | l r      | remove on display row (minimum is 5)       |
 |----------|--------------------------------------------|
 
-#### Mouse-Navigation
+#### 2.6 Mouse-Navigation
 * use mouse wheel to scroll up and down
 * use navigation `<<` and `>>` to move faster
 
-#### Image Support
+* adding a tag
+* removing a tag
+* changing a tag
+* editing the token text
+* merging two tokens
+* splitting a token
+* sentence boundaries
+
+#### 2.7 Image Support
 Provided facsimile images are available online via the [iiif.io](https://iiif.io/) Image API, [neath](https://github.com/qurator-spk/neath) supports the embedding of facsimile snippets into its interface to help with data annotation and correction. 
 This further requires that OCR with word segmentation is applied to the image to determine bounding boxes for tokens. 
 
 The iiif-image-url contained in the source ``#`` can then be used as a replacement for ``url_id`` in combination with the token bounding boxes as ``left,right,top,bottom`` to obtain the facsimile snippet url and display the image in the leftmost column. Clicking on the facsimile snippet opens up a new tab with a larger context.
 
-#### Tagging
-* adding a tag
-* removing a tag
-* changing a tag
-#### Text correction
-* editing the token text
-#### Tokenization correction
-* merging two tokens
-* splitting a token
-* sentence boundaries
-
-#### Saving progress
+#### 2.8 Saving progress
 [neath](https://github.com/qurator-spk/neath) runs fully locally in the browser. Therefore it can not automatically save any changes you made to disk. You have to use the `Save Changes` button in order to so manually from time to time. If your browser automatically saves all downloads to your `Downloads` folder, you might want to configure it so that it instead prompts you where to save.
 
 ### 3. Annotation Guidelines
