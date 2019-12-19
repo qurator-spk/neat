@@ -69,7 +69,7 @@ No.	TOKEN	NE-TAG	NE-EMB
 
 For our purposes we extend this format by adding
 * a fifth column for an ``ID`` for the outer ``NE-TAG`` from an authority file (in this case, the [GND](https://www.dnb.de/EN/Professionell/Standardisierung/GND/gnd_node.html) is used) 
-* column six for use as a variable ``url_id`` (see [Image Support](https://github.com/qurator-spk/neath/blob/master/User_Guide.md#image-support) for further details)
+* column six for use as a variable ``url_id`` (see [Image Support](https://github.com/qurator-spk/neath/blob/master/User_Guide.md#27-image-support) for further details)
 * finally, columns 7+ are used for storing ``left,right,top,bottom`` pixel coordinates for facsimile snippets 
 
 Example (full):
@@ -162,7 +162,7 @@ For Named Entity Recognition, a [BERT-Base](https://github.com/google-research/b
 
 * left-click `O` in the `NE-TAG` or `NE-EMB` columns to open the drop-down menu and select any of the supported NE-Tags to tag a token or change an existing tag to another one
 
-* left-click a tag in the `NE-TAG` or `NE-EMB` columns and subsequently select `0` to remove a wrong tag
+* left-click a tag in the `NE-TAG` or `NE-EMB` columns and subsequently select `O` to remove a wrong tag
 
 * left-click a token in the `TOKEN` column to edit/correct the text content
 
