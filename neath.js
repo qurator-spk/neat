@@ -41,7 +41,7 @@ function loadFile(evt, onComplete) {
 	    escapeChar: String.fromCharCode(0),
         comments: "#",
         skipEmptyLines: true,
-        dynamicTyping: true,
+        dynamicTyping: false,
         complete: function(results) { onComplete(results, file, urls); }
     });
 }
@@ -130,10 +130,10 @@ function setupInterface(data, file, urls) {
         if (img_url == "http://empty")
             return
 
-        let left = data.data[nRow]['left'];
-        let right = data.data[nRow]['right'];
-        let top = data.data[nRow]['top'];
-        let bottom = data.data[nRow]['bottom'];
+        let left = parseInt(data.data[nRow]['left']);
+        let right = parseInt(data.data[nRow]['right']);
+        let top = parseInt(data.data[nRow]['top']);
+        let bottom = parseInt(data.data[nRow]['bottom']);
 
         top = Math.max(0, top - 25);
         bottom = bottom + 25;
