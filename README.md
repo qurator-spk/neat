@@ -2,8 +2,7 @@
 #### version 0.1
 ---
 ![Screenshot](https://user-images.githubusercontent.com/952378/72167036-ad2c6680-33ca-11ea-980f-5859e5155877.png)
-
-# User Guide
+---
 
 ### Table of contents
 [1. Introduction](https://github.com/qurator-spk/neath/blob/master/README.md#1-introduction) 
