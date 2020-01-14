@@ -14,7 +14,7 @@ No.	TOKEN	NE-TAG	NE-EMB	GND-ID	url_id	left	right	top	bottom
 0	wenn	O	O	-	0	671	701	402	415
 0	nicht	O	O	-	0	702	755	399	417
 0	Herr	O	O	-	0	155	192	419	437
-0	Gambetta	B-PER	O	-	0	202	277	419	437
+0	Gambetta	B-PER	O	118716263	0	202	277	419	437
 0	als	O	O	-	0	287	311	420	436
 0	deus	O	O	-	0	320	357	419	434
 0	ex	O	O	-	0	366	385	422	434
@@ -31,7 +31,7 @@ No.	TOKEN	NE-TAG	NE-EMB	GND-ID	url_id	left	right	top	bottom
 0	bei	O	O	-	0	309	330	438	453
 0	dem	O	O	-	0	339	370	437	453
 0	Praͤſidenten	O	O	-	0	379	468	437	457
-0	Grévy	B-PER	O	-	0	475	524	436	456
+0	Grévy	B-PER	O	119064693	0	475	524	436	456
 0	einen	O	O	-	0	534	572	437	453
 0	Ausgleich	O	O	-	0	577	650	437	455
 0	herbeigeführt	O	O	-	0	658	755	436	455
@@ -58,15 +58,15 @@ No.	TOKEN	NE-TAG	NE-EMB	GND-ID	url_id	left	right	top	bottom
 0	dem	O	O	-	0	531	561	474	491
 0	Bemühen	O	O	-	0	570	648	474	492
 0	,	O	O	-	0	570	648	474	492
-0	Waddington	B-PER	O	-	0	660	756	474	493
+0	Waddington	B-PER	O	117086630	0	660	756	474	493
 0	unb	O	O	-	0	155	185	494	512
-0	Loͤon	B-PER	O	-	0	200	249	494	512
+0	Loͤon	B-PER	O	117619744	0	200	249	494	512
 0	Say	I-PER	O	-	0	254	288	494	512
 0	zu	O	O	-	0	308	324	498	512
 0	halten	O	O	-	0	343	398	494	512
 0	,	O	O	-	0	343	398	494	512
 0	dagegen	O	O	-	0	410	477	492	512
-0	Lepère	B-PER	O	-	0	492	544	493	512
+0	Lepère	B-PER	O	1012607569	0	492	544	493	512
 0	zu	O	O	-	0	563	581	497	512
 0	entfernen	O	O	-	0	600	678	492	511
 0	,	O	O	-	0	600	678	492	511
@@ -84,7 +84,7 @@ No.	TOKEN	NE-TAG	NE-EMB	GND-ID	url_id	left	right	top	bottom
 0	dominirenden	O	O	-	0	653	756	511	528
 0	Einfluß	O	O	-	0	156	216	531	550
 0	des	O	O	-	0	240	266	532	548
-0	Palais	B-LOC	O	-	0	293	346	530	550
+0	Palais	B-LOC	O	4342820-4	0	293	346	530	550
 0	Bourbon	I-LOC	O	-	0	368	437	530	546
 0	frei	O	O	-	0	462	488	530	549
 0	zu	O	O	-	0	511	528	535	550
@@ -94,7 +94,7 @@ No.	TOKEN	NE-TAG	NE-EMB	GND-ID	url_id	left	right	top	bottom
 0	Sein	O	O	-	0	644	682	529	546
 0	Beſuch	O	O	-	0	706	756	530	548
 0	bei	O	O	-	0	159	189	550	567
-0	Grévy	B-PER	O	-	0	195	246	551	569
+0	Grévy	B-PER	O	119064693	0	195	246	551	569
 0	am	O	O	-	0	262	285	554	566
 0	Sonntag	O	O	-	0	300	368	550	569
 0	Morgen	O	O	-	0	380	442	549	569
@@ -135,7 +135,7 @@ No.	TOKEN	NE-TAG	NE-EMB	GND-ID	url_id	left	right	top	bottom
 0	wenn	O	O	-	0	300	339	609	623
 0	nicht	O	O	-	0	349	383	605	624
 0	Herr	O	O	-	0	393	429	606	624
-0	Gambetta	B-PER	O	-	0	434	509	606	622
+0	Gambetta	B-PER	O	118716263	0	434	509	606	622
 0	ſelbſt	O	O	-	0	519	557	604	624
 0	es	O	O	-	0	566	582	607	621
 0	hinterher	O	O	-	0	588	656	605	623
@@ -148,14 +148,14 @@ No.	TOKEN	NE-TAG	NE-EMB	GND-ID	url_id	left	right	top	bottom
 0	,	O	O	-	0	257	330	625	643
 0	dem	O	O	-	0	339	370	624	640
 0	Schauſpieler	O	O	-	0	380	476	624	643
-0	Coquelin	B-PER	O	-	0	491	559	624	642
+0	Coquelin	B-PER	O	116670673	0	491	559	624	642
 0	dem	O	O	-	0	575	605	624	640
 0	„	O	O	-	0	620	714	623	642
 0	Jüngeren	O	O	-	0	620	714	623	642
 0	“	O	O	-	0	620	714	623	642
 0	von	O	O	-	0	728	756	626	639
 0	der	O	O	-	0	157	181	643	660
-0	Comoͤdie	B-ORG	O	-	0	197	262	643	661
+0	Comoͤdie	B-ORG	O	16295404-9	0	197	262	643	661
 0	françaiſe	I-ORG	O	-	0	277	345	642	661
 0	anvertraut	O	O	-	0	359	440	644	659
 0	hat	O	O	-	0	455	484	644	661
@@ -189,7 +189,7 @@ No.	TOKEN	NE-TAG	NE-EMB	GND-ID	url_id	left	right	top	bottom
 0	wohlbekannte	O	O	-	0	157	258	700	718
 0	kleine	O	O	-	0	271	312	698	715
 0	Coupé	O	O	-	0	322	371	699	718
-0	Gambettas	B-PER	O	-	0	382	466	698	716
+0	Gambettas	B-PER	O	119064693	0	382	466	698	716
 0	eine	O	O	-	0	482	510	699	715
 0	ganze	O	O	-	0	525	566	702	718
 0	Stunde	O	O	-	0	577	633	698	715
@@ -206,7 +206,7 @@ No.	TOKEN	NE-TAG	NE-EMB	GND-ID	url_id	left	right	top	bottom
 0	im	O	O	-	0	476	496	718	734
 0	Vorhof	O	O	-	0	505	562	717	735
 0	des	O	O	-	0	577	602	718	733
-0	Elyſoe	B-LOC	O	-	0	612	661	717	736
+0	Elyſée	B-LOC	O	4075880-1	0	612	661	717	736
 0	ſtationiren	O	O	-	0	666	755	703	736
 0	geſehen	O	O	-	0	158	211	737	756
 0	hatten	O	O	-	0	222	273	737	754
@@ -239,7 +239,7 @@ No.	TOKEN	NE-TAG	NE-EMB	GND-ID	url_id	left	right	top	bottom
 0	.	O	O	-	0	651	702	754	770
 0		O	O	-	0	720	756	754	774
 0	Herr	O	O	-	0	720	756	754	774
-0	Lepèère	B-PER	O	-	0	156	212	774	793
+0	Lepère	B-PER	O	1012607569	0	156	212	774	793
 0	,	O	O	-	0	156	212	774	793
 0	der	O	O	-	0	227	250	774	790
 0	bereits	O	O	-	0	264	314	774	790
@@ -255,7 +255,7 @@ No.	TOKEN	NE-TAG	NE-EMB	GND-ID	url_id	left	right	top	bottom
 0	zu	O	O	-	0	305	322	797	811
 0	müſſen	O	O	-	0	332	383	793	811
 0	—	O	O	-	0	393	412	801	803
-0	Freycinet	B-PER	O	-	0	421	493	793	811
+0	Freycinet	B-PER	O	118703099	0	421	493	793	811
 0	ſelbſt	O	O	-	0	496	544	792	811
 0	hatte	O	O	-	0	554	590	792	810
 0	ihm	O	O	-	0	600	629	793	809
@@ -271,10 +271,10 @@ No.	TOKEN	NE-TAG	NE-EMB	GND-ID	url_id	left	right	top	bottom
 0	geſagt	O	O	-	0	425	475	811	830
 0	—	O	O	-	0	484	503	819	822
 0	Herr	O	O	-	0	512	548	811	830
-0	Lepre	B-PER	O	-	0	556	607	811	829
+0	Lepre	B-PER	O	1012607569	0	556	607	811	829
 0	erhielt	O	O	-	0	616	664	811	830
 0	von	O	O	-	0	674	701	814	826
-0	Gam	B-PER	O	-	0	711	755	811	827
+0	Gam	B-PER	O	118716263	0	711	755	811	827
 0	—	I-PER	O	-	0	711	755	811	827
 0	betta	I-PER	O	-	0	156	192	829	846
 0	die	O	O	-	0	202	224	830	846
@@ -289,7 +289,7 @@ No.	TOKEN	NE-TAG	NE-EMB	GND-ID	url_id	left	right	top	bottom
 0	Gleichzeitig	O	O	-	0	508	592	830	848
 0	wurde	O	O	-	0	602	649	829	845
 0	Herrn	O	O	-	0	658	703	829	848
-0	Waddington	B-PER	O	-	0	714	756	829	845
+0	Waddington	B-PER	O	117086630	0	714	756	829	845
 0	das	O	O	-	0	230	257	849	865
 0	Gegentheil	O	O	-	0	272	354	848	867
 0	bedeutet	O	O	-	0	370	437	849	867
@@ -297,7 +297,7 @@ No.	TOKEN	NE-TAG	NE-EMB	GND-ID	url_id	left	right	top	bottom
 0	den	O	O	-	0	451	476	849	864
 0	Botſchafterpoſten	O	O	-	0	486	617	848	867
 0	in	O	O	-	0	633	648	848	864
-0	London	B-LOC	O	-	0	658	716	848	864
+0	London	B-LOC	O	4074335-4	0	658	716	848	864
 0	,	O	O	-	0	658	716	848	864
 0	der	O	O	-	0	720	756	848	866
 0	ihm	O	O	-	0	156	185	866	885
@@ -316,7 +316,7 @@ No.	TOKEN	NE-TAG	NE-EMB	GND-ID	url_id	left	right	top	bottom
 0	dieſen	O	O	-	0	699	756	866	884
 0	Vorgängen	O	O	-	0	159	244	885	905
 0	erhielt	O	O	-	0	254	305	886	904
-0	Léon	B-PER	O	-	0	310	350	885	902
+0	Léon	B-PER	O	117619744	0	310	350	885	902
 0	Say	I-PER	O	-	0	360	394	886	905
 0	erſt	O	O	-	0	407	432	886	902
 0	in	O	O	-	0	445	460	886	902
@@ -339,13 +339,13 @@ No.	TOKEN	NE-TAG	NE-EMB	GND-ID	url_id	left	right	top	bottom
 0	fuhr	O	O	-	0	666	690	904	922
 0	er	O	O	-	0	692	723	909	920
 0	ins	O	O	-	0	733	756	904	919
-0	Elyſée	B-LOC	O	-	0	158	207	923	942
+0	Elyſée	B-LOC	O	4075880-1	0	158	207	923	942
 0	und	O	O	-	0	220	248	924	939
 0	legte	O	O	-	0	264	299	924	940
 0	ſein	O	O	-	0	313	340	923	940
 0	Portefeuille	O	O	-	0	355	445	923	942
 0	in	O	O	-	0	461	475	923	939
-0	Grevys	B-PER	O	-	0	490	546	923	942
+0	Grevys	B-PER	O	119064693	0	490	546	923	942
 0	Hände	O	O	-	0	557	606	923	942
 0	zurück	O	O	-	0	621	671	923	942
 0	.	O	O	-	0	621	671	923	942
