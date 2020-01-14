@@ -14,7 +14,7 @@ No.	TOKEN	NE-TAG	NE-EMB	GND-ID	url_id	left	right	top	bottom
 0	wenn	O	O	-	0	671	701	402	415
 0	nicht	O	O	-	0	702	755	399	417
 0	Herr	O	O	-	0	155	192	419	437
-0	Gambetta	O	O	-	0	202	277	419	437
+0	Gambetta	B-PER	O	-	0	202	277	419	437
 0	als	O	O	-	0	287	311	420	436
 0	deus	O	O	-	0	320	357	419	434
 0	ex	O	O	-	0	366	385	422	434
@@ -40,12 +40,12 @@ No.	TOKEN	NE-TAG	NE-EMB	GND-ID	url_id	left	right	top	bottom
 0		O	O	-	0	216	239	457	474
 0	Es	O	O	-	0	216	239	457	474
 0	ſcheint	O	O	-	0	252	300	457	475
-0	bem	O	O	-	0	309	339	457	472
+0	dem	O	O	-	0	309	339	457	472
 0	Kammerpräſidenten	O	O	-	0	349	498	455	474
 0	plötzlich	O	O	-	0	508	566	455	475
 0	ein	O	O	-	0	576	598	455	472
 0	Argwohn	O	O	-	0	604	676	455	475
-0	ober	O	O	-	0	686	710	455	471
+0	oder	O	O	-	0	686	710	455	471
 0	eine	O	O	-	0	711	756	455	471
 0	Befürchtung	O	O	-	0	155	250	475	495
 0	gekommen	O	O	-	0	259	338	475	495
@@ -58,7 +58,7 @@ No.	TOKEN	NE-TAG	NE-EMB	GND-ID	url_id	left	right	top	bottom
 0	dem	O	O	-	0	531	561	474	491
 0	Bemühen	O	O	-	0	570	648	474	492
 0	,	O	O	-	0	570	648	474	492
-0	Wabbiugton	B-PER	O	-	0	660	756	474	493
+0	Waddington	B-PER	O	-	0	660	756	474	493
 0	unb	O	O	-	0	155	185	494	512
 0	Loͤon	B-PER	O	-	0	200	249	494	512
 0	Say	I-PER	O	-	0	254	288	494	512
@@ -188,7 +188,7 @@ No.	TOKEN	NE-TAG	NE-EMB	GND-ID	url_id	left	right	top	bottom
 0	das	O	O	-	0	728	755	679	695
 0	wohlbekannte	O	O	-	0	157	258	700	718
 0	kleine	O	O	-	0	271	312	698	715
-0	Coups	O	O	-	0	322	371	699	718
+0	Coupé	O	O	-	0	322	371	699	718
 0	Gambettas	B-PER	O	-	0	382	466	698	716
 0	eine	O	O	-	0	482	510	699	715
 0	ganze	O	O	-	0	525	566	702	718
@@ -196,17 +196,17 @@ No.	TOKEN	NE-TAG	NE-EMB	GND-ID	url_id	left	right	top	bottom
 0	lang	O	O	-	0	648	681	698	715
 0	von	O	O	-	0	695	712	701	714
 0	der	O	O	-	0	714	756	698	714
-0	Rue	I-LOC	O	-	0	157	189	718	735
+0	Rue	B-LOC	O	-	0	157	189	718	735
 0	du	I-LOC	O	-	0	204	222	719	735
-0	Faubourg	O	O	-	0	232	308	718	736
-0	St	O	O	-	0	324	351	718	735
-0	.	O	O	-	0	324	351	718	735
-0	Honors	O	O	-	0	360	418	718	736
+0	Faubourg	I-LOC	O	-	0	232	308	718	736
+0	St	I-LOC	O	-	0	324	351	718	735
+0	.	I-LOC	O	-	0	324	351	718	735
+0	Honoré	I-LOC	O	-	0	360	418	718	736
 0	aus	O	O	-	0	434	462	720	733
 0	im	O	O	-	0	476	496	718	734
 0	Vorhof	O	O	-	0	505	562	717	735
 0	des	O	O	-	0	577	602	718	733
-0	Elyſoe	O	O	-	0	612	661	717	736
+0	Elyſoe	B-LOC	O	-	0	612	661	717	736
 0	ſtationiren	O	O	-	0	666	755	703	736
 0	geſehen	O	O	-	0	158	211	737	756
 0	hatten	O	O	-	0	222	273	737	754
@@ -289,9 +289,7 @@ No.	TOKEN	NE-TAG	NE-EMB	GND-ID	url_id	left	right	top	bottom
 0	Gleichzeitig	O	O	-	0	508	592	830	848
 0	wurde	O	O	-	0	602	649	829	845
 0	Herrn	O	O	-	0	658	703	829	848
-0	Wad	B-PER	O	-	0	714	756	829	845
-0	—	I-PER	O	-	0	714	756	829	845
-0	dington	I-PER	O	-	0	156	214	848	867
+0	Waddington	B-PER	O	-	0	714	756	829	845
 0	das	O	O	-	0	230	257	849	865
 0	Gegentheil	O	O	-	0	272	354	848	867
 0	bedeutet	O	O	-	0	370	437	849	867
