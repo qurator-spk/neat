@@ -450,6 +450,8 @@ function setupInterface(data, file, urls) {
                         keys: 's t',
                         on_keydown:
                             function() {
+                              if (editingTd != null) return true;
+
                               tableEditAction(row.data('tableInfo').nRow, 'sentence');
                           },
                         is_sequence: true,
@@ -461,6 +463,8 @@ function setupInterface(data, file, urls) {
                         keys: 's p',
                         on_keydown:
                             function() {
+                              if (editingTd != null) return true;
+
                               tableEditAction(row.data('tableInfo').nRow, 'split');
                           },
                         is_sequence: true,
@@ -472,6 +476,8 @@ function setupInterface(data, file, urls) {
                         keys: 'm e',
                         on_keydown:
                             function() {
+                              if (editingTd != null) return true;
+
                               tableEditAction(row.data('tableInfo').nRow, 'merge');
                           },
                         is_sequence: true,
@@ -483,6 +489,8 @@ function setupInterface(data, file, urls) {
                         keys: 'd l',
                         on_keydown:
                             function() {
+                              if (editingTd != null) return true;
+
                               tableEditAction(row.data('tableInfo').nRow, 'delete');
                           },
                         is_sequence: true,
@@ -821,7 +829,7 @@ function setupInterface(data, file, urls) {
     $('#tableregion')[0].addEventListener("wheel",
         function(event) {
 
-            if (editingTd != null) return;
+            if (editingTd != null) return true;
 
             if (event.deltaY < 0) stepsBackward(1);
             else stepsForward(1);
@@ -836,14 +844,14 @@ function setupInterface(data, file, urls) {
 
     wnd_listener.simple_combo('pageup',
         function() {
-            if (editingTd != null) return;
+            if (editingTd != null) return true;
 
             $('#back').click();
         });
 
     wnd_listener.simple_combo('pagedown',
         function() {
-            if (editingTd != null) return;
+            if (editingTd != null) return true;
 
             $('#next').click();
         });
@@ -949,6 +957,8 @@ function setupInterface(data, file, urls) {
     wnd_listener.sequence_combo('l a',
         function() {
 
+            if (editingTd != null) return true;
+
             displayRows++;
 
             endIndex = startIndex + displayRows;
@@ -966,6 +976,8 @@ function setupInterface(data, file, urls) {
 
     wnd_listener.sequence_combo('l r',
         function() {
+
+            if (editingTd != null) return true;
 
             if (displayRows > 5) displayRows--;
 
