@@ -1,11 +1,11 @@
 
 function loadFile(evt, onComplete) {
 
-    var file = evt.target.files[0];
+    let file = evt.target.files[0];
 
-    var urls = null;
+    let urls = null;
 
-    var reader = new FileReader();
+    let reader = new FileReader();
 
     reader.onload =
         function(event) {
@@ -13,7 +13,7 @@ function loadFile(evt, onComplete) {
             let link_detector = /(https?:\/\/[^\s]+)/g;
 
             let lines = event.target.result.split(/\r\n|\n/);
-            for(var i = 0; i < lines.length; i++){
+            for(let i = 0; i < lines.length; i++){
 
                 let line = lines[i];
 
@@ -41,19 +41,36 @@ function loadFile(evt, onComplete) {
 	    escapeChar: String.fromCharCode(0),
         comments: "#",
         skipEmptyLines: true,
-        dynamicTyping: true,
+        dynamicTyping: false,
         complete: function(results) { onComplete(results, file, urls); }
     });
 }
 
 function setupInterface(data, file, urls) {
 
-    let displayRows=30
+    // private variables of app
+
+    let displayRows=15
     let startIndex=0;
     let endIndex=displayRows;
 
+    let do_not_display = new Set(['url_id', 'left', 'right', 'top', 'bottom']);
+    let tagClasses = 'ner_per ner_loc ner_org ner_work ner_conf ner_evt ner_todo';
+
     let has_changes = false;
-    var save_timeout = null;
+
+    let save_timeout = null;
+
+    let listener_defaults = { prevent_repeat  : true };
+
+    let editingTd;
+
+    let wnd_listener = new window.keypress.Listener();
+    let slider_pos = data.data.length - startIndex;
+    let slider_min = displayRows;
+    let slider_max = data.data.length;
+
+    // private functions of app
 
     function notifyChange() {
         if (save_timeout != null) clearTimeout(save_timeout);
@@ -104,12 +121,6 @@ function setupInterface(data, file, urls) {
         save_timeout = setTimeout(checker, 3000);
     };
 
-    // public interface
-    var that =
-        {
-            hasChanges: function () { return has_changes; }
-        };
-
     function updatePreview(nRow) {
 
         if (urls == null) return;
@@ -119,10 +130,10 @@ function setupInterface(data, file, urls) {
         if (img_url == "http://empty")
             return
 
-        let left = data.data[nRow]['left'];
-        let right = data.data[nRow]['right'];
-        let top = data.data[nRow]['top'];
-        let bottom = data.data[nRow]['bottom'];
+        let left = parseInt(data.data[nRow]['left']);
+        let right = parseInt(data.data[nRow]['right']);
+        let top = parseInt(data.data[nRow]['top']);
+        let bottom = parseInt(data.data[nRow]['bottom']);
 
         top = Math.max(0, top - 25);
         bottom = bottom + 25;
@@ -138,8 +149,6 @@ function setupInterface(data, file, urls) {
         img_url = img_url.replace('bottom',bottom.toString());
         img_url = img_url.replace('width', width.toString());
         img_url = img_url.replace('height', height.toString());
-
-        //console.log(img_url)
 
         $("#preview").attr("src", img_url);
 
@@ -164,41 +173,31 @@ function setupInterface(data, file, urls) {
         $("#preview-link").attr("href", img_url);
     }
 
-    function gotoLocation(evt) {
-
-        if (urls == null) return;
-
-        let nRow = parseInt($(evt.target).text());
-
-        updatePreview(nRow)
-    }
-
     function colorCode() {
+        $(".editable").removeClass(tagClasses);
+
         $("#table td:contains('B-PER')").addClass('ner_per');
         $("#table td:contains('I-PER')").addClass('ner_per');
         $("#table td:contains('B-LOC')").addClass('ner_loc');
         $("#table td:contains('I-LOC')").addClass('ner_loc');
         $("#table td:contains('B-ORG')").addClass('ner_org');
         $("#table td:contains('I-ORG')").addClass('ner_org');
-        $("#table td:contains('B-PUB')").addClass('ner_pub');
-        $("#table td:contains('I-PUB')").addClass('ner_pub');
+        $("#table td:contains('B-WORK')").addClass('ner_work');
+        $("#table td:contains('I-WORK')").addClass('ner_work');
         $("#table td:contains('B-CONF')").addClass('ner_conf');
         $("#table td:contains('I-CONF')").addClass('ner_conf');
-        $("#table td:contains('B-ART')").addClass('ner_art');
-        $("#table td:contains('I-ART')").addClass('ner_art');
+        $("#table td:contains('B-EVT')").addClass('ner_evt');
+        $("#table td:contains('I-EVT')").addClass('ner_evt');
         $("#table td:contains('B-TODO')").addClass('ner_todo');
         $("#table td:contains('I-TODO')").addClass('ner_todo');
     }
 
-    let editingTd;
-
     function makeTdEditable(td) {
 
         editingTd = {
-            elem: td,
             data: td.innerHTML,
             finish:
-                function (td, isOk) {
+                function (isOk) {
 
                     if (isOk) {
 
@@ -210,13 +209,15 @@ function setupInterface(data, file, urls) {
 
                         data.data[tableInfo.nRow][tableInfo.column] = newValue;
 
+                        sanitizeData();
                         notifyChange();
+                        updateTable();
                     }
                     else {
                         $(td).html(editingTd.data);
                     }
-
                     editingTd = null;
+                    $(td).focus();
                 }
         };
 
@@ -231,7 +232,7 @@ function setupInterface(data, file, urls) {
         textArea.focus();
 
         let edit_html =
-            `<div class="edit-controls">
+            `<div class="edit-controls" id="TdEdit">
                 <button class="btn btn-secondary btn-sm" id="edit-ok">OK</button>
                 <button class="btn btn-secondary btn-sm" id="edit-cancel">CANCEL</button>
              </div>`
@@ -240,111 +241,123 @@ function setupInterface(data, file, urls) {
 
         $('#edit-ok').on('click',
             function(evt) {
-                editingTd.finish(editingTd.elem, true);
+                editingTd.finish(true);
             });
 
         $('#edit-cancel').on('click',
             function(evt) {
-                editingTd.finish(editingTd.elem, false);
+                editingTd.finish(false);
             });
+
+        let listener = new window.keypress.Listener($('#edit-area'), listener_defaults);
+
+        listener.simple_combo('enter', function() { $('#edit-ok').click(); } );
+        listener.simple_combo('esc', function() { $('#edit-cancel').click(); } );
+    }
+
+    function sanitizeData() {
+        word_pos = 1;
+        for(let i = 0; i < data.data.length; i++){
+            if ((data.data[i]['TOKEN'] == null) || (data.data[i]['TOKEN'].toString().length == 0)){
+                word_pos = 0;
+            }
+            data.data[i]['No.'] = word_pos;
+
+            if (data.data[i]['TOKEN'] == null) data.data[i]['TOKEN'] = '';
+            if (data.data[i]['GND-ID'] == null) data.data[i]['GND-ID'] = '';
+            if (data.data[i]['NE-TAG'] == null) data.data[i]['NE-TAG'] = '';
+            if (data.data[i]['NE-EMB'] == null) data.data[i]['NE-EMB'] = '';
+
+            data.data[i]['TOKEN'] = data.data[i]['TOKEN'].toString().replace(/(\r\n|\n|\r)/gm, "");
+            data.data[i]['GND-ID'] = data.data[i]['GND-ID'].toString().replace(/(\r\n|\n|\r)/gm, "");
+            data.data[i]['NE-TAG'] = data.data[i]['NE-TAG'].toString().replace(/(\r\n|\n|\r)/gm, "");
+            data.data[i]['NE-EMB'] = data.data[i]['NE-EMB'].toString().replace(/(\r\n|\n|\r)/gm, "");
+
+            word_pos++;
+        }
+    }
+
+    function tableEditAction(nRow, action) {
+
+        if (editingTd != null) return;
+
+        if (action == null) return;
+
+        if (data.data[nRow]['TOKEN'] == null) data.data[nRow]['TOKEN'] = '';
+
+        if (action.includes('merge')) {
+
+            if (nRow < 1) return;
+
+            if (data.data[nRow - 1]['TOKEN'] == null) data.data[nRow - 1]['TOKEN'] = '';
+
+            data.data[nRow - 1]['TOKEN'] =
+                data.data[nRow - 1]['TOKEN'].toString() + data.data[nRow]['TOKEN'].toString();
+
+            data.data.splice(nRow, 1);
+        }
+        else if (action.includes('split')) {
+
+            data.data.splice(nRow, 0, JSON.parse(JSON.stringify(data.data[nRow])));
+        }
+        else if (action.includes('delete')) {
+            data.data.splice(nRow, 1);
+        }
+        else if (action.includes('sentence')) {
+
+            let new_line = JSON.parse(JSON.stringify(data.data[nRow]));
+            new_line['TOKEN'] = '';
+            new_line['NE-TAG'] = 'O';
+            new_line['NE-EMB'] = 'O';
+            new_line['GND-ID'] = '';
+
+            data.data.splice(nRow, 0, new_line);
+        }
+
+        sanitizeData();
+        notifyChange();
+        updateTable();
     }
 
     function makeLineSplitMerge(td) {
 
         editingTd = {
-            elem: td,
             data: td.innerHTML,
-            tokenizer_action: null,
-            finish: function(td, isOk) {
+            finish: function(action, isOk) {
+
                 $(td).html(editingTd.data);
                 $(td).addClass('editable');
 
-                if (editingTd.tokenizer_action == null) {
-                    editingTd = null;
-                    return;
-                }
-
                 let tableInfo = $(td).data('tableInfo');
-
-                if (editingTd.tokenizer_action.includes('merge')) {
-
-                    if (tableInfo.nRow < 1) {
-                        editingTd = null;
-                        return;
-                    }
-
-                    let pos = tableInfo.nRow + 1;
-                    word_pos = data.data[tableInfo.nRow - 1]['No.'] + 1
-                    while((pos < data.data.length) && (data.data[pos]['No.'] > 1)) {
-                        data.data[pos]['No.'] = word_pos;
-                        pos++;
-                        word_pos++;
-                    }
-
-                    data.data[tableInfo.nRow - 1]['TOKEN'] += data.data[tableInfo.nRow]['TOKEN'];
-
-                    data.data.splice(tableInfo.nRow, 1);
-
-                    notifyChange();
-                }
-                else if (editingTd.tokenizer_action.includes('split')) {
-
-                    data.data.splice(tableInfo.nRow, 0, JSON.parse(JSON.stringify(data.data[tableInfo.nRow])));
-                     data.data[tableInfo.nRow + 1]['No.'] += 1
-
-                    let pos = tableInfo.nRow + 2;
-                    while ((pos < data.data.length) && (data.data[pos]['No.'] > 1)) {
-                        data.data[pos]['No.']++;
-                        pos++;
-                    }
-
-                    notifyChange();
-                }
-                else if (editingTd.tokenizer_action.includes('start-sentence')) {
-                    let pos = tableInfo.nRow;
-                    let word_pos = 1;
-                    while ((pos < data.data.length) && (data.data[pos]['No.'] != 1)) {
-                        data.data[pos]['No.'] = word_pos;
-                        pos++;
-                        word_pos++;
-                    }
-
-                    notifyChange();
-                }
 
                 editingTd = null;
 
-                updateTable();
+                tableEditAction(tableInfo.nRow, action)
+
+                $(td).focus();
             }
         };
 
         let edit_html = `
             <div class="accordion" id="tokenizer" style="display:block;">
                 <section class="accordion-item tokenizer-action">&#8597;&nbsp;&nbsp;split</section>
-                <section class="accordion-item tokenizer-action">&#10227;&nbsp;merge-above</section>
-                <section class="accordion-item tokenizer-action">start-sentence</section>
-            </div>
-        `;
+                <section class="accordion-item tokenizer-action">&#10227;&nbsp;merge</section>
+                <section class="accordion-item tokenizer-action">&#9735;&nbsp;sentence</section>
+            </div>`;
 
-        $(td).removeClass();
+        $(td).removeClass('editable');
         $(td).html(edit_html);
-        $('#tokenizer').mouseleave(
-            function(event) {
-                editingTd.finish(editingTd.elem, false);
-            });
 
-        $('.tokenizer-action').click(
-            function(event) {
-                editingTd.tokenizer_action = $(event.target).text();
-            });
+        $('#tokenizer').mouseleave( function(event) { editingTd.finish(null, false); });
+
+        $('.tokenizer-action').click(function(event) { editingTd.finish($(event.target).text(), true); });
     }
 
     function makeTagEdit(td) {
 
         editingTd = {
-            elem: td,
             data: td.innerHTML,
-            finish: function(td, isOk) {
+            finish: function(isOk) {
 
                 let tableInfo = $(td).data('tableInfo');
 
@@ -370,9 +383,9 @@ function setupInterface(data, file, urls) {
                         <div class="ner_per type_select">B-PER</div>
                         <div class="ner_loc type_select">B-LOC</div>
                         <div class="ner_org type_select">B-ORG</div>
-                        <div class="ner_pub type_select">B-PUB</div>
+                        <div class="ner_work type_select">B-WORK</div>
                         <div class="ner_conf type_select">B-CONF</div>
-                        <div class="ner_art type_select">B-ART</div>
+                        <div class="ner_evt type_select">B-EVT</div>
                         <div class="ner_todo type_select">B-TODO</div>
                     </div>
                 </section>
@@ -381,40 +394,32 @@ function setupInterface(data, file, urls) {
                         <div class="ner_per type_select">I-PER</div>
                         <div class="ner_loc type_select">I-LOC</div>
                         <div class="ner_org type_select">I-ORG</div>
-                        <div class="ner_pub type_select">I-PUB</div>
+                        <div class="ner_work type_select">I-WORK</div>
                         <div class="ner_conf type_select">I-CONF</div>
-                        <div class="ner_art type_select">I-ART</div>
+                        <div class="ner_evt type_select">I-EVT</div>
                         <div class="ner_todo type_select">I-TODO</div>
                     </div>
                 </section>
             </div>
         `;
 
-        $(td).removeClass();
+        $(td).removeClass('editable');
         $(td).html(edit_html);
-        $('#tagger').mouseleave(
-            function(event) {
-                editingTd.finish(editingTd.elem, false);
-            });
+        $('#tagger').mouseleave( function(event) { editingTd.finish(false); });
 
         $('.type_select').click(
             function(event) {
                 editingTd.data = $(event.target).text();
+
+                editingTd.finish(true);
             });
     }
 
-    function updateTable() {
+    function createTable() {
 
-        let do_not_display = new Set(['url_id', 'left', 'right', 'top', 'bottom']);
+        sanitizeData();
 
-        editingTd = null;
-
-        let editable_html =
-            `
-                <td class="editable">
-            `;
-
-        $('#table-body').empty();
+        let editable_html =`<td class="editable hover">`;
 
         $.each(data.data,
               function(nRow, el) {
@@ -422,31 +427,138 @@ function setupInterface(data, file, urls) {
                   if (nRow < startIndex) return;
                   if (nRow >= endIndex) return;
 
-                  var row = $("<tr/>");
-                  row.append($('<td> <button class="btn btn-link btn-xs py-0 offset">' +
-                                      nRow + '</button>  </td>'));
+                  let row = $("<tr/>").data('tableInfo', { 'nRow': nRow });
+
+                  row.focusin(
+                    function() {
+                        updatePreview(row.data('tableInfo').nRow);
+
+                        $('#preview').css('transform', 'translate(0,' + (row.position().top + row.height()/2) + 'px)'
+                                                        + ' translate(0%,-50%)');
+                    });
+
+                  row.append($('<td class="hover"/>').
+                                text(nRow).
+                                data('tableInfo', { 'nRow': nRow })
+                            );
+
+                  let row_listener = new window.keypress.Listener(row, listener_defaults);
+
+                  row_listener.register_many(
+                    [
+                      {
+                        keys: 's t',
+                        on_keydown:
+                            function() {
+                              if (editingTd != null) return true;
+
+                              tableEditAction(row.data('tableInfo').nRow, 'sentence');
+                          },
+                        is_sequence: true,
+                        is_solitary: true,
+                        is_exclusive: true
+                      },
+
+                      {
+                        keys: 's p',
+                        on_keydown:
+                            function() {
+                              if (editingTd != null) return true;
+
+                              tableEditAction(row.data('tableInfo').nRow, 'split');
+                          },
+                        is_sequence: true,
+                        is_solitary: true,
+                        is_exclusive: true
+                      },
+
+                      {
+                        keys: 'm e',
+                        on_keydown:
+                            function() {
+                              if (editingTd != null) return true;
+
+                              tableEditAction(row.data('tableInfo').nRow, 'merge');
+                          },
+                        is_sequence: true,
+                        is_solitary: true,
+                        is_exclusive: true
+                      },
+
+                      {
+                        keys: 'd l',
+                        on_keydown:
+                            function() {
+                              if (editingTd != null) return true;
+
+                              tableEditAction(row.data('tableInfo').nRow, 'delete');
+                          },
+                        is_sequence: true,
+                        is_solitary: true,
+                        is_exclusive: true
+                      }
+                    ]
+                  );
 
                   $.each(el,
                       function(column, content) {
 
+                          let td = $(editable_html)
+
+                          let listener = new window.keypress.Listener(td, listener_defaults);
+
                           if (do_not_display.has(column)) return
 
-                          var clickAction = function() { console.log('Do something different');}
+                          let clickAction = function() { console.log('Do something different');}
 
-                          if (column == 'No.')
-                            clickAction = makeLineSplitMerge
+                          if (column == 'No.') {
+                            clickAction = makeLineSplitMerge;
+                          }
 
-                          if ((column == 'TOKEN') || (column == 'GND-ID'))
-                            clickAction = makeTdEditable
+                          if ((column == 'TOKEN') || (column == 'GND-ID'))  {
+                            clickAction = makeTdEditable;
 
-                          if ((column == 'NE-TAG') || (column == 'NE-EMB'))
-                            clickAction = makeTagEdit
+                            listener.simple_combo('enter', function() { $(td).click(); });
+                          }
 
-                          row.append(
-                              $(editable_html).
-                                  text(content).
-                                  data('tableInfo', { 'nRow': nRow, 'column': column , 'clickAction': clickAction })
-                          );
+                          if ((column == 'NE-TAG') || (column == 'NE-EMB')) {
+                            clickAction = makeTagEdit;
+
+                            function tagAction(tag) {
+
+                                tableInfo = $(td).data('tableInfo');
+
+                                data.data[tableInfo.nRow][tableInfo.column] = tag;
+
+                                td.html(tag);
+                                colorCode();
+                                notifyChange();
+                            };
+
+                            listener.sequence_combo('b p', function() { tagAction('B-PER'); });
+                            listener.sequence_combo('b l', function() { tagAction('B-LOC'); });
+                            listener.sequence_combo('b o', function() { tagAction('B-ORG'); });
+                            listener.sequence_combo('b w', function() { tagAction('B-WORK'); });
+                            listener.sequence_combo('b c', function() { tagAction('B-CONF'); });
+                            listener.sequence_combo('b e', function() { tagAction('B-EVT'); });
+                            listener.sequence_combo('b t', function() { tagAction('B-TODO'); });
+
+                            listener.sequence_combo('i p', function() { tagAction('I-PER'); });
+                            listener.sequence_combo('i l', function() { tagAction('I-LOC'); });
+                            listener.sequence_combo('i o', function() { tagAction('I-ORG'); });
+                            listener.sequence_combo('i w', function() { tagAction('I-WORK'); });
+                            listener.sequence_combo('i c', function() { tagAction('I-CONF'); });
+                            listener.sequence_combo('i e', function() { tagAction('I-EVT'); });
+                            listener.sequence_combo('i t', function() { tagAction('I-TODO'); });
+
+                            listener.sequence_combo('backspace', function() { tagAction('O'); });
+                          }
+
+                          td.attr('tabindex', 0).
+                             text(content).
+                             data('tableInfo', { 'nRow': nRow, 'column': column , 'clickAction': clickAction })
+
+                          row.append(td);
                       });
 
                   $("#table tbody").append(row);
@@ -454,9 +566,14 @@ function setupInterface(data, file, urls) {
 
         colorCode();
 
-        $(".offset").on('click', gotoLocation);
+        $(".hover").on('mouseover',
+            function (evt) {
 
-        //updatePreview(startIndex)
+                if (editingTd != null) return;
+
+                $(evt.target).focus();
+            }
+        );
 
         if ($("#docpos").val() != startIndex) {
 
@@ -464,59 +581,64 @@ function setupInterface(data, file, urls) {
         }
     }
 
-    let slider_pos = data.data.length - startIndex;
-    let slider_min = displayRows;
-    let slider_max = data.data.length;
+    function updateTable() {
 
-    let range_html =
-            `
-            <input type="range" orient="vertical" class="form-control-range"
-                style="-webkit-appearance: slider-vertical;height:100%;outline: 0 none !important;"
-                min="${slider_min}" max="${slider_max}" value="${slider_pos}" id="docpos" />
-            `;
+        editingTd = null;
 
-    $("#region-right").html(range_html)
+        let rows = $('tbody').children('tr');
 
-    $("#docpos").change(
-        function(evt) {
+        let pRow = 0;
 
-            if (startIndex == data.data.length - this.value) return;
+        $.each(data.data,
+              function(nRow, el) {
 
-            startIndex = data.data.length - this.value;
-            endIndex = startIndex + displayRows;
+                  if (nRow < startIndex) return;
+                  if (nRow >= endIndex) return;
 
-            updateTable();
-        });
 
-    $('#docpos').slider();
+                  let row = $(rows[pRow]);
+                  let tableInfo = row.data('tableInfo');
 
-     let table_html =
-        `
-        <table id="table">
-            <thead>
-            <tr>
-                <th><button class="btn btn-link" id="back"><<</button>LOCATION</th>
-                <th>POSITION</th>
-                <th>TOKEN</th>
-                <th>NE-TAG</th>
-                <th>NE-EMB</th>
-                <th>GND-ID<button class="btn btn-link" id="next">>></button></th>
-            </tr>
-            </thead>
-            <tbody id="table-body"></tbody>
-        </table>
-        <br/>
-        <br/>
-        `;
+                  tableInfo.nRow = nRow;
 
-    let save_html =
-        `<button class="btn btn-primary saveButton" id="save" disabled>Save Changes</button>`
+                  row.data('tableInfo', tableInfo);
 
-    $("#tableregion").html(table_html)
+                  let loc = $(row.children('td').first());
+                  loc.data('tableInfo', tableInfo);
+                  loc.text(nRow);
 
-    $("#btn-region").html(save_html)
+                  let columns = $(rows[pRow]).children('.editable');
+                  let pColumn = 0;
 
-    $("#file-region").html('<h3>' + file.name + '</h3>');
+                  $.each(el,
+                      function(column_name, content) {
+
+                          if (do_not_display.has(column_name)) return
+
+                          let td = $(columns[pColumn]);
+
+                          tableInfo = td.data('tableInfo');
+
+                          tableInfo.nRow = nRow;
+
+                          td.text(content).data('tableInfo', tableInfo);
+
+                          pColumn++;
+                      });
+
+                   pRow++;
+              });
+
+        colorCode();
+
+        if ($("#docpos").val() != startIndex) {
+
+            $("#docpos").val(data.data.length - startIndex);
+        }
+
+        if ($(':focus').data('tableInfo'))
+            updatePreview($(':focus').data('tableInfo').nRow);
+    }
 
     function saveFile(evt) {
 
@@ -537,12 +659,13 @@ function setupInterface(data, file, urls) {
         csv = [ lines[0] ];
         let url_id = -1;
 
-        for(var i = 0; i < data.data.length; i++){
+        for(let i = 0; i < data.data.length; i++){
             if (data.data[i]['url_id'] > url_id) {
 
                 url_id = data.data[i]['url_id'];
 
-                csv.push("# " + urls[url_id]);
+                if (urls != null)
+                    csv.push("# " + urls[url_id]);
             }
             csv.push(lines[i+1]);
         }
@@ -558,7 +681,7 @@ function setupInterface(data, file, urls) {
 
         if (!data) return;
 
-        var blob = data.constructor !== Blob
+        let blob = data.constructor !== Blob
           ? new Blob([data], {type: mimetype || 'application/octet-stream'})
           : data ;
 
@@ -567,7 +690,7 @@ function setupInterface(data, file, urls) {
           return;
         }
 
-        var lnk = document.createElement('a'),
+        let lnk = document.createElement('a'),
             url = window.URL,
             objectURL;
 
@@ -581,79 +704,297 @@ function setupInterface(data, file, urls) {
         setTimeout(url.revokeObjectURL.bind(url, objectURL));
     }
 
-    $('.saveButton').on('click', saveFile)
+    function stepsBackward (nrows) {
 
-    $('#table').on('click',
-        function(event) {
+        if (startIndex >= nrows) {
+            startIndex -= nrows;
+            endIndex -= nrows;
+        }
+        else {
+            startIndex = 0;
+            endIndex = displayRows;
+        }
 
-            let target = event.target.closest('.editable');
+        updateTable();
+    }
 
-            if (editingTd) {
+    function stepsForward(nrows) {
+        if (endIndex + nrows < data.data.length) {
+            endIndex += nrows;
+            startIndex = endIndex - displayRows;
+        }
+        else {
+            endIndex = data.data.length;
+            startIndex = endIndex - displayRows;
+        }
 
-                if (target == editingTd.elem) return;
+        updateTable();
+    }
 
-                editingTd.finish(editingTd.elem, true);
-            }
+    function init() {
 
-            if (!$.contains($('#table')[0], target)) return
+        $("#tableregion").empty();
 
-            $(target).data('tableInfo').clickAction(target);
-        });
+        $("#btn-region").empty();
 
-    updateTable();
+        $("#file-region").empty();
+
+        $("#region-right").empty();
+
+        let range_html =
+                `
+                <input type="range" orient="vertical" class="form-control-range"
+                    style="-webkit-appearance: slider-vertical;height:100%;outline: 0 none !important;"
+                    min="${slider_min}" max="${slider_max}" value="${slider_pos}" id="docpos" />
+                `;
+
+        $("#region-right").html(range_html)
+
+        $("#docpos").change(
+            function(evt) {
+
+                if (startIndex == data.data.length - this.value) return;
+
+                startIndex = data.data.length - this.value;
+                endIndex = startIndex + displayRows;
+
+                updateTable();
+            });
+
+        $('#docpos').slider();
+
+         let table_html =
+            `
+            <table id="table">
+                <thead>
+                <tr>
+                    <th><button class="btn btn-link" id="back" tabindex="-1"><<</button>LOCATION</th>
+                    <th>POSITION</th>
+                    <th>TOKEN</th>
+                    <th>NE-TAG</th>
+                    <th>NE-EMB</th>
+                    <th>GND-ID<button class="btn btn-link" id="next" tabindex="-1">>></button></th>
+                </tr>
+                </thead>
+                <tbody id="table-body"></tbody>
+            </table>
+            <br/>
+            <br/>
+            `;
+
+        let save_html =
+            `<button class="btn btn-primary saveButton" id="save" disabled tabindex="-1">Save Changes</button>`
+
+        $("#tableregion").html(table_html)
+
+        $("#btn-region").html(save_html)
+
+        $("#save").attr('disabled', !has_changes);
+
+        $("#file-region").html('<h3>' + file.name + '</h3>');
+
+        $('.saveButton').on('click', saveFile)
+
+        $('#table').on('click',
+            function(event) {
+
+                let target = event.target.closest('.editable');
+
+                if (editingTd) {
+
+                    if (target == $(':focus')) return;
+                    if ($.contains($(':focus')[0], target)) return;
+                    if ($.contains(target, $(':focus')[0])) return;
+
+                    let refocus = $(':focus');
+
+                    editingTd.finish(true);
+
+                    refocus.focus();
+
+                }
+
+                if (!$.contains($('#table')[0], target)) return
+
+                $(target).data('tableInfo').clickAction(target);
+            });
+
+        $('#back').on('click', function() { stepsBackward(displayRows); } );
+
+        $('#next').on('click', function() { stepsForward(displayRows); } );
+
+        createTable();
+    }
 
     $('#tableregion')[0].addEventListener("wheel",
         function(event) {
 
-            if (event.deltaY < 0) {
+            if (editingTd != null) return true;
 
-                if (startIndex <= 0) return;
-
-                startIndex -= 1;
-                endIndex -= 1;
-            }
-            else {
-
-                if (endIndex >= data.data.length) return;
-
-                startIndex += 1;
-                endIndex += 1;
-            }
-
-            updateTable();
+            if (event.deltaY < 0) stepsBackward(1);
+            else stepsForward(1);
         });
 
-    $('#back').on('click',
-        function(evt) {
+    wnd_listener.simple_combo('tab',
+        function () {
+            if (editingTd != null)
+                return false; // If we are in editing mode, we do not want to propagate the TAB event.
+            else return true; // In non-editing mode, we want to get the "normal" tab behaviour.
+        });
 
-            if (startIndex >= displayRows) {
-                startIndex -= displayRows;
-                endIndex -= displayRows;
+    wnd_listener.simple_combo('pageup',
+        function() {
+            if (editingTd != null) return true;
+
+            $('#back').click();
+        });
+
+    wnd_listener.simple_combo('pagedown',
+        function() {
+            if (editingTd != null) return true;
+
+            $('#next').click();
+        });
+
+    wnd_listener.simple_combo('left',
+        function() {
+            if (editingTd != null) return true;
+
+            let prev = $(':focus').prev('.editable')
+
+            if (prev.length==0) {
+                $(':focus').closest('tr').prev('tr').children('.editable').last().focus();
             }
             else {
-                startIndex = 0;
-                endIndex = displayRows;
+                prev.focus();
             }
+        });
+    wnd_listener.simple_combo('right',
+        function() {
+            if (editingTd != null) return true;
 
-            updateTable();
+            let next = $(':focus').next('.editable')
+
+            if (next.length==0) {
+                $(':focus').closest('tr').next('tr').children('.editable').first().focus();
+            }
+            else {
+                next.focus();
+            }
+        });
+
+     wnd_listener.register_combo(
+        {
+            keys: 'meta up',
+            on_keydown:
+                function() {
+                    if (editingTd != null) return true;
+
+                    stepsBackward(1);
+                },
+            is_solitary: true
         }
     );
 
-    $('#next').on('click',
-        function(evt) {
+     wnd_listener.register_combo(
+        {
+            keys: 'up',
 
-            if (endIndex + displayRows < data.data.length) {
-                endIndex += displayRows;
-                startIndex = endIndex - displayRows;
-            }
-            else {
+            on_keydown:
+                function() {
+                    if (editingTd != null) return true;
+
+                    let prev = $(':focus').closest('tr').prev('tr')
+
+                    let pos = $(':focus').closest('tr').children('.editable').index($(':focus'))
+
+                    if (prev.length==0) {
+                        stepsBackward(1);
+                    }
+                    else {
+                        prev.children('.editable')[pos].focus();
+                    }
+                },
+            is_solitary : true
+        });
+
+    wnd_listener.register_combo(
+        {
+            keys: 'meta down',
+
+            on_keydown: function() {
+                if (editingTd != null) return true;
+
+                stepsForward(1);
+            },
+            is_solitary: true
+        }
+    );
+
+    wnd_listener.register_combo(
+        {
+        keys : 'down',
+        on_keydown:
+            function() {
+                if (editingTd != null) return true;
+
+                let next = $(':focus').closest('tr').next('tr')
+
+                let pos = $(':focus').closest('tr').children('.editable').index($(':focus'))
+
+                if (next.length==0) {
+                    stepsForward(1);
+                }
+                else {
+                    next.children('.editable')[pos].focus();
+                }
+            },
+        is_solitary: true,
+        }
+    );
+
+
+    wnd_listener.sequence_combo('l a',
+        function() {
+
+            if (editingTd != null) return true;
+
+            displayRows++;
+
+            endIndex = startIndex + displayRows;
+
+            if (endIndex >= data.data.length) {
+                startIndex = data.data.length - displayRows;
                 endIndex = data.data.length;
-                startIndex = endIndex - displayRows;
             }
 
-            updateTable();
-        }
-    );
+            slider_min = displayRows;
+            slider_max = data.data.length;
+
+            init();
+        });
+
+    wnd_listener.sequence_combo('l r',
+        function() {
+
+            if (editingTd != null) return true;
+
+            if (displayRows > 5) displayRows--;
+
+            endIndex = startIndex + displayRows;
+            slider_min = displayRows;
+            slider_max = data.data.length;
+
+            init();
+        });
+
+    // public interface
+    let that =
+        {
+            hasChanges: function () { return has_changes; }
+        };
+
+    init();
 
     return that;
 }
@@ -668,7 +1009,7 @@ $(document).ready(
                 loadFile ( evt,
                     function(results, file, urls) {
 
-                        var neath = setupInterface(results, file, urls);
+                        let neath = setupInterface(results, file, urls);
 
                         $(window).bind("beforeunload",
                             function() {
