@@ -1009,14 +1009,14 @@ $(document).ready(
                 loadFile ( evt,
                     function(results, file, urls) {
 
-                        let neath = setupInterface(results, file, urls);
+                        let neat = setupInterface(results, file, urls);
 
                         $(window).bind("beforeunload",
                             function() {
 
-                                console.log(neath.hasChanges());
+                                console.log(neat.hasChanges());
 
-                                if (neath.hasChanges())
+                                if (neat.hasChanges())
                                     return confirm("You have unsaved changes. Do you want to save them before leaving?");
                             }
                         );
