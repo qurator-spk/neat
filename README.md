@@ -76,13 +76,13 @@ No.	TOKEN	NE-TAG	NE-EMB
 ```
 
 For our purposes we extend this format by adding
-* a fifth column for an ``ID`` for the outer ``NE-TAG`` from an authority file (in this case, the [GND](https://www.dnb.de/EN/Professionell/Standardisierung/GND/gnd_node.html) is used) 
+* a fifth column for an ``ID`` for the outer ``NE-TAG`` from an authority file (in this case [Wikidata](https://www.wikidata.org/wiki/Wikidata:Main_Page) is used) 
 * column six for use as a variable ``url_id`` (see [Image Support](https://github.com/qurator-spk/neat/blob/master/README.md#28-image-support) for further details)
 * finally, columns 7+ are used for storing ``left,right,top,bottom`` pixel coordinates for facsimile snippets 
 
 Example (full):
 ```tsv
-No.	TOKEN	NE-TAG	NE-EMB	GND-ID	url_id	left,right,top,bottom
+No.	TOKEN	NE-TAG	NE-EMB	ID	url_id	left,right,top,bottom
 # https://example.url/iiif/left,right,top,bottom/full/0/default.jpg
 1	Donnerstag	O	O	-	0	174,352,358,390
 2	,	O	O	-	0	174,352,358,390	

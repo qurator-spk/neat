@@ -264,12 +264,12 @@ function setupInterface(data, file, urls) {
             data.data[i]['No.'] = word_pos;
 
             if (data.data[i]['TOKEN'] == null) data.data[i]['TOKEN'] = '';
-            if (data.data[i]['GND-ID'] == null) data.data[i]['GND-ID'] = '';
+            if (data.data[i]['ID'] == null) data.data[i]['ID'] = '';
             if (data.data[i]['NE-TAG'] == null) data.data[i]['NE-TAG'] = '';
             if (data.data[i]['NE-EMB'] == null) data.data[i]['NE-EMB'] = '';
 
             data.data[i]['TOKEN'] = data.data[i]['TOKEN'].toString().replace(/(\r\n|\n|\r)/gm, "");
-            data.data[i]['GND-ID'] = data.data[i]['GND-ID'].toString().replace(/(\r\n|\n|\r)/gm, "");
+            data.data[i]['ID'] = data.data[i]['ID'].toString().replace(/(\r\n|\n|\r)/gm, "");
             data.data[i]['NE-TAG'] = data.data[i]['NE-TAG'].toString().replace(/(\r\n|\n|\r)/gm, "");
             data.data[i]['NE-EMB'] = data.data[i]['NE-EMB'].toString().replace(/(\r\n|\n|\r)/gm, "");
 
@@ -309,7 +309,7 @@ function setupInterface(data, file, urls) {
             new_line['TOKEN'] = '';
             new_line['NE-TAG'] = 'O';
             new_line['NE-EMB'] = 'O';
-            new_line['GND-ID'] = '';
+            new_line['ID'] = '';
 
             data.data.splice(nRow, 0, new_line);
         }
@@ -517,12 +517,12 @@ function setupInterface(data, file, urls) {
                             clickAction = makeLineSplitMerge;
                           }
 
-                          if ((column == 'TOKEN') || (column == 'GND-ID'))  {
+                          if ((column == 'TOKEN') || (column == 'ID'))  {
                             clickAction = makeTdEditable;
 
                             listener.simple_combo('enter', function() { $(td).click(); });
 
-                            if (column == 'GND-ID') {
+                            if (column == 'ID') {
                                 fillAction =
                                     function(td,content) {
                                         if (String(content).match(/^Q[0-9]+$/g) == null) {
@@ -805,7 +805,7 @@ function setupInterface(data, file, urls) {
                     <th>TOKEN</th>
                     <th>NE-TAG</th>
                     <th>NE-EMB</th>
-                    <th>GND-ID<button class="btn btn-link" id="next" tabindex="-1">>></button></th>
+                    <th>ID<button class="btn btn-link" id="next" tabindex="-1">>></button></th>
                 </tr>
                 </thead>
                 <tbody id="table-body"></tbody>
