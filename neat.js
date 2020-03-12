@@ -192,13 +192,6 @@ function setupInterface(data, file, urls) {
         $("#table td:contains('I-TODO')").addClass('ner_todo');
     }
 
-    function fillStandardTd(td, content) {
-        td.text(content);
-    }
-
-    function fillEntityDisambiguationTd(td, content) {
-    }
-
     function makeTdEditable(td, content) {
 
         let tableInfo = $(td).data('tableInfo');
