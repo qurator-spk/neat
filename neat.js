@@ -192,10 +192,19 @@ function setupInterface(data, file, urls) {
         $("#table td:contains('I-TODO')").addClass('ner_todo');
     }
 
-    function makeTdEditable(td) {
+    function fillStandardTd(td, content) {
+        td.text(content);
+    }
+
+    function fillEntityDisambiguationTd(td, content) {
+    }
+
+    function makeTdEditable(td, content) {
+
+        let tableInfo = $(td).data('tableInfo');
 
         editingTd = {
-            data: td.innerHTML,
+            data: data.data[tableInfo.nRow][tableInfo.column],
             finish:
                 function (isOk) {
 
@@ -203,9 +212,7 @@ function setupInterface(data, file, urls) {
 
                         let newValue = $('#edit-area').val();
 
-                        $(td).html(newValue);
-
-                        let tableInfo = $(td).data('tableInfo');
+                        tableInfo.fillAction($(td), newValue);
 
                         data.data[tableInfo.nRow][tableInfo.column] = newValue;
 
@@ -214,7 +221,7 @@ function setupInterface(data, file, urls) {
                         updateTable();
                     }
                     else {
-                        $(td).html(editingTd.data);
+                        tableInfo.fillAction($(td), editingTd.data);
                     }
                     editingTd = null;
                     $(td).focus();
@@ -226,7 +233,7 @@ function setupInterface(data, file, urls) {
         textArea.style.height = td.clientHeight + 'px';
         textArea.id = 'edit-area';
 
-        $(textArea).val($(td).html());
+        $(textArea).val(data.data[tableInfo.nRow][tableInfo.column]);
         $(td).html('');
         $(td).append(textArea);
         textArea.focus();
@@ -321,14 +328,14 @@ function setupInterface(data, file, urls) {
 
     function makeLineSplitMerge(td) {
 
+        let tableInfo = $(td).data('tableInfo');
+
         editingTd = {
-            data: td.innerHTML,
+            data: data.data[tableInfo.nRow][tableInfo.column],
             finish: function(action, isOk) {
 
                 $(td).html(editingTd.data);
                 $(td).addClass('editable');
-
-                let tableInfo = $(td).data('tableInfo');
 
                 editingTd = null;
 
@@ -355,15 +362,16 @@ function setupInterface(data, file, urls) {
 
     function makeTagEdit(td) {
 
-        editingTd = {
-            data: td.innerHTML,
-            finish: function(isOk) {
+        let tableInfo = $(td).data('tableInfo');
 
-                let tableInfo = $(td).data('tableInfo');
+        editingTd = {
+            data: data.data[tableInfo.nRow][tableInfo.column],
+            finish: function(isOk) {
 
                 data.data[tableInfo.nRow][tableInfo.column] = editingTd.data;
 
-                $(td).html(editingTd.data);
+                tableInfo.fillAction($(td), data.data[tableInfo.nRow][tableInfo.column])
+
                 $(td).addClass('editable');
 
                 editingTd = null;
@@ -510,6 +518,7 @@ function setupInterface(data, file, urls) {
                           if (do_not_display.has(column)) return
 
                           let clickAction = function() { console.log('Do something different');}
+                          let fillAction = function(td, content) {  td.text(content); };
 
                           if (column == 'No.') {
                             clickAction = makeLineSplitMerge;
@@ -519,6 +528,28 @@ function setupInterface(data, file, urls) {
                             clickAction = makeTdEditable;
 
                             listener.simple_combo('enter', function() { $(td).click(); });
+
+                            if (column == 'GND-ID') {
+                                fillAction =
+                                    function(td,content) {
+                                        if (String(content).match(/^Q[0-9]+$/g) == null) {
+                                            td.text(content);
+                                        }
+                                        else {
+                                            td.html("");
+
+                                            var link = $('<a href="https://www.wikidata.org/wiki/' + content + '">' +
+                                                            content + "</a>")
+                                            link.click(
+                                                function(event) {
+                                                    event.stopPropagation();
+                                                }
+                                            );
+
+                                            td.append(link);
+                                        }
+                                    }
+                            }
                           }
 
                           if ((column == 'NE-TAG') || (column == 'NE-EMB')) {
@@ -555,8 +586,14 @@ function setupInterface(data, file, urls) {
                           }
 
                           td.attr('tabindex', 0).
-                             text(content).
-                             data('tableInfo', { 'nRow': nRow, 'column': column , 'clickAction': clickAction })
+                             data('tableInfo',
+                                    {'nRow': nRow,
+                                     'column': column ,
+                                     'clickAction': clickAction,
+                                     'fillAction': fillAction
+                                    });
+
+                          fillAction(td,content);
 
                           row.append(td);
                       });
@@ -621,7 +658,9 @@ function setupInterface(data, file, urls) {
 
                           tableInfo.nRow = nRow;
 
-                          td.text(content).data('tableInfo', tableInfo);
+                          td.data('tableInfo', tableInfo);
+
+                          tableInfo.fillAction(td, content);
 
                           pColumn++;
                       });
