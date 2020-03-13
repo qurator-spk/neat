@@ -182,6 +182,10 @@ function setupInterface(data, file, urls) {
         width = max_right - min_left;
         height = max_bottom - min_top;
 
+        img_url = img_url.replace("left,top,width,height", "full")
+        img_url = img_url.replace("left,right,top,bottom", "full")
+        img_url = img_url.replace("left,top,right,bottom", "full")
+
         img_url = img_url.replace('left',  min_left.toString());
         img_url = img_url.replace('right', max_right.toString());
         img_url = img_url.replace('top',   min_top.toString());
