@@ -70,6 +70,11 @@ function setupInterface(data, file, urls) {
     let slider_min = displayRows;
     let slider_max = data.data.length;
 
+    let min_left = 1000000000
+    let max_right = 0
+    let min_top = 1000000000
+    let max_bottom = 0
+
     // private functions of app
 
     function notifyChange() {
@@ -171,6 +176,24 @@ function setupInterface(data, file, urls) {
         img_url = img_url.replace('height', height.toString());
 
         $("#preview-link").attr("href", img_url);
+
+        img_url = urls[data.data[nRow]['url_id']];
+
+        width = max_right - min_left;
+        height = max_bottom - min_top;
+
+        img_url = img_url.replace('left',  min_left.toString());
+        img_url = img_url.replace('right', max_right.toString());
+        img_url = img_url.replace('top',   min_top.toString());
+        img_url = img_url.replace('bottom', max_bottom.toString());
+        img_url = img_url.replace('width', width.toString());
+        img_url = img_url.replace('height', height.toString());
+
+        if ($('#full-page-link').length == 0) {
+            $('#preview-rgn').append($('<a href="" id="full-page-link"><small>full page</small> </a>'));
+        }
+
+        $("#full-page-link").attr("href", img_url);
     }
 
     function colorCode() {
@@ -258,6 +281,13 @@ function setupInterface(data, file, urls) {
     function sanitizeData() {
         word_pos = 1;
         for(let i = 0; i < data.data.length; i++){
+
+            min_left = (parseInt(data.data[i]['left']) < min_left) ? parseInt(data.data[i]['left']) : min_left;
+            max_right= (parseInt(data.data[i]['right']) > max_right) ? parseInt(data.data[i]['right']) : max_right;
+
+            min_top = (parseInt(data.data[i]['top']) < min_top) ? parseInt(data.data[i]['top']) : min_top;
+            max_bottom = (parseInt(data.data[i]['bottom']) > max_bottom) ? parseInt(data.data[i]['bottom']) : max_bottom;
+
             if ((data.data[i]['TOKEN'] == null) || (data.data[i]['TOKEN'].toString().length == 0)){
                 word_pos = 0;
             }
@@ -434,7 +464,7 @@ function setupInterface(data, file, urls) {
                     function() {
                         updatePreview(row.data('tableInfo').nRow);
 
-                        $('#preview').css('transform', 'translate(0,' + (row.position().top + row.height()/2) + 'px)'
+                        $('#preview-rgn').css('transform', 'translate(0,' + (row.position().top + row.height()/2) + 'px)'
                                                         + ' translate(0%,-50%)');
                     });
 
@@ -531,7 +561,7 @@ function setupInterface(data, file, urls) {
                                         else {
                                             td.html("");
 
-                                            var link = $('<a href="https://www.wikidata.org/wiki/' + content + '">' +
+                                            let link = $('<a href="https://www.wikidata.org/wiki/' + content + '">' +
                                                             content + "</a>")
                                             link.click(
                                                 function(event) {
@@ -643,7 +673,7 @@ function setupInterface(data, file, urls) {
                   $.each(el,
                       function(column_name, content) {
 
-                          if (do_not_display.has(column_name)) return
+                          if (do_not_display.has(column_name)) return;
 
                           let td = $(columns[pColumn]);
 
@@ -815,17 +845,17 @@ function setupInterface(data, file, urls) {
             `;
 
         let save_html =
-            `<button class="btn btn-primary saveButton" id="save" disabled tabindex="-1">Save Changes</button>`
+            `<button class="btn btn-primary saveButton" id="save" disabled tabindex="-1">Save Changes</button>`;
 
-        $("#tableregion").html(table_html)
+        $("#tableregion").html(table_html);
 
-        $("#btn-region").html(save_html)
+        $("#btn-region").html(save_html);
 
         $("#save").attr('disabled', !has_changes);
 
         $("#file-region").html('<h3>' + file.name + '</h3>');
 
-        $('.saveButton').on('click', saveFile)
+        $('.saveButton').on('click', saveFile);
 
         $('#table').on('click',
             function(event) {
