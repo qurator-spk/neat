@@ -175,7 +175,12 @@ function setupInterface(data, file, urls) {
         img_url = img_url.replace('width', width.toString());
         img_url = img_url.replace('height', height.toString());
 
+        if ($('#enlarge-page-link').length == 0) {
+            $('#preview-rgn').append($('<a href="" id="enlarge-page-link"><small>enlarge</small> </a>'));
+        }
+
         $("#preview-link").attr("href", img_url);
+        $("#enlarge-page-link").attr("href", img_url);
 
         img_url = urls[data.data[nRow]['url_id']];
 
@@ -194,7 +199,7 @@ function setupInterface(data, file, urls) {
         img_url = img_url.replace('height', height.toString());
 
         if ($('#full-page-link').length == 0) {
-            $('#preview-rgn').append($('<a href="" id="full-page-link"><small>full page</small> </a>'));
+            $('#preview-rgn').append($('<small>| </small><a href="" id="full-page-link"><small>full</small> </a>'));
         }
 
         $("#full-page-link").attr("href", img_url);
