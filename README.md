@@ -1,6 +1,6 @@
 # neat: named entity annotation tool
 ---
-![Screenshot](https://user-images.githubusercontent.com/952378/72167036-ad2c6680-33ca-11ea-980f-5859e5155877.png)
+![Screenshot](https://user-images.githubusercontent.com/952378/76674885-6b7b9000-65b4-11ea-9a36-1f9179dc5d6b.png)
 ---
 
 ### Table of contents
