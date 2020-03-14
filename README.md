@@ -166,7 +166,7 @@ The source data that is used for annotation are OCR results in [PAGE-XML](https:
 Provided facsimile images are available via the [iiif.io](https://iiif.io/) Image API, [neat](https://github.com/qurator-spk/neat) supports the embedding of image snippets into its interface to assist data annotation and correction. This requires that the PAGE-XML OCR contains word bounding boxes. 
 
 #### 2.8 Saving progress
-[neat](https://github.com/qurator-spk/neat) runs fully locally in the browser. Therefore it can not automatically save any changes you made to disk. You have to use the `Save Changes` button in order to so manually from time to time.
+[neat](https://github.com/qurator-spk/neat) runs fully locally in the browser. Therefore it can not automatically save any changes you made to disk. You have to use the `Save Changes` button to do so manually from time to time.
 
 ### 3. Annotation Guidelines
 [Annotation Guidelines](https://github.com/qurator-spk/neat/blob/master/Annotation_Guidelines.pdf) 
