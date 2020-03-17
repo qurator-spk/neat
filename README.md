@@ -19,21 +19,21 @@
 [3. Annotation Guidelines](https://github.com/qurator-spk/neat/blob/master/README.md#3-annotation-guidelines)
 
 ### 1. Introduction
-[neat](https://github.com/qurator-spk/neat) is a simple, browser-based tool for editing and annotating text with named entities to produce labeled data for training/testing/evaluation. It can be used to add or correct named entity labels and to correct the token text or tokenization (e.g. due to OCR/segmentation errors). 
+*neat* is a simple, browser-based tool for editing and annotating text with named entities to produce labeled data for training/testing/evaluation. It can be used to add or correct named entity labels and to correct the token text or tokenization (e.g. due to OCR/segmentation errors). 
 
-[neat](https://github.com/qurator-spk/neat) is developed at the [Berlin State Library](https://staatsbibliothek-berlin.de/) for data annotation in the [SoNAR-IDH](https://sonar.fh-potsdam.de/) project and the [QURATOR](https://qurator.ai/) project.
+*neat* is developed at the [Berlin State Library](https://staatsbibliothek-berlin.de/) for data annotation in the [SoNAR-IDH](https://sonar.fh-potsdam.de/) project and the [QURATOR](https://qurator.ai/) project.
 
 ### 2. User Guide
 
 #### 2.1 Installation
-[neat](https://github.com/qurator-spk/neat) runs locally as a pure HTML+JavaScript webpage in your web browser. No additional software needs to be installed, but JavaScript has to be enabled in the browser.
+*neat* runs locally as a pure HTML+JavaScript webpage in your web browser. No additional software needs to be installed, but JavaScript has to be enabled in the browser.
 
 Clone the repo using ``git clone https://github.com/qurator-spk/neat.git`` or download and extract the [ZIP](https://github.com/qurator-spk/neat/archive/master.zip). Make sure you have ``neat.html`` and ``neat.js`` in the same directory and open ``neat.html`` in a browser. Any fairly recent browser should work, but only Chrome and Firefox are tested.
 
 #### 2.2 Data format
-The source data we use for annotation are OCR results in [PAGE-XML](https://github.com/PRImA-Research-Lab/PAGE-XML) format. We provide a [Python tool](https://github.com/qurator-spk/page2tsv) for the transformation of OCR files in [PAGE-XML](https://github.com/PRImA-Research-Lab/PAGE-XML) into the [TSV format](https://github.com/qurator-spk/neat/blob/master/README.md#22-data-format) used by [neat](https://github.com/qurator-spk/neat).
+The source data we use for annotation are OCR results in [PAGE-XML](https://github.com/PRImA-Research-Lab/PAGE-XML) format. We provide a [Python tool](https://github.com/qurator-spk/page2tsv) for the transformation of OCR files in [PAGE-XML](https://github.com/PRImA-Research-Lab/PAGE-XML) into the [TSV format](https://github.com/qurator-spk/neat/blob/master/README.md#22-data-format) used by *neat*.
 
-The internal data format used by [neat](https://github.com/qurator-spk/neat) is based on the format used in the [GermEval2014 ](https://sites.google.com/site/germeval2014ner/data) Named Entity Recognition Shared Task. Text is encoded as one token per line, with name spans in the [IOB2](https://en.wikipedia.org/wiki/Inside%E2%80%93outside%E2%80%93beginning_(tagging)) format as tab-separated values:
+The internal data format used by *neat* is based on the format used in the [GermEval2014 ](https://sites.google.com/site/germeval2014ner/data) Named Entity Recognition Shared Task. Text is encoded as one token per line, with name spans in the [IOB2](https://en.wikipedia.org/wiki/Inside%E2%80%93outside%E2%80%93beginning_(tagging)) format as tab-separated values:
 * the first column contains either 
   * `#` a comment to indicate the source the sentence is taken from, or 
   * ``>=1`` the token position within the sentence, or 
@@ -67,8 +67,8 @@ No.	TOKEN	NE-TAG	NE-EMB
 ```
 
 For our purposes we extend this format by adding these (optional) values:
-* a fifth column for an ``ID`` for the outer ``NE-TAG`` from an authority file ([neat](https://github.com/qurator-spk/neat) supports automatic linking for [Wikidata](https://www.wikidata.org) identifiers)
-* column six for use as a variable ``url_id`` for [iiif](https://iiif.io/) Image API support ([neat](https://github.com/qurator-spk/neat) supports the embedding of image snippets into its interface to assist data annotation and correction if the PAGE-XML source contains word bounding boxes)
+* a fifth column for an ``ID`` for the outer ``NE-TAG`` from an authority file (*neat* supports automatic linking for [Wikidata](https://www.wikidata.org) identifiers)
+* column six for use as a variable ``url_id`` for [iiif](https://iiif.io/) Image API support (*neat* supports the embedding of image snippets into its interface to assist data annotation and correction if the PAGE-XML source contains word bounding boxes)
 * columns 7-10 are used for storing ``left,right,top,bottom`` pixel coordinates for the image snippets 
 
 ##### Example (full)
@@ -96,7 +96,7 @@ No.	TOKEN	NE-TAG	NE-EMB	ID	url_id	left,right,top,bottom
 ```
 
 #### 2.3 Navigation
-[neat](https://github.com/qurator-spk/neat) can be used both with a [keyboard](https://github.com/qurator-spk/neat#keyboard) or a [mouse](https://github.com/qurator-spk/neat#mouse), but for ergonomic reasons, we strongly recommend the use of below key combinations.  
+*neat* can be used both with a [keyboard](https://github.com/qurator-spk/neat#keyboard) or a [mouse](https://github.com/qurator-spk/neat#mouse), but for ergonomic reasons, we strongly recommend the use of below key combinations.  
 
 ##### Keyboard
 | Key Combination|      Action      |
@@ -157,7 +157,7 @@ No.	TOKEN	NE-TAG	NE-EMB	ID	url_id	left,right,top,bottom
 * left-click the `POSITION` and select `start-sentence` from the drop-down menu to mark the start of a new sentence
 
 #### 2.4 Saving progress
-[neat](https://github.com/qurator-spk/neat) runs fully locally in the browser. Therefore it can not automatically save any changes you made to disk. You have to use the `Save Changes` button to do so manually from time to time.
+*neat* runs fully locally in the browser. Therefore it can not automatically save any changes you made to disk. You have to use the `Save Changes` button to do so manually from time to time.
 
 ### 3. Annotation Guidelines
 [Annotation Guidelines](https://github.com/qurator-spk/neat/blob/master/Annotation_Guidelines.pdf) 
