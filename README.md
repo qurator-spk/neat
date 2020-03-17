@@ -142,17 +142,17 @@ No.	TOKEN	NE-TAG	NE-EMB	ID	url_id	left,right,top,bottom
 
 * left-click `<<` and `>>` to move 15 rows up or down
 
-* left-click `O` in the `NE-TAG` or `NE-EMB` columns to open the drop-down menu and select any of the supported NE-Tags to tag a token or change an existing tag to another one
+* left-click `O` in the `NE-TAG` or `NE-EMB` column to open a drop-down menu and subsequently select any of the supported NE-Tags to tag a token or change an existing tag
 
-* left-click a tag in the `NE-TAG` or `NE-EMB` columns and subsequently select `O` to remove a wrong tag
+* left-click the `NE-TAG` or `NE-EMB` column and select `O` to remove a tag
 
-* left-click a token in the `TOKEN` column to edit/correct the text content
+* left-click the `TOKEN` column to edit the token text
 
-* left-click the `POSITION` of a row and select `split` from the drop-down menu to create a copy of the current row
+* left-click the `POSITION` and select `split` from the drop-down menu to create a copy of the current row below
 
-* left-click the `POSITION` of a row and select `merge` from the drop-down menu to merge the current row with the row above
+* left-click the `POSITION` and select `merge` from the drop-down menu to merge the current row with the row above
 
-* left-click the `POSITION` of a row and select `start-sentence` from the drop-down menu to start a new sentence
+* left-click the `POSITION` and select `start-sentence` from the drop-down menu to mark the start of a new sentence
 
 #### 2.4 Saving progress
 [neat](https://github.com/qurator-spk/neat) runs fully locally in the browser. Therefore it can not automatically save any changes you made to disk. You have to use the `Save Changes` button to do so manually from time to time.
