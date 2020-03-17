@@ -31,9 +31,9 @@
 Clone the repo using ``git clone https://github.com/qurator-spk/neat.git`` or download and extract the [ZIP](https://github.com/qurator-spk/neat/archive/master.zip). Make sure you have ``neat.html`` and ``neat.js`` in the same directory and open ``neat.html`` in a browser. Any fairly recent browser should work, but only Chrome and Firefox are tested.
 
 #### 2.2 Data format
-The source data used for annotation in the [SoNAR-IDH](https://sonar.fh-potsdam.de/) project and the [QURATOR](https://qurator.ai/) project are OCR results in [PAGE-XML](https://github.com/PRImA-Research-Lab/PAGE-XML) format. We provide a [Python tool](https://github.com/qurator-spk/page2tsv) for the transformation of OCR files in [PAGE-XML](https://github.com/PRImA-Research-Lab/PAGE-XML) into the [TSV format](https://github.com/qurator-spk/neat/blob/master/README.md#22-data-format) used by [neat](https://github.com/qurator-spk/neat).
+The source data we use for annotation are OCR results in [PAGE-XML](https://github.com/PRImA-Research-Lab/PAGE-XML) format. We provide a [Python tool](https://github.com/qurator-spk/page2tsv) for the transformation of OCR files in [PAGE-XML](https://github.com/PRImA-Research-Lab/PAGE-XML) into the [TSV format](https://github.com/qurator-spk/neat/blob/master/README.md#22-data-format) used by [neat](https://github.com/qurator-spk/neat).
 
-The internal data format used by [neat](https://github.com/qurator-spk/neat) is based on the format used in the [GermEval2014 Named Entity Recognition Shared Task](https://sites.google.com/site/germeval2014ner/data). Text is encoded as one token per line, with name spans in the [IOB2](https://en.wikipedia.org/wiki/Inside%E2%80%93outside%E2%80%93beginning_(tagging)) format as tab-separated values:
+The internal data format used by [neat](https://github.com/qurator-spk/neat) is based on the format used in the [GermEval2014 ](https://sites.google.com/site/germeval2014ner/data) Named Entity Recognition Shared Task. Text is encoded as one token per line, with name spans in the [IOB2](https://en.wikipedia.org/wiki/Inside%E2%80%93outside%E2%80%93beginning_(tagging)) format as tab-separated values:
 * the first column contains either a `#`, which signals the source the sentence is cited from, or 
 * the token position within the sentence ``>=1``
 * sentence boundaries are indicated by ``0``
@@ -41,7 +41,7 @@ The internal data format used by [neat](https://github.com/qurator-spk/neat) is 
 * outer entity spans are encoded in the third column ``NE-TAG``
 * embedded entity spans are encoded in the fourth column ``NE-EMB`` 
 
-Example (simple):
+##### Example (simple)
 ```tsv
 No.	TOKEN	NE-TAG	NE-EMB
 # https://example.url
@@ -65,12 +65,12 @@ No.	TOKEN	NE-TAG	NE-EMB
 2	3	O	O
 ```
 
-For our purposes we extend this format by adding
+For our purposes we extend this format by adding these (optional) values:
 * a fifth column for an ``ID`` for the outer ``NE-TAG`` from an authority file ([neat](https://github.com/qurator-spk/neat) supports automatic linking for [Wikidata](https://www.wikidata.org) identifiers)
 * column six for use as a variable ``url_id`` for [iiif](https://iiif.io/) Image API support ([neat](https://github.com/qurator-spk/neat) supports the embedding of image snippets into its interface to assist data annotation and correction if the PAGE-XML source contains word bounding boxes)
-* finally, columns 7+ are used for storing ``left,right,top,bottom`` pixel coordinates for image snippets 
+* columns 7-10 are used for storing ``left,right,top,bottom`` pixel coordinates for the image snippets 
 
-Example (full):
+##### Example (full)
 ```tsv
 No.	TOKEN	NE-TAG	NE-EMB	ID	url_id	left,right,top,bottom
 # https://example.url/iiif/left,right,top,bottom/full/0/default.jpg
@@ -95,6 +95,7 @@ No.	TOKEN	NE-TAG	NE-EMB	ID	url_id	left,right,top,bottom
 ```
 
 #### 2.3 Navigation
+[neat](https://github.com/qurator-spk/neat) can be used both with a [keyboard](https://github.com/qurator-spk/neat#keyboard) or a [mouse](https://github.com/qurator-spk/neat#mouse), but for ergonomic reasons, we strongly recommend the use of below key combinations.  
 
 ##### Keyboard
 | Key Combination|      Action      |
