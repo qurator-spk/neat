@@ -34,9 +34,10 @@ Clone the repo using ``git clone https://github.com/qurator-spk/neat.git`` or do
 The source data we use for annotation are OCR results in [PAGE-XML](https://github.com/PRImA-Research-Lab/PAGE-XML) format. We provide a [Python tool](https://github.com/qurator-spk/page2tsv) for the transformation of OCR files in [PAGE-XML](https://github.com/PRImA-Research-Lab/PAGE-XML) into the [TSV format](https://github.com/qurator-spk/neat/blob/master/README.md#22-data-format) used by [neat](https://github.com/qurator-spk/neat).
 
 The internal data format used by [neat](https://github.com/qurator-spk/neat) is based on the format used in the [GermEval2014 ](https://sites.google.com/site/germeval2014ner/data) Named Entity Recognition Shared Task. Text is encoded as one token per line, with name spans in the [IOB2](https://en.wikipedia.org/wiki/Inside%E2%80%93outside%E2%80%93beginning_(tagging)) format as tab-separated values:
-* the first column contains either a `#`, which signals the source the sentence is cited from, or 
-* the token position within the sentence ``>=1``
-* sentence boundaries are indicated by ``0``
+* the first column contains either 
+  * `#` a comment to indicate the source the sentence is taken from, or 
+  * ``>=1`` the token position within the sentence, or 
+  * ``0`` to mark sentence boundaries 
 * the second column contains the token ``text`` 
 * outer entity spans are encoded in the third column ``NE-TAG``
 * embedded entity spans are encoded in the fourth column ``NE-EMB`` 
