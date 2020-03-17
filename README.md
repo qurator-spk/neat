@@ -8,13 +8,13 @@
 
 [2. User Guide](https://github.com/qurator-spk/neat/blob/master/README.md#2-user-guide)
 
-&nbsp;&nbsp;&nbsp;[2.1 Installation](https://github.com/qurator-spk/neat/blob/master/README.md#22-installation) 
+&nbsp;&nbsp;&nbsp;[2.1 Installation](https://github.com/qurator-spk/neat/blob/master/README.md#21-installation) 
     
-&nbsp;&nbsp;&nbsp;[2.2 Data format](https://github.com/qurator-spk/neat/blob/master/README.md#23-data-format)
+&nbsp;&nbsp;&nbsp;[2.2 Data format](https://github.com/qurator-spk/neat/blob/master/README.md#21-data-format)
     
-&nbsp;&nbsp;&nbsp;[2.3 Navigation](https://github.com/qurator-spk/neat/blob/master/README.md#26-keyboard-navigation)
+&nbsp;&nbsp;&nbsp;[2.3 Navigation](https://github.com/qurator-spk/neat/blob/master/README.md#23-navigation)
     
-&nbsp;&nbsp;&nbsp;[2.4 Saving progress](https://github.com/qurator-spk/neat/blob/master/README.md#29-saving-progress)
+&nbsp;&nbsp;&nbsp;[2.4 Saving progress](https://github.com/qurator-spk/neat/blob/master/README.md#24-saving-progress)
 
 [3. Annotation Guidelines](https://github.com/qurator-spk/neat/blob/master/README.md#3-annotation-guidelines)
 
@@ -31,7 +31,7 @@
 Clone the repo using ``git clone https://github.com/qurator-spk/neat.git`` or download and extract the [ZIP](https://github.com/qurator-spk/neat/archive/master.zip). Make sure you have ``neat.html`` and ``neat.js`` in the same directory and open ``neat.html`` in a browser. Any fairly recent browser should work, but only Chrome and Firefox are tested.
 
 #### 2.2 Data format
-The source data used for annotation in the [SoNAR-IDH](https://sonar.fh-potsdam.de/) project and the [QURATOR](https://qurator.ai/) project are OCR results in [PAGE-XML](https://github.com/PRImA-Research-Lab/PAGE-XML) format. We provide a [Python tool](https://github.com/qurator-spk/page2tsv) for the transformation of OCR files in [PAGE-XML](https://github.com/PRImA-Research-Lab/PAGE-XML) into the [TSV format](https://github.com/qurator-spk/neat/blob/master/README.md#23-data-format) used by [neat](https://github.com/qurator-spk/neat).
+The source data used for annotation in the [SoNAR-IDH](https://sonar.fh-potsdam.de/) project and the [QURATOR](https://qurator.ai/) project are OCR results in [PAGE-XML](https://github.com/PRImA-Research-Lab/PAGE-XML) format. We provide a [Python tool](https://github.com/qurator-spk/page2tsv) for the transformation of OCR files in [PAGE-XML](https://github.com/PRImA-Research-Lab/PAGE-XML) into the [TSV format](https://github.com/qurator-spk/neat/blob/master/README.md#22-data-format) used by [neat](https://github.com/qurator-spk/neat).
 
 The internal data format used by [neat](https://github.com/qurator-spk/neat) is based on the format used in the [GermEval2014 Named Entity Recognition Shared Task](https://sites.google.com/site/germeval2014ner/data). Text is encoded as one token per line, with name spans in the [IOB2](https://en.wikipedia.org/wiki/Inside%E2%80%93outside%E2%80%93beginning_(tagging)) format as tab-separated values:
 * the first column contains either a `#`, which signals the source the sentence is cited from, or 
