@@ -10,7 +10,7 @@
 
 &nbsp;&nbsp;&nbsp;[2.1 Installation](https://github.com/qurator-spk/neat/blob/master/README.md#21-installation) 
     
-&nbsp;&nbsp;&nbsp;[2.2 Data format](https://github.com/qurator-spk/neat/blob/master/README.md#21-data-format)
+&nbsp;&nbsp;&nbsp;[2.2 Data format](https://github.com/qurator-spk/neat/blob/master/README.md#22-data-format)
     
 &nbsp;&nbsp;&nbsp;[2.3 Navigation](https://github.com/qurator-spk/neat/blob/master/README.md#23-navigation)
     
