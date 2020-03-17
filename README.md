@@ -66,8 +66,8 @@ No.	TOKEN	NE-TAG	NE-EMB
 ```
 
 For our purposes we extend this format by adding
-* a fifth column for an ``ID`` for the outer ``NE-TAG`` from an authority file
-* column six for use as a variable ``url_id`` for [iiif](https://iiif.io/) Image API support ([neat](https://github.com/qurator-spk/neat) supports the embedding of image snippets to assist data annotation and correction if the the PAGE-XML source contains word bounding boxes)
+* a fifth column for an ``ID`` for the outer ``NE-TAG`` from an authority file ([neat](https://github.com/qurator-spk/neat) supports automatic linking for [Wikidata](https://www.wikidata.org) identifiers)
+* column six for use as a variable ``url_id`` for [iiif](https://iiif.io/) Image API support ([neat](https://github.com/qurator-spk/neat) supports the embedding of image snippets into its interface to assist data annotation and correction if the PAGE-XML source contains word bounding boxes)
 * finally, columns 7+ are used for storing ``left,right,top,bottom`` pixel coordinates for image snippets 
 
 Example (full):
@@ -81,8 +81,8 @@ No.	TOKEN	NE-TAG	NE-EMB	ID	url_id	left,right,top,bottom
 5	Januar	O	O	-	0	406,518,358,386
 6	.	O	O	-	0	406,518,358,386	
 0
-1	Berliner	B-ORG	B-LOC	1086206452	0	816,984,358,388
-2	Tageblatt	I-ORG	O	1086206452	0	1005,1208,360,387
+1	Berliner	B-ORG	B-LOC	Q455014	0	816,984,358,388
+2	Tageblatt	I-ORG	O	Q455014	0	1005,1208,360,387
 3	.	O	O	-	0	1005,1208,360,387
 0
 1	Nr	O	O	-	0	1237,1288,360,382
@@ -113,21 +113,21 @@ No.	TOKEN	NE-TAG	NE-EMB	ID	url_id	left,right,top,bottom
 | s  p     |  Create copy of current row                |
 | d  l     |  Delete current row                        |
 |----------|--------------------------------------------|
-| backspace|  Set NE-TAG / NE-EMB to "O"                |
-| b  p     |  Set NE-TAG / NE-EMB to "B-PER"            |
-| b  l     |  Set NE-TAG / NE-EMB to "B-LOC"            |
-| b  o     |  Set NE-TAG / NE-EMB to "B-ORG"            |
-| b  w     |  Set NE-TAG / NE-EMB to "B-WORK"           |
-| b  c     |  Set NE-TAG / NE-EMB to "B-CONF"           |
-| b  e     |  Set NE-TAG / NE-EMB to "B-EVT"            |
-| b  t     |  Set NE-TAG / NE-EMB to "B-TODO"           |
-| i  p     |  Set NE-TAG / NE-EMB to "I-PER"            |
-| i  l     |  Set NE-TAG / NE-EMB to "I-LOC"            |
-| i  o     |  Set NE-TAG / NE-EMB to "I-ORG"            |
-| i  w     |  Set NE-TAG / NE-EMB to "I-WORK"           |
-| i  c     |  Set NE-TAG / NE-EMB to "I-CONF"           | 
-| i  e     |  Set NE-TAG / NE-EMB to "I-EVT"            |
-| i  t     |  Set NE-TAG / NE-EMB to "I-TODO"           |
+| backspace|  Set NE-TAG / NE-EMB to ``O``                |
+| b  p     |  Set NE-TAG / NE-EMB to ``B-PER``            |
+| b  l     |  Set NE-TAG / NE-EMB to ``B-LOC``            |
+| b  o     |  Set NE-TAG / NE-EMB to ``B-ORG``            |
+| b  w     |  Set NE-TAG / NE-EMB to ``B-WORK``           |
+| b  c     |  Set NE-TAG / NE-EMB to ``B-CONF``           |
+| b  e     |  Set NE-TAG / NE-EMB to ``B-EVT``            |
+| b  t     |  Set NE-TAG / NE-EMB to ``B-TODO``           |
+| i  p     |  Set NE-TAG / NE-EMB to ``I-PER``            |
+| i  l     |  Set NE-TAG / NE-EMB to ``I-LOC``            |
+| i  o     |  Set NE-TAG / NE-EMB to ``I-ORG``            |
+| i  w     |  Set NE-TAG / NE-EMB to ``I-WORK``           |
+| i  c     |  Set NE-TAG / NE-EMB to ``I-CONF``           | 
+| i  e     |  Set NE-TAG / NE-EMB to ``I-EVT``            |
+| i  t     |  Set NE-TAG / NE-EMB to ``I-TODO``           |
 |----------|--------------------------------------------|
 | enter    | Edit TOKEN or GND-ID                       |
 | esc      | Close TOKEN or GND-ID edit field without   |
