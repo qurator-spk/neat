@@ -19,7 +19,7 @@
 [3. Annotation Guidelines](https://github.com/qurator-spk/neat/blob/master/README.md#3-annotation-guidelines)
 
 ### 1. Introduction
-[neat](https://github.com/qurator-spk/neat) is a simple, browser-based tool for editing and annotating text with named entities to produce labeled data for training/testing/evaluation. It can be used to add or correct named entity labels in a TSV file and to correct the token text or tokenization (e.g. due to OCR/segmentation errors). 
+[neat](https://github.com/qurator-spk/neat) is a simple, browser-based tool for editing and annotating text with named entities to produce labeled data for training/testing/evaluation. It can be used to add or correct named entity labels and to correct the token text or tokenization (e.g. due to OCR/segmentation errors). 
 
 [neat](https://github.com/qurator-spk/neat) is developed at the [Berlin State Library](https://staatsbibliothek-berlin.de/) for data annotation in the [SoNAR-IDH](https://sonar.fh-potsdam.de/) project and the [QURATOR](https://qurator.ai/) project.
 
