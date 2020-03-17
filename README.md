@@ -67,7 +67,7 @@ No.	TOKEN	NE-TAG	NE-EMB
 
 For our purposes we extend this format by adding
 * a fifth column for an ``ID`` for the outer ``NE-TAG`` from an authority file
-* column six for use as a variable ``url_id`` for [iiif](https://iiif.io/) Image API support ([neat](https://github.com/qurator-spk/neat) supports the embedding of image snippets to assist data annotation and correction if the the input PAGE-XML contains word bounding boxes)
+* column six for use as a variable ``url_id`` for [iiif](https://iiif.io/) Image API support ([neat](https://github.com/qurator-spk/neat) supports the embedding of image snippets to assist data annotation and correction if the the PAGE-XML source contains word bounding boxes)
 * finally, columns 7+ are used for storing ``left,right,top,bottom`` pixel coordinates for image snippets 
 
 Example (full):
