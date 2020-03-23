@@ -449,7 +449,7 @@ function setupInterface(data, file, urls) {
 
         $('.type_select').click(
             function(event) {
-                editingTd.data = $(event.target).text();
+                editingTd.data = $(event.target).text().trim();
 
                 editingTd.finish(true);
             });
