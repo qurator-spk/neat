@@ -382,6 +382,7 @@ function setupInterface(data, file, urls) {
                 <section class="accordion-item tokenizer-action">&#8597;&nbsp;&nbsp;split</section>
                 <section class="accordion-item tokenizer-action">&#10227;&nbsp;merge</section>
                 <section class="accordion-item tokenizer-action">&#9735;&nbsp;sentence</section>
+                <section class="accordion-item tokenizer-action">delete</section>
             </div>`;
 
         $(td).removeClass('editable');
