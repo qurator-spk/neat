@@ -565,21 +565,32 @@ function setupInterface(data, file, urls) {
                             if (column == 'ID') {
                                 fillAction =
                                     function(td,content) {
-                                        if (String(content).match(/^Q[0-9]+$/g) == null) {
+                                        if (String(content).match(/^Q[0-9]+.*/g) == null) {
                                             td.text(content);
                                         }
                                         else {
                                             td.html("");
 
-                                            let link = $('<a href="https://www.wikidata.org/wiki/' + content + '">' +
-                                                            content + "</a>")
-                                            link.click(
-                                                function(event) {
-                                                    event.stopPropagation();
-                                                }
-                                            );
+                                            var reg = /.*?(Q[0-9]+).*?/g;
+                                            var result;
+                                            let count = 0;
+                                            while((element = reg.exec(content)) !== null) {
 
-                                            td.append(link);
+                                                if (count > 2) break;
+
+                                                console.log(element);
+                                                let link = $('<a href="https://www.wikidata.org/wiki/' + element[1] + '">' +
+                                                        element[1] + "</a>")
+                                                link.click(
+                                                    function(event) {
+                                                        event.stopPropagation();
+                                                    }
+                                                );
+
+                                                td.append(link);
+                                                td.append($("<br>"))
+                                                count++;
+                                            }
                                         }
                                     }
                             }
