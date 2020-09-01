@@ -874,7 +874,11 @@ function setupInterface(data, file, urls) {
 
         $("#save").attr('disabled', !has_changes);
 
-        $("#file-region").html('<h3>' + file.name + '</h3>');
+        let parts = file.name.split(/-|_/)
+
+        let heading = parts.join("&shy;")
+
+        $("#file-region").html('<h3>' + heading + '</h3>');
 
         $('.saveButton').on('click', saveFile);
 
