@@ -135,35 +135,25 @@ function setupInterface(data, file, urls) {
         if (img_url == "http://empty")
             return
 
-        let left = parseInt(data.data[nRow]['left']);
-        let right = parseInt(data.data[nRow]['right']);
-        let top = parseInt(data.data[nRow]['top']);
-        let bottom = parseInt(data.data[nRow]['bottom']);
+        let raw_left = parseInt(data.data[nRow]['left']);
+        let raw_right = parseInt(data.data[nRow]['right']);
+        let raw_top = parseInt(data.data[nRow]['top']);
+        let raw_bottom = parseInt(data.data[nRow]['bottom']);
+
+        let left = raw_left;
+        let right = raw_right;
+        let top = raw_top;
+        let bottom = raw_bottom;
+
+        let raw_width = right - left;
+        let raw_height = bottom - top;
+
 
         top = Math.max(0, top - 25);
-        bottom = bottom + 25;
+        bottom = Math.min(max_bottom, bottom + 25);
+
         left = Math.max(0, left - 50);
-        right = right + 50;
-
-        let width = right - left;
-        let height = bottom - top;
-
-        img_url = img_url.replace('left',  left.toString());
-        img_url = img_url.replace('right', right.toString());
-        img_url = img_url.replace('top',   top.toString());
-        img_url = img_url.replace('bottom',bottom.toString());
-        img_url = img_url.replace('width', width.toString());
-        img_url = img_url.replace('height', height.toString());
-
-        $("#preview").attr("src", img_url);
-
-        img_url = urls[data.data[nRow]['url_id']];
-
-        top = Math.max(0, top - 200);
-        bottom = bottom + 200;
-
-        left = Math.max(0, left - 400);
-        right = right + 400;
+        right = Math.min(max_right, right + 50);
 
         width = right - left;
         height = bottom - top;
@@ -175,34 +165,77 @@ function setupInterface(data, file, urls) {
         img_url = img_url.replace('width', width.toString());
         img_url = img_url.replace('height', height.toString());
 
+        let offscreen= document.createElement('canvas');
+        offscreen.width= width;
+        offscreen.height= height;
+
+        $("#preview").attr("src", offscreen.toDataURL());
+
+        let ctx = offscreen.getContext("2d");
+        let img = new Image();
+        img.crossOrigin = "anonymous";
+
+        (function(left,top) {
+            img.onload = function() {
+                    ctx.drawImage(img, 0, 0);
+                    ctx.beginPath();
+                    ctx.lineWidth = "1";
+                    ctx.strokeStyle = "red";
+                    ctx.rect(raw_left - left, raw_top - top, raw_width, raw_height);
+                    ctx.stroke();
+
+                    $("#preview").attr("src", offscreen.toDataURL());
+                };
+        })(left, top);
+
+        img.src = img_url;
+
+        enlarge_img_url = urls[data.data[nRow]['url_id']];
+
+        top = Math.max(0, top - 200);
+        bottom = Math.min(max_bottom, bottom + 200);
+
+        left = Math.max(0, left - 400);
+        right = Math.min(max_right, right + 400);
+
+        width = right - left;
+        height = bottom - top;
+
+        enlarge_img_url = enlarge_img_url.replace('left',  left.toString());
+        enlarge_img_url = enlarge_img_url.replace('right', right.toString());
+        enlarge_img_url = enlarge_img_url.replace('top',   top.toString());
+        enlarge_img_url = enlarge_img_url.replace('bottom',bottom.toString());
+        enlarge_img_url = enlarge_img_url.replace('width', width.toString());
+        enlarge_img_url = enlarge_img_url.replace('height', height.toString());
+
         if ($('#enlarge-page-link').length == 0) {
             $('#preview-rgn').append($('<a href="" id="enlarge-page-link"><small>enlarge</small> </a>'));
         }
 
-        $("#preview-link").attr("href", img_url);
-        $("#enlarge-page-link").attr("href", img_url);
+        $("#preview-link").attr("href", enlarge_img_url);
+        $("#enlarge-page-link").attr("href", enlarge_img_url);
 
-        img_url = urls[data.data[nRow]['url_id']];
+        full_img_url = urls[data.data[nRow]['url_id']];
 
         width = max_right - min_left;
         height = max_bottom - min_top;
 
-        img_url = img_url.replace("left,top,width,height", "full")
-        img_url = img_url.replace("left,right,top,bottom", "full")
-        img_url = img_url.replace("left,top,right,bottom", "full")
+        full_img_url = full_img_url.replace("left,top,width,height", "full")
+        full_img_url = full_img_url.replace("left,right,top,bottom", "full")
+        full_img_url = full_img_url.replace("left,top,right,bottom", "full")
 
-        img_url = img_url.replace('left',  min_left.toString());
-        img_url = img_url.replace('right', max_right.toString());
-        img_url = img_url.replace('top',   min_top.toString());
-        img_url = img_url.replace('bottom', max_bottom.toString());
-        img_url = img_url.replace('width', width.toString());
-        img_url = img_url.replace('height', height.toString());
+        full_img_url = full_img_url.replace('left',  min_left.toString());
+        full_img_url = full_img_url.replace('right', max_right.toString());
+        full_img_url = full_img_url.replace('top',   min_top.toString());
+        full_img_url = full_img_url.replace('bottom', max_bottom.toString());
+        full_img_url = full_img_url.replace('width', width.toString());
+        full_img_url = full_img_url.replace('height', height.toString());
 
         if ($('#full-page-link').length == 0) {
             $('#preview-rgn').append($('<small>| </small><a href="" id="full-page-link"><small>full</small> </a>'));
         }
 
-        $("#full-page-link").attr("href", img_url);
+        $("#full-page-link").attr("href", full_img_url);
     }
 
     function colorCode() {
@@ -226,16 +259,23 @@ function setupInterface(data, file, urls) {
 
     function makeTdEditable(td, content) {
 
+        $(td).removeClass('editable');
+
         let tableInfo = $(td).data('tableInfo');
 
         editingTd = {
             data: data.data[tableInfo.nRow][tableInfo.column],
             finish:
                 function (isOk) {
+                    $(td).addClass('editable');
+                    keyboard_listener.reset();
+                    listener.reset();
 
                     if (isOk) {
 
                         let newValue = $('#edit-area').val();
+
+                        console.log(newValue);
 
                         tableInfo.fillAction($(td), newValue);
 
@@ -249,6 +289,9 @@ function setupInterface(data, file, urls) {
                         tableInfo.fillAction($(td), editingTd.data);
                     }
                     editingTd = null;
+
+                    $(".simple-keyboard").html("");
+
                     $(td).focus();
                 }
         };
@@ -256,6 +299,7 @@ function setupInterface(data, file, urls) {
         let textArea = document.createElement('textarea');
         textArea.style.width = td.clientWidth + 'px';
         textArea.style.height = td.clientHeight + 'px';
+        textArea.className = "input"
         textArea.id = 'edit-area';
 
         $(textArea).val(data.data[tableInfo.nRow][tableInfo.column]);
@@ -264,10 +308,12 @@ function setupInterface(data, file, urls) {
         textArea.focus();
 
         let edit_html =
-            `<div class="edit-controls" id="TdEdit">
+            `<div>
                 <button class="btn btn-secondary btn-sm" id="edit-ok">OK</button>
                 <button class="btn btn-secondary btn-sm" id="edit-cancel">CANCEL</button>
-             </div>`
+                <!--<button class="btn btn-secondary btn-sm" id="keyboard">Toggle Keyboard</button>
+                <div class="simple-keyboard"></div>-->
+             </div>`;
 
         td.insertAdjacentHTML("beforeEnd", edit_html);
 
@@ -285,6 +331,44 @@ function setupInterface(data, file, urls) {
 
         listener.simple_combo('enter', function() { $('#edit-ok').click(); } );
         listener.simple_combo('esc', function() { $('#edit-cancel').click(); } );
+        listener.simple_combo('ctrl', function() { toggleLayout(); } );
+
+        let keyboard_listener = new window.keypress.Listener($('#simple-keyboard'), listener_defaults);
+
+        keyboard_listener.simple_combo('enter', function() { $('#edit-ok').click(); } );
+        keyboard_listener.simple_combo('esc', function() { $('#edit-cancel').click(); } );
+        keyboard_listener.simple_combo('ctrl', function() { toggleLayout(); } );
+
+        let Keyboard = window.SimpleKeyboard.default;
+
+        function onChange(input) {
+            document.querySelector("#edit-area").value = input;
+        }
+
+        function toggleLayout() {
+            let currentLayout = keyboard.options.layoutName;
+            let layoutToggle = currentLayout === "default" ? "layout1" : "default";
+
+            keyboard.setOptions({ layoutName: layoutToggle});
+        }
+
+        let keyboard =
+            new Keyboard(
+                {   onChange: input => onChange(input),
+                    layout: {
+                        'default': ['ſ ꝛ Æ Œ æ œ aͤ oͤ uͤ Aͤ Oͤ Uͤ  {bksp}', '⁰ ¹ ² ³ ⁴ ⁵ ⁶ ⁷ ⁸ ⁹',
+                        '⸗ — ‹ › » « „ ” ’ £ § †', '{space}'],
+
+                        'layout1': ['Α Δ Κ Π Σ ά έ ή ί α β γ δ ε ζ {bksp}', 'η θ ι κ λ μ ν ξ ο π ρ ς σ τ υ',
+                        'φ χ ψ ω ό ύ ώ ϑ ϰ ϱ', '½ ¼ ¾ ⅓ ⅔ ⅕ ⅖ ⅗ ⅘ ⅙ ⅐ ⅚ ⅛ ⅜ ⅝ ⅞ ⅑ ⅒']
+                    }
+                });
+
+        keyboard.setInput($(textArea).val());
+
+        $(textArea).on('input', function() {
+            keyboard.setInput($(textArea).val());
+        });
     }
 
     function sanitizeData() {
@@ -297,20 +381,31 @@ function setupInterface(data, file, urls) {
             min_top = (parseInt(data.data[i]['top']) < min_top) ? parseInt(data.data[i]['top']) : min_top;
             max_bottom = (parseInt(data.data[i]['bottom']) > max_bottom) ? parseInt(data.data[i]['bottom']) : max_bottom;
 
-            if ((data.data[i]['TOKEN'] == null) || (data.data[i]['TOKEN'].toString().length == 0)){
+            let token_col = "TOKEN";
+            if (data.meta.fields.includes('TEXT')) {
+                token_col = "TEXT";
+            }
+
+            if ((data.data[i][token_col] == null) || (data.data[i][token_col].toString().length == 0)){
                 word_pos = 0;
             }
-            data.data[i]['No.'] = word_pos;
 
-            if (data.data[i]['TOKEN'] == null) data.data[i]['TOKEN'] = '';
-            if (data.data[i]['ID'] == null) data.data[i]['ID'] = '';
-            if (data.data[i]['NE-TAG'] == null) data.data[i]['NE-TAG'] = '';
-            if (data.data[i]['NE-EMB'] == null) data.data[i]['NE-EMB'] = '';
+            if (data.meta.fields.includes('No.')) {
+                data.data[i]['No.'] = word_pos;
+            }
 
-            data.data[i]['TOKEN'] = data.data[i]['TOKEN'].toString().replace(/(\r\n|\n|\r)/gm, "");
-            data.data[i]['ID'] = data.data[i]['ID'].toString().replace(/(\r\n|\n|\r)/gm, "");
-            data.data[i]['NE-TAG'] = data.data[i]['NE-TAG'].toString().replace(/(\r\n|\n|\r)/gm, "");
-            data.data[i]['NE-EMB'] = data.data[i]['NE-EMB'].toString().replace(/(\r\n|\n|\r)/gm, "");
+            if (data.data[i][token_col] == null) data.data[i][token_col] = '';
+            data.data[i][token_col] = data.data[i][token_col].toString().replace(/(\r\n|\n|\r)/gm, "");
+
+            if (data.meta.fields.includes('NE-TAG')) {
+                if (data.data[i]['ID'] == null) data.data[i]['ID'] = '';
+                if (data.data[i]['NE-TAG'] == null) data.data[i]['NE-TAG'] = '';
+                if (data.data[i]['NE-EMB'] == null) data.data[i]['NE-EMB'] = '';
+
+                data.data[i]['ID'] = data.data[i]['ID'].toString().replace(/(\r\n|\n|\r)/gm, "");
+                data.data[i]['NE-TAG'] = data.data[i]['NE-TAG'].toString().replace(/(\r\n|\n|\r)/gm, "");
+                data.data[i]['NE-EMB'] = data.data[i]['NE-EMB'].toString().replace(/(\r\n|\n|\r)/gm, "");
+            }
 
             word_pos++;
         }
@@ -553,11 +648,20 @@ function setupInterface(data, file, urls) {
                           let clickAction = function() { console.log('Do something different');}
                           let fillAction = function(td, content) {  td.text(content); };
 
+                          let head_html = `
+                            <th id="${column}">
+                                <div class="d-flex align-items-center" ><div class="flex-grow-1">${column}</div></div>
+                            </th>`;
+
+                          if (!($("th#" + column.replace(/\./g, "\\.")).length)) {
+                            $("#tablehead").append(head_html);
+                          }
+
                           if (column == 'No.') {
                             clickAction = makeLineSplitMerge;
                           }
+                          else if ((column == 'TEXT') || (column == 'TOKEN') || (column == 'ID'))  {
 
-                          if ((column == 'TOKEN') || (column == 'ID'))  {
                             clickAction = makeTdEditable;
 
                             listener.simple_combo('enter', function() { $(td).click(); });
@@ -595,8 +699,7 @@ function setupInterface(data, file, urls) {
                                     }
                             }
                           }
-
-                          if ((column == 'NE-TAG') || (column == 'NE-EMB')) {
+                          else if ((column == 'NE-TAG') || (column == 'NE-EMB')) {
                             clickAction = makeTagEdit;
 
                             function tagAction(tag) {
@@ -846,17 +949,14 @@ function setupInterface(data, file, urls) {
 
         $('#docpos').slider();
 
-         let table_html =
+        let table_html =
             `
             <table id="table">
                 <thead>
-                <tr>
-                    <th><button class="btn btn-link" id="back" tabindex="-1"><<</button>LOCATION</th>
-                    <th>POSITION</th>
-                    <th>TOKEN</th>
-                    <th>NE-TAG</th>
-                    <th>NE-EMB</th>
-                    <th>ID<button class="btn btn-link" id="next" tabindex="-1">>></button></th>
+                <tr id="tablehead">
+                    <th style="width: 15%">
+                        <div class="d-flex align-items-center" id="location">LOCATION</div>
+                    </th>
                 </tr>
                 </thead>
                 <tbody id="table-body"></tbody>
@@ -874,7 +974,7 @@ function setupInterface(data, file, urls) {
 
         $("#save").attr('disabled', !has_changes);
 
-        let parts = file.name.split(/-|_/)
+        let parts = file.name.split(/(?=[\.|\-|_])/);
 
         let heading = parts.join("&shy;")
 
@@ -887,11 +987,14 @@ function setupInterface(data, file, urls) {
 
                 let target = event.target.closest('.editable');
 
+                if (target == null) return;
+
                 if (editingTd) {
 
                     if (target == $(':focus')) return;
                     if ($.contains($(':focus')[0], target)) return;
                     if ($.contains(target, $(':focus')[0])) return;
+                    if ($.contains($('.simple-keyboard')[0], event.target)) return;
 
                     let refocus = $(':focus');
 
@@ -906,11 +1009,23 @@ function setupInterface(data, file, urls) {
                 $(target).data('tableInfo').clickAction(target);
             });
 
-        $('#back').on('click', function() { stepsBackward(displayRows); } );
-
-        $('#next').on('click', function() { stepsForward(displayRows); } );
 
         createTable();
+
+        let prev_button_html=`
+            <button class="btn btn-link float-left algin-middle" id="back" tabindex="-1"><<</button>
+        `;
+
+        let next_button_html= `
+            <button class="btn btn-link float-right align-middle" id="next" tabindex="-1">>></button>
+        `;
+
+        $("#location").prepend(prev_button_html);
+        $("#tablehead").children().last().children().last().append(next_button_html);
+
+        $('#back').on('click', function() { stepsBackward(displayRows); } );
+        $('#next').on('click', function() { stepsForward(displayRows); } );
+
     }
 
     $('#tableregion')[0].addEventListener("wheel",

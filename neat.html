@@ -6,10 +6,13 @@
     <base href="neat.html" target="_blank">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-keyboard@latest/build/css/index.css">
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.1.0/papaparse.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/keypress/2.1.5/keypress.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-keyboard@latest/build/index.js"></script>
+
     <style>
         body{font-family:Verdana;font-size:16px}
         table{table-layout:fixed;width:100%;text-align:center}
@@ -49,23 +52,24 @@
 
     <div class="row mt-5">
 
-        <div class="col-2">
+        <div class="col-3">
             <div id="file-region"></div>
         </div>
-        <div class="col-9">
+        <div class="col-8">
             <div class="row">
                 <div class="col text-center">
-                    <h3><a href="https://github.com/qurator-spk/neat" target="_blank" tabindex="-1">neat</a>: named entity annotation tool</h3>
+                    <h3><a href="https://github.com/qurator-spk/neat" target="_blank" tabindex="-1">neat</a>: neat annotation tool</h3>
                     <a href="https://github.com/qurator-spk/neat/blob/master/README.md#2-user-guide" target="_blank"  tabindex="-1">User Guide</a> | <a href="https://github.com/qurator-spk/neat/blob/master/Annotation_Guidelines.pdf" target="_blank" tabindex="-1">Annotation Guidelines</a> | <a href="https://github.com/qurator-spk/neat/issues" target="_blank" tabindex="-1">Issues</a><hr>
                 </div>
             </div>
         </div>
-        <div class="col-1">
+        <div class="col-1 text-center" id="btn-region">
         </div>
     </div>
     <div class="row mt-3">
         <div class="col-3" id="region-left">
             <div id="preview-rgn" class="text-center">
+                <br>
                 <a href="" id="preview-link">
                     <img id="preview" class="img-responsive fit-image"/>
                 </a>
@@ -80,15 +84,15 @@
         </div>
     </div>
     <div class="row  mt-3">
-        <div class="col-2">
-        </div>
-        <div class="col-9 text-center" id="btn-region">
-        </div>
-        <div class="col-1">
+            <div class="col-3">
+            </div>
+            <div class="col-8">
+                <div class="simple-keyboard"></div>
+            </div>
+            <div class="col-1">
+            </div>
         </div>
     </div>
-
-</div>
 
 <script src="neat.js"></script>
 </body>
