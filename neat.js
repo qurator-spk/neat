@@ -356,11 +356,23 @@ function setupInterface(data, file, urls) {
             new Keyboard(
                 {   onChange: input => onChange(input),
                     layout: {
-                        'default': ['ſ ꝛ Æ Œ æ œ aͤ oͤ uͤ Aͤ Oͤ Uͤ  {bksp}', '⁰ ¹ ² ³ ⁴ ⁵ ⁶ ⁷ ⁸ ⁹',
+                        /*'default': ['ſ ꝛ Æ Œ æ œ aͤ oͤ uͤ Aͤ Oͤ Uͤ  {bksp}', '⁰ ¹ ² ³ ⁴ ⁵ ⁶ ⁷ ⁸ ⁹',
                         '⸗ — ‹ › » « „ ” ’ £ § †', '{space}'],
 
                         'layout1': ['Α Δ Κ Π Σ ά έ ή ί α β γ δ ε ζ {bksp}', 'η θ ι κ λ μ ν ξ ο π ρ ς σ τ υ',
-                        'φ χ ψ ω ό ύ ώ ϑ ϰ ϱ', '½ ¼ ¾ ⅓ ⅔ ⅕ ⅖ ⅗ ⅘ ⅙ ⅐ ⅚ ⅛ ⅜ ⅝ ⅞ ⅑ ⅒']
+                        'φ χ ψ ω ό ύ ώ ϑ ϰ ϱ', '½ ¼ ¾ ⅓ ⅔ ⅕ ⅖ ⅗ ⅘ ⅙ ⅐ ⅚ ⅛ ⅜ ⅝ ⅞ ⅑ ⅒']*/
+
+                        'default': [
+                              "\u00AC \u00BD \u00E6 \u0101 \u2C65 \u023A \u00C6 \u0253 \u00E7 \u00C7 \u00EB \u00CB",
+                              "\u0113 \u0119 \u0118 \u0247 \u0246 \u204A \u1EBD \uFB00 \uFB01 \uFB02 \uFB03 \uA7A0",
+                              "\uA7A1 \u0133 \u012B \u00EF \u0129 \uA76D \uA742 \uA743 \uA7A2 \uA7A3 \u0141 \u0142",
+                              "\uA7A4 \uA7A5 \u0153 \u00F8 \u00D8 \u00F5 \u00D5 \u014D {bksp} {shift}"
+                              ],
+                        'layout1': [
+                              "\uA751 \uA750 \uA753 \uA752 \uA757 \uA756 \uA759 \u211F \uA75B \uA75D \uA75C \uA7A6",
+                              "\uA7A7 \u017F \u1E9C \uFB05 \u261C \uFB06 \u2042 \u261E \u0169 \u016B \u016D \u016F",
+                              "\u016E \uA770 \u1E8D \u1EF9 \u017C \u017D \u017E \u1F51 \uA64B \uA64A \u0479 \u0461",
+                              "\u047B \u2184 \u2010 \u2E17 \u2011 \u00A7 \u2234 \uFFFD {bksp} {shift}"]
                     }
                 });
 
