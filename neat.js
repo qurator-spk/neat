@@ -54,7 +54,7 @@ function setupInterface(data, file, urls) {
     let startIndex=0;
     let endIndex=displayRows;
 
-    let do_not_display = new Set(['url_id', 'left', 'right', 'top', 'bottom']);
+    let do_not_display = new Set(['url_id', 'left', 'right', 'top', 'bottom', 'ocrconf']);
     let tagClasses = 'ner_per ner_loc ner_org ner_work ner_conf ner_evt ner_todo';
 
     let has_changes = false;
@@ -238,7 +238,7 @@ function setupInterface(data, file, urls) {
         $("#full-page-link").attr("href", full_img_url);
     }
 
-    function colorCode() {
+    function colorCodeNETag() {
         $(".editable").removeClass(tagClasses);
 
         $("#table td:contains('B-PER')").addClass('ner_per');
@@ -264,7 +264,6 @@ function setupInterface(data, file, urls) {
         let tableInfo = $(td).data('tableInfo');
 
         editingTd = {
-            data: data.data[tableInfo.nRow][tableInfo.column],
             finish:
                 function (isOk) {
                     $(td).addClass('editable');
@@ -272,12 +271,7 @@ function setupInterface(data, file, urls) {
                     listener.reset();
 
                     if (isOk) {
-
                         let newValue = $('#edit-area').val();
-
-                        console.log(newValue);
-
-                        tableInfo.fillAction($(td), newValue);
 
                         data.data[tableInfo.nRow][tableInfo.column] = newValue;
 
@@ -285,9 +279,8 @@ function setupInterface(data, file, urls) {
                         notifyChange();
                         updateTable();
                     }
-                    else {
-                        tableInfo.fillAction($(td), editingTd.data);
-                    }
+
+                    tableInfo.fillAction($(td));
                     editingTd = null;
 
                     $(".simple-keyboard").html("");
@@ -356,12 +349,6 @@ function setupInterface(data, file, urls) {
             new Keyboard(
                 {   onChange: input => onChange(input),
                     layout: {
-                        /*'default': ['ſ ꝛ Æ Œ æ œ aͤ oͤ uͤ Aͤ Oͤ Uͤ  {bksp}', '⁰ ¹ ² ³ ⁴ ⁵ ⁶ ⁷ ⁸ ⁹',
-                        '⸗ — ‹ › » « „ ” ’ £ § †', '{space}'],
-
-                        'layout1': ['Α Δ Κ Π Σ ά έ ή ί α β γ δ ε ζ {bksp}', 'η θ ι κ λ μ ν ξ ο π ρ ς σ τ υ',
-                        'φ χ ψ ω ό ύ ώ ϑ ϰ ϱ', '½ ¼ ¾ ⅓ ⅔ ⅕ ⅖ ⅗ ⅘ ⅙ ⅐ ⅚ ⅛ ⅜ ⅝ ⅞ ⅑ ⅒']*/
-
                         'default': [
                               "\u00AC \u00BD \u00E6 \u0101 \u2C65 \u023A \u00C6 \u0253 \u00E7 \u00C7 \u00EB \u00CB",
                               "\u0113 \u0119 \u0118 \u0247 \u0246 \u204A \u1EBD \uFB00 \uFB01 \uFB02 \uFB03 \uA7A0",
@@ -507,16 +494,13 @@ function setupInterface(data, file, urls) {
         editingTd = {
             data: data.data[tableInfo.nRow][tableInfo.column],
             finish: function(isOk) {
-
-                data.data[tableInfo.nRow][tableInfo.column] = editingTd.data;
-
-                tableInfo.fillAction($(td), data.data[tableInfo.nRow][tableInfo.column])
+                tableInfo.fillAction($(td))
 
                 $(td).addClass('editable');
 
                 editingTd = null;
 
-                colorCode();
+                colorCodeNETag();
 
                 notifyChange();
             }
@@ -557,7 +541,7 @@ function setupInterface(data, file, urls) {
 
         $('.type_select').click(
             function(event) {
-                editingTd.data = $(event.target).text().trim();
+                 data.data[tableInfo.nRow][tableInfo.column] = $(event.target).text().trim();
 
                 editingTd.finish(true);
             });
@@ -658,7 +642,22 @@ function setupInterface(data, file, urls) {
                           if (do_not_display.has(column)) return
 
                           let clickAction = function() { console.log('Do something different');}
-                          let fillAction = function(td, content) {  td.text(content); };
+
+                          let fillAction = (function(column) {
+                            return function(td) {
+                                let tableInfo = $(td).data('tableInfo');
+
+                                let content = data.data[tableInfo.nRow][tableInfo.column];
+
+                                td.text(content);
+
+                                if (    ((column == 'TEXT') || (column == 'TOKEN'))
+                                    && (data.meta.fields.includes('ocrconf'))) {
+
+                                    td.css('background-color', data.data[tableInfo.nRow]['ocrconf']);
+                                }
+
+                            }; })(column);
 
                           let head_html = `
                             <th id="${column}">
@@ -680,7 +679,12 @@ function setupInterface(data, file, urls) {
 
                             if (column == 'ID') {
                                 fillAction =
-                                    function(td,content) {
+                                    function(td) {
+
+                                        let tableInfo = $(td).data('tableInfo');
+
+                                        let content = data.data[tableInfo.nRow]['ID'];
+
                                         if (String(content).match(/^Q[0-9]+.*/g) == null) {
                                             td.text(content);
                                         }
@@ -708,7 +712,7 @@ function setupInterface(data, file, urls) {
                                                 count++;
                                             }
                                         }
-                                    }
+                                    };
                             }
                           }
                           else if ((column == 'NE-TAG') || (column == 'NE-EMB')) {
@@ -721,7 +725,7 @@ function setupInterface(data, file, urls) {
                                 data.data[tableInfo.nRow][tableInfo.column] = tag;
 
                                 td.html(tag);
-                                colorCode();
+                                colorCodeNETag();
                                 notifyChange();
                             };
 
@@ -752,7 +756,7 @@ function setupInterface(data, file, urls) {
                                      'fillAction': fillAction
                                     });
 
-                          fillAction(td,content);
+                          fillAction(td);
 
                           row.append(td);
                       });
@@ -760,7 +764,7 @@ function setupInterface(data, file, urls) {
                   $("#table tbody").append(row);
               });
 
-        colorCode();
+        colorCodeNETag();
 
         $(".hover").on('mouseover',
             function (evt) {
@@ -819,7 +823,7 @@ function setupInterface(data, file, urls) {
 
                           td.data('tableInfo', tableInfo);
 
-                          tableInfo.fillAction(td, content);
+                          tableInfo.fillAction(td);
 
                           pColumn++;
                       });
@@ -827,7 +831,7 @@ function setupInterface(data, file, urls) {
                    pRow++;
               });
 
-        colorCode();
+        colorCodeNETag();
 
         if ($("#docpos").val() != startIndex) {
 
