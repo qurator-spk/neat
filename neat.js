@@ -48,6 +48,8 @@ function loadFile(evt, onComplete) {
 
 function setupInterface(data, file, urls) {
 
+    if (data.data.length <= 0)  return null;
+
     // private variables of app
 
     let displayRows=15
