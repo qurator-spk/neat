@@ -352,7 +352,7 @@ function setupInterface(data, file, urls) {
                 {   onChange: input => onChange(input),
                     layout: {
                         'default': [
-                              "\u00AC \u00BD \u00E6 \u0101 \u2C65 \u023A \u00C6 \u0253 \u00E7 \u00C7 \u00EB \u00CB",
+                              "\uE7C1 \u00AC \u00BD \u00E6 \u0101 \u2C65 \u023A \u00C6 \u0253 \u00E7 \u00C7 \u00EB \u00CB",
                               "\u0113 \u0119 \u0118 \u0247 \u0246 \u204A \u1EBD \uFB00 \uFB01 \uFB02 \uFB03 \uA7A0",
                               "\uA7A1 \u0133 \u012B \u00EF \u0129 \uA76D \uA742 \uA743 \uA7A2 \uA7A3 \u0141 \u0142",
                               "\uA7A4 \uA7A5 \u0153 \u00F8 \u00D8 \u00F5 \u00D5 \u014D {bksp}"

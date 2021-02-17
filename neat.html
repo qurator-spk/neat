@@ -14,7 +14,14 @@
     <script src="https://cdn.jsdelivr.net/npm/simple-keyboard@latest/build/index.js"></script>
 
     <style>
-        body{font-family:Verdana;font-size:16px}
+        @font-face {
+          font-family: AndronScriptor;
+          src: url('http://localhost:8000/AndronScriptorWeb_4.2.2.ttf') format('truetype');
+        }
+        .hg-theme-default {
+          font-family: Verdana, AndronScriptor
+        }
+        body{font-family:Vedana;font-size:16px}
         table{table-layout:fixed;width:100%;text-align:center}
         th{background-color:lightgray}
         .editable:focus{background-color:#f0e442 !important}
