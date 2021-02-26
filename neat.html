@@ -14,7 +14,27 @@
     <script src="https://cdn.jsdelivr.net/npm/simple-keyboard@latest/build/index.js"></script>
 
     <style>
+        @font-face {
+            font-family: aletheiaSans;
+            src: url('fonts/aletheiasans-webfont.eot');
+            src: url('fonts/aletheiasans-webfont.eot?#iefix') format('embedded-opentype'),
+            url('fonts/aletheiasans-webfont.woff') format('woff'),
+            url('fonts/aletheiasans-webfont.ttf') format('truetype'),
+            url('fonts/aletheiasans-webfont.svg#DejaVuSansBook') format('svg');
+            font-weight: normal;
+            font-style: normal;
+        }
+
         body{font-family:Verdana;font-size:16px}
+
+        .hg-theme-default {
+          font-family: aletheiaSans
+        }
+
+        td {
+          font-family: aletheiaSans
+        }
+
         table{table-layout:fixed;width:100%;text-align:center}
         th{background-color:lightgray}
         .editable:focus{background-color:#f0e442 !important}
