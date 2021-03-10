@@ -970,6 +970,10 @@ function setupInterface(data, file, urls) {
         $("#docpos").change(
             function(evt) {
 
+                if (editingTd != null) {
+                    editingTd.finish(true);
+                }
+
                 if (startIndex == data.data.length - this.value) return;
 
                 startIndex = data.data.length - this.value;
