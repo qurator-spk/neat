@@ -48,7 +48,15 @@ function loadFile(evt, onComplete) {
 
 function setupInterface(data, file, urls) {
 
-    if (data.data.length <= 0)  return null;
+    if (data.data.length <= 0) {
+        let empty_html = `
+            File is empty.
+            <a href="neat.html"> Load another one.</a>
+        `;
+
+        $('#tableregion').html(empty_html);
+        return null;
+    }
 
     // private variables of app
 
