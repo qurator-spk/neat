@@ -923,6 +923,8 @@ function setupInterface(data, file, urls) {
 
     function stepsBackward (nrows) {
 
+        if (editingTd != null) return;
+
         if (startIndex >= nrows) {
             startIndex -= nrows;
             endIndex -= nrows;
@@ -936,6 +938,9 @@ function setupInterface(data, file, urls) {
     }
 
     function stepsForward(nrows) {
+
+        if (editingTd != null) return;
+
         if (endIndex + nrows < data.data.length) {
             endIndex += nrows;
             startIndex = endIndex - displayRows;
