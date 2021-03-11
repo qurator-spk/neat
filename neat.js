@@ -200,8 +200,6 @@ function setupInterface(data, file, urls) {
 
         img.src = img_url;
 
-        enlarge_img_url = urls[data.data[nRow]['url_id']];
-
         top = Math.max(0, top - 200);
         bottom = Math.min(max_bottom, bottom + 200);
 
@@ -211,21 +209,42 @@ function setupInterface(data, file, urls) {
         width = right - left;
         height = bottom - top;
 
-        enlarge_img_url = enlarge_img_url.replace('left',  left.toString());
-        enlarge_img_url = enlarge_img_url.replace('right', right.toString());
-        enlarge_img_url = enlarge_img_url.replace('top',   top.toString());
-        enlarge_img_url = enlarge_img_url.replace('bottom',bottom.toString());
-        enlarge_img_url = enlarge_img_url.replace('width', width.toString());
-        enlarge_img_url = enlarge_img_url.replace('height', height.toString());
+        let highlight = "?highlight=left,top,width,height&highlightColor=ff0000";
+        highlight = highlight.replace(/left/g,  (raw_left -left).toString());
+        highlight = highlight.replace(/top/g,   (raw_top - top).toString());
+        highlight = highlight.replace(/width/g, raw_width.toString());
+        highlight = highlight.replace(/height/g, raw_height.toString());
+
+        let enlarge_img_url = urls[data.data[nRow]['url_id']] + highlight;
+
+        enlarge_img_url = enlarge_img_url.replace(/left/g,  left.toString());
+        enlarge_img_url = enlarge_img_url.replace(/right/g, right.toString());
+        enlarge_img_url = enlarge_img_url.replace(/top/g,   top.toString());
+        enlarge_img_url = enlarge_img_url.replace(/bottom/g,bottom.toString());
+        enlarge_img_url = enlarge_img_url.replace(/width/g, width.toString());
+        enlarge_img_url = enlarge_img_url.replace(/height/g, height.toString());
+
+        //?highlight=left,top,width,height&highlightColor=ff0000
 
         if ($('#enlarge-page-link').length == 0) {
-            $('#preview-rgn').append($('<a href="" id="enlarge-page-link" target="_blank" rel="noopener noreferrer"><small>enlarge</small> </a>'));
+            let enlarge_html =
+            `
+                <a href="" id="enlarge-page-link" target="_blank" rel="noopener noreferrer"><small>enlarge</small> </a>
+            `;
+
+            $('#preview-rgn').append($(enlarge_html));
         }
 
         $("#preview-link").attr("href", enlarge_img_url);
         $("#enlarge-page-link").attr("href", enlarge_img_url);
 
-        full_img_url = urls[data.data[nRow]['url_id']];
+        highlight = "?highlight=left,top,width,height&highlightColor=ff0000";
+        highlight = highlight.replace(/left/g,  raw_left.toString());
+        highlight = highlight.replace(/top/g,   raw_top.toString());
+        highlight = highlight.replace(/width/g, raw_width.toString());
+        highlight = highlight.replace(/height/g, raw_height.toString());
+
+        full_img_url = urls[data.data[nRow]['url_id']] + highlight;
 
         width = max_right - min_left;
         height = max_bottom - min_top;
@@ -234,12 +253,12 @@ function setupInterface(data, file, urls) {
         full_img_url = full_img_url.replace("left,right,top,bottom", "full")
         full_img_url = full_img_url.replace("left,top,right,bottom", "full")
 
-        full_img_url = full_img_url.replace('left',  min_left.toString());
-        full_img_url = full_img_url.replace('right', max_right.toString());
-        full_img_url = full_img_url.replace('top',   min_top.toString());
-        full_img_url = full_img_url.replace('bottom', max_bottom.toString());
-        full_img_url = full_img_url.replace('width', width.toString());
-        full_img_url = full_img_url.replace('height', height.toString());
+        full_img_url = full_img_url.replace(/left/g,  min_left.toString());
+        full_img_url = full_img_url.replace(/right/g, max_right.toString());
+        full_img_url = full_img_url.replace(/top/g,   min_top.toString());
+        full_img_url = full_img_url.replace(/bottom/g, max_bottom.toString());
+        full_img_url = full_img_url.replace(/width/g, width.toString());
+        full_img_url = full_img_url.replace(/height/g, height.toString());
 
         if ($('#full-page-link').length == 0) {
             $('#preview-rgn').append($('<small>| </small><a href="" id="full-page-link" target="_blank" rel="noopener noreferrer"><small>full</small> </a>'));
