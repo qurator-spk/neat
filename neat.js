@@ -219,7 +219,7 @@ function setupInterface(data, file, urls) {
         enlarge_img_url = enlarge_img_url.replace('height', height.toString());
 
         if ($('#enlarge-page-link').length == 0) {
-            $('#preview-rgn').append($('<a href="" id="enlarge-page-link"><small>enlarge</small> </a>'));
+            $('#preview-rgn').append($('<a href="" id="enlarge-page-link" target="_blank" rel="noopener noreferrer"><small>enlarge</small> </a>'));
         }
 
         $("#preview-link").attr("href", enlarge_img_url);
@@ -242,7 +242,7 @@ function setupInterface(data, file, urls) {
         full_img_url = full_img_url.replace('height', height.toString());
 
         if ($('#full-page-link').length == 0) {
-            $('#preview-rgn').append($('<small>| </small><a href="" id="full-page-link"><small>full</small> </a>'));
+            $('#preview-rgn').append($('<small>| </small><a href="" id="full-page-link" target="_blank" rel="noopener noreferrer"><small>full</small> </a>'));
         }
 
         $("#full-page-link").attr("href", full_img_url);
@@ -714,7 +714,8 @@ function setupInterface(data, file, urls) {
                                                 if (count > 2) break;
 
                                                 console.log(element);
-                                                let link = $('<a href="https://www.wikidata.org/wiki/' + element[1] + '">' +
+                                                let link = $('<a href="https://www.wikidata.org/wiki/' + element[1] +
+                                                '" target="_blank" rel="noopener noreferrer">' +
                                                         element[1] + "</a>")
                                                 link.click(
                                                     function(event) {
