@@ -64,7 +64,7 @@ function setupInterface(data, file, urls) {
     let startIndex=0;
     let endIndex=displayRows;
 
-    let do_not_display = new Set(['url_id', 'left', 'right', 'top', 'bottom', 'ocrconf', 'conf']);
+    let do_not_display = new Set(['url_id', 'left', 'right', 'top', 'bottom', 'ocrconf', 'conf', 'line_id']);
     let tagClasses = 'ner_per ner_loc ner_org ner_work ner_conf ner_evt ner_todo';
 
     let has_changes = false;
