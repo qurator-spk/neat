@@ -405,7 +405,7 @@ function setupInterface(data, file, urls) {
     }
 
     function sanitizeData() {
-        word_pos = 1;
+        word_pos = 0;
         for(let i = 0; i < data.data.length; i++){
 
             min_left = (parseInt(data.data[i]['left']) < min_left) ? parseInt(data.data[i]['left']) : min_left;
@@ -424,6 +424,9 @@ function setupInterface(data, file, urls) {
             }
 
             if (data.meta.fields.includes('No.')) {
+                if (data.data[i]['No.'] < word_pos) {
+                 word_pos = 0;
+                }
                 data.data[i]['No.'] = word_pos;
             }
 
@@ -461,16 +464,72 @@ function setupInterface(data, file, urls) {
             data.data[nRow - 1]['TOKEN'] =
                 data.data[nRow - 1]['TOKEN'].toString() + data.data[nRow]['TOKEN'].toString();
 
-            data.data.splice(nRow, 1);
+            if (data.meta.fields.includes('No.')) {
+
+                let word_pos=data.data[nRow]['No.'];
+
+                data.data.splice(nRow, 1);
+
+                for(let i = nRow; i < data.data.length; i++){
+                    if (data.data[i]['No.'] <= word_pos) {
+                        break;
+                    }
+                    else {
+                        data.data[i]['No.'] = word_pos;
+                        word_pos++;
+                    }
+                }
+             }
+             else {
+                data.data.splice(nRow, 1);
+             }
         }
         else if (action.includes('split')) {
 
             data.data.splice(nRow, 0, JSON.parse(JSON.stringify(data.data[nRow])));
+
+            if (data.meta.fields.includes('No.')) {
+
+                data.data[nRow + 1]['No.'] = data.data[nRow]['No.'] + 1;
+                let word_pos=data.data[nRow]['No.'];
+                for(let i = nRow+1; i < data.data.length; i++){
+                    if (data.data[i]['No.'] <= data.data[nRow]['No.']) {
+                        break;
+                    }
+                    else {
+                        data.data[i]['No.'] = word_pos+1;
+                        word_pos++;
+                    }
+                }
+            }
         }
         else if (action.includes('delete')) {
-            data.data.splice(nRow, 1);
+
+            if (data.meta.fields.includes('No.')) {
+
+                let word_pos=data.data[nRow]['No.'];
+
+                data.data.splice(nRow, 1);
+
+                for(let i = nRow; i < data.data.length; i++){
+                    if (data.data[i]['No.'] <= word_pos) {
+                        break;
+                    }
+                    else {
+                        data.data[i]['No.'] = word_pos;
+                        word_pos++;
+                    }
+                }
+             }
+             else {
+                data.data.splice(nRow, 1);
+             }
         }
         else if (action.includes('sentence')) {
+
+            if (data.meta.fields.includes('No.')) {
+                if (data.data[nRow]['No.'] == 0) return;
+            }
 
             let new_line = JSON.parse(JSON.stringify(data.data[nRow]));
             new_line['TOKEN'] = '';
@@ -479,6 +538,21 @@ function setupInterface(data, file, urls) {
             new_line['ID'] = '';
 
             data.data.splice(nRow, 0, new_line);
+
+            if (data.meta.fields.includes('No.')) {
+
+                data.data[nRow]['No.'] = 0;
+                let word_pos=0;
+                for(let i = nRow+1; i < data.data.length; i++){
+                    if (data.data[i]['No.'] <= word_pos) {
+                        break;
+                    }
+                    else {
+                        data.data[i]['No.'] = word_pos+1;
+                        word_pos++;
+                    }
+                }
+            }
         }
 
         sanitizeData();
@@ -732,7 +806,7 @@ function setupInterface(data, file, urls) {
 
                                                 if (count > 2) break;
 
-                                                console.log(element);
+                                                //console.log(element);
                                                 let link = $('<a href="https://www.wikidata.org/wiki/' + element[1] +
                                                 '" target="_blank" rel="noopener noreferrer">' +
                                                         element[1] + "</a>")
