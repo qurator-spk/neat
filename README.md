@@ -160,4 +160,4 @@ No.	TOKEN	NE-TAG	NE-EMB	ID	url_id	left,right,top,bottom
 *neat* runs fully locally in the browser. Therefore it can not automatically save any changes you made to disk. You have to use the `Save Changes` button to do so manually from time to time.
 
 ### 3. Annotation Guidelines
-[Annotation Guidelines](https://github.com/qurator-spk/neat/blob/master/Annotation_Guidelines.pdf) 
+[Annotation Guidelines](https://zenodo.org/record/5116015) 
