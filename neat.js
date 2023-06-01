@@ -143,12 +143,15 @@ function setupInterface(data, file, urls) {
         let img_url = urls[data.data[nRow]['url_id']];
 
         if (img_url == "http://empty")
-            return
+            return;
 
         let raw_left = parseInt(data.data[nRow]['left']);
         let raw_right = parseInt(data.data[nRow]['right']);
         let raw_top = parseInt(data.data[nRow]['top']);
         let raw_bottom = parseInt(data.data[nRow]['bottom']);
+
+        if (isNaN(raw_left) || isNaN(raw_right) || isNaN(raw_top) || isNaN(raw_bottom))
+            return;
 
         let left = raw_left;
         let right = raw_right;
