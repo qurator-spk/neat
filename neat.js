@@ -109,7 +109,7 @@ function setupInterface(data, file, urls) {
         let counter = 0;
         let checker =
             function() {
-                console.log('checker ...', counter);
+                //console.log('checker ...', counter);
 
                 if (counter > 20) return;
 
@@ -411,7 +411,8 @@ function setupInterface(data, file, urls) {
     }
 
     function sanitizeData() {
-        word_pos = 0;
+        let last_url_id = 0;
+        let word_pos = 0;
         for(let i = 0; i < data.data.length; i++){
 
             min_left = (parseInt(data.data[i]['left']) < min_left) ? parseInt(data.data[i]['left']) : min_left;
@@ -447,6 +448,22 @@ function setupInterface(data, file, urls) {
                 data.data[i]['ID'] = data.data[i]['ID'].toString().replace(/(\r\n|\n|\r)/gm, "");
                 data.data[i]['NE-TAG'] = data.data[i]['NE-TAG'].toString().replace(/(\r\n|\n|\r)/gm, "");
                 data.data[i]['NE-EMB'] = data.data[i]['NE-EMB'].toString().replace(/(\r\n|\n|\r)/gm, "");
+            }
+
+            if (data.meta.fields.includes('url_id')) {
+                if (typeof data.data[i]['url_id'] === 'string' || data.data[i]['url_id'] instanceof String) {
+
+                    let num = parseInt(data.data[i]['url_id']);
+
+                    if (!isNaN(num)) {
+                        last_url_id = num;
+                    }
+
+                    data.data[i]['url_id'] = last_url_id;
+                }
+                else {
+                    last_url_id = data.data[i]['url_id'];
+                }
             }
 
             word_pos++;
@@ -974,6 +991,7 @@ function setupInterface(data, file, urls) {
         let lines = csv.split(/\r\n|\n/);
 
         csv = [ lines[0] ];
+
         let url_id = -1;
 
         for(let i = 0; i < data.data.length; i++){
