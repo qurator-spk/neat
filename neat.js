@@ -982,8 +982,10 @@ function setupInterface(data, file, urls) {
                     header: true,
                     delimiter: '\t',
                     comments: "#",
-                    quoteChar: String.fromCharCode(0),
-                    escapeChar: String.fromCharCode(0),
+                    quoteChar: "",
+                    escapeChar: "",
+                    //quoteChar: String.fromCharCode(0),
+                    //escapeChar: String.fromCharCode(0),
                     skipEmptyLines: true,
                     dynamicTyping: true
                 });
